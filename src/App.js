@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { WavesTransactionsProvider } from './components/Blockchain/WavesTransactionContext'; // Stellen Sie sicher, dass der Pfad korrekt ist
+import { WavesTransactionsProvider } from './components/Blockchain/WavesTransactionContext'; 
 import ContractOverview from './components/ContractOverview/ContractOverview';
 import ComponentsOverview from './components/ComponentsOverview/ComponentsOverview';
 import AddComponent from './components/AddComponent/AddComponent';

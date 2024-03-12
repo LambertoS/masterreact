@@ -1,24 +1,33 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { WavesTransactionsProvider } from './components/Blockchain/WavesTransactionContext'; // Stellen Sie sicher, dass der Pfad korrekt ist
+import ContractOverview from './components/ContractOverview/ContractOverview';
+import ComponentsOverview from './components/ComponentsOverview/ComponentsOverview';
+import AddComponent from './components/AddComponent/AddComponent';
+import CreateContract from './components/CreateContract/CreateContract';
+import ExecuteTransaction from './components/ExecuteTransaction/ExecuteTransaction';
+import Header from './components/Header/Header';
+import Homepage from './components/Homepage/Homepage';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <WavesTransactionsProvider> 
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/header-title" element={<Homepage />} />
+            <Route path="/contract-overview" element={<ContractOverview />} />
+            <Route path="/components-overview" element={<ComponentsOverview />} />
+            <Route path="/add-component" element={<AddComponent />} />
+            <Route path="/create-contract" element={<CreateContract />} />
+            <Route path="/execute-transaction" element={<ExecuteTransaction />} />
+          </Routes>
+        </div>
+      </WavesTransactionsProvider>
+    </Router>
   );
 }
 

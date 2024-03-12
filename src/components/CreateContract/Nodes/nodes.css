@@ -1,0 +1,72 @@
+.text-updater-node {
+    height: 150px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.text-updater-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+.logic-node {
+    height: 60px;
+    width: 80px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.logic-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+.token-send-node {
+    height: 105px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.token-send-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+.value-set-node {
+    height: 105px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.value-set-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+.data-transaction-node {
+    height: 60px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.data-transaction-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+

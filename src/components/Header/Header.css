@@ -1,0 +1,85 @@
+/* src/components/Header/Header.css */
+.app-header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.app-header nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.app-header nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.app-header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-links li {
+    display: inline-block;
+    margin-right: 20px;
+    /* Fügt rechts von jedem Link Abstand hinzu */
+}
+
+.nav-links li:last-child {
+    margin-right: 0;
+    /* Entfernt den Abstand vom letzten Link */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+}
+
+
+.header-title {
+    color: inherit;
+    /* Verwendet die Textfarbe des Elternelements */
+    text-decoration: none;
+    /* Entfernt die Unterstreichung */
+}
+
+/* Optional: Stil für Hover-Zustand */
+.header-title:hover {
+    text-decoration: underline;
+    /* Fügt eine Unterstreichung beim Überfahren mit der Maus hinzu */
+}
+
+/* Waves Explorer Link/Button Styles */
+.waves-explorer-link {
+    background-color: #007bff;
+    /* Button background color */
+    color: #ffffff;
+    /* Button text color */
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.waves-explorer-link:hover {
+    background-color: #0056b3;
+    /* Darker shade for hover effect */
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* Responsive adjustments (optional) */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .waves-explorer-link {
+        margin-top: 10px;
+        /* Adds space between nav and button on smaller screens */
+    }
+}

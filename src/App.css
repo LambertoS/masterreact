@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,65 @@
   to {
     transform: rotate(360deg);
   }
+} */
+/* Grundlegendes Layout */
+.app-container {
+  display: flex;
+}
+
+.menu-band {
+  width: 200px;
+  /* Oder eine passende Breite */
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Button-Styling */
+.button-large {
+  width: 100%;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button-large:hover {
+  background-color: #0056b3;
+}
+
+.button-small {
+  width: 100%;
+  padding: 5px 20px;
+  margin-bottom: 5px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button-small:hover {
+  background-color: #545b62;
+}
+
+/* Arbeitsfläche */
+.work-area {
+  flex-grow: 1;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Knoten-Styling */
+.node {
+  width: 50px;
+  /* Anpassen nach Bedarf */
+  height: 50px;
+  /* Anpassen nach Bedarf */
+  background-color: #17a2b8;
+  border: 1px solid #ddd;
+  position: absolute;
+  /* Wichtig für das Verschieben */
 }

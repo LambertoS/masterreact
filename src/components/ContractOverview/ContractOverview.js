@@ -8,11 +8,11 @@
 //   MiniMap,
 // } from 'reactflow';
 // import 'reactflow/dist/style.css';
-// import CallableNode from './Nodes/CallableNode';
-// import SendTokenNode from './Nodes/TokenNode';
-// import SetValueNode from './Nodes/ValueNode';
-// import LogicalNode from './Nodes/LogicNode';
-// import DataTransactionNode from './Nodes/DataNode';
+// import CallableNode from './CreateContract/Nodes/CallableNode';
+// import SendTokenNode from './CreateContract/Nodes/TokenNode';
+// import SetValueNode from './CreateContract/Nodes/ValueNode';
+// import LogicalNode from './CreateContract/Nodes/LogicNode';
+// import DataTransactionNode from './CreateContract/Nodes/DataNode';
 
 
 // // import SpecialNode from './Nodes/SpecialNode'; // Uncomment if SpecialNode is defined and used
@@ -26,7 +26,7 @@
 // };
 
 
-// function Flow() {
+// function ContractOverview() {
 //   const [nodes, setNodes] = useState(initialNodes);
 //   const [edges, setEdges] = useState(initialEdges);
 
@@ -164,4 +164,4 @@
 //   );
 // }
 
-// export default Flow;
+// export default ContractOverview;

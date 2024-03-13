@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Handle, Position, NodeToolbar } from 'reactflow';
 import './nodes.css';
 
-function SetValueNode({ id, data, isConnectable, setNodes }) {
+function SendMessageNode({ id, data, isConnectable, setNodes }) {
     const onChange = useCallback((evt) => {
         const fieldName = evt.target.name;
         const value = evt.target.value;
@@ -18,26 +18,18 @@ function SetValueNode({ id, data, isConnectable, setNodes }) {
     }, [id, setNodes]);
 
     return (
-        <div className="value-set-node">
+        <div className="message-send-node">
             <NodeToolbar isVisible={data.toolbarVisible} position={data.toolbarPosition}>
                 <button onClick={handleDelete}>delete</button>
             </NodeToolbar>
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
-                <label >ValueNode</label>
-                <label htmlFor={`key-${id}`}>Key:</label>
+                <label>SendMessageNode</label>
+                <label htmlFor={`message-${id}`}>Message:</label>
                 <input
-                    id={`key-${id}`}
-                    name="key"
-                    defaultValue={data.key || ''}
-                    onChange={onChange}
-                    className="nodrag"
-                />
-                <label htmlFor={`value-${id}`}>Value:</label>
-                <input
-                    id={`value-${id}`}
-                    name="value"
-                    defaultValue={data.value || ''}
+                    id={`message-${id}`}
+                    name="message"
+                    defaultValue={data.message || ''}
                     onChange={onChange}
                     className="nodrag"
                 />
@@ -45,11 +37,11 @@ function SetValueNode({ id, data, isConnectable, setNodes }) {
             <Handle
                 type="source"
                 position={Position.Bottom}
-                id="c"
+                id="b"
                 isConnectable={isConnectable}
             />
         </div>
     );
 }
 
-export default SetValueNode;
+export default SendMessageNode;

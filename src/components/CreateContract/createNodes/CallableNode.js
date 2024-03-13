@@ -7,7 +7,8 @@ import './nodes.css'
 function CallableNode({ id, data, isConnectable, setNodes }) {
     const onChange = useCallback((evt) => {
         const fieldName = evt.target.name;
-        const value = evt.target.value;
+        // const value = evt.target.value;
+        const value = evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
         // Update node data
         setNodes((nds) =>
             nds.map((node) =>
@@ -28,7 +29,7 @@ function CallableNode({ id, data, isConnectable, setNodes }) {
             </NodeToolbar>
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
-                <label >CallableNode</label>
+                <label >FunctionNode</label>
                 <label htmlFor={`address-${id}`}>address:</label>
                 <input
                     id={`address-${id}`}
@@ -37,11 +38,11 @@ function CallableNode({ id, data, isConnectable, setNodes }) {
                     onChange={onChange}
                     className="nodrag"
                 />
-                <label htmlFor={`callable-${id}`}>@callable:</label>
+                <label htmlFor={`callable-${id}`}>functionName:</label>
                 <input
-                    id={`callable-${id}`}
-                    name="callable"
-                    defaultValue={data.callable || ''}
+                    id={`functionName-${id}`}
+                    name="functionName"
+                    defaultValue={data.functionName || ''}
                     onChange={onChange}
                     className="nodrag"
                 />
@@ -50,6 +51,15 @@ function CallableNode({ id, data, isConnectable, setNodes }) {
                     id={`parameters-${id}`}
                     name="parameters"
                     defaultValue={data.parameters || ''}
+                    onChange={onChange}
+                    className="nodrag"
+                />
+                <label htmlFor={`callable-${id}`}>callable:</label>
+                <input
+                    id={`callable-${id}`}
+                    type="checkbox"
+                    name="callable"
+                    checked={data.callable || false}
                     onChange={onChange}
                     className="nodrag"
                 />

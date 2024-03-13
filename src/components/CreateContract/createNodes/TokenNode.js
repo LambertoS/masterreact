@@ -41,6 +41,14 @@ function SendTokenNode({ id, data, isConnectable, setNodes }) {
                     onChange={onChange}
                     className="nodrag"
                 />
+                <label htmlFor={`token-${id}`}>Token:</label>
+                <input
+                    id={`token-${id}`}
+                    name="token"
+                    defaultValue={data.token || ''}
+                    onChange={onChange}
+                    className="nodrag"
+                />
             </div>
             <Handle
                 type="source"

@@ -12,7 +12,7 @@ import CallableNode from './createNodes/CallableNode';
 import SendTokenNode from './createNodes/TokenNode';
 import SetValueNode from './createNodes/ValueNode';
 import LogicalNode from './createNodes/LogicNode';
-import DataTransactionNode from './createNodes/DataNode';
+import StringEntryNode from './createNodes/DataNode';
 import ErrorNode from './createNodes/ErrorNode';
 
 
@@ -66,7 +66,7 @@ function Flow() {
     token: (nodeProps) => <SendTokenNode {...nodeProps} setNodes={setNodes} />,
     logic: (nodeProps) => <LogicalNode {...nodeProps} setNodes={setNodes} />,
     value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} />,
-    data: (nodeProps) => <DataTransactionNode {...nodeProps} setNodes={setNodes} />,
+    string: (nodeProps) => <StringEntryNode {...nodeProps} setNodes={setNodes} />,
     error: (nodeProps) => <ErrorNode {...nodeProps} setNodes={setNodes} />,
   }), [setNodes]);
 
@@ -133,7 +133,7 @@ function Flow() {
       <button onClick={() => handleAddNode('value')}>Add Value Node</button>
       <button onClick={() => handleAddNode('logic')}>Add Logic Node</button>
       <button onClick={() => handleAddNode('token')}>Add sendToken Node</button>
-      <button onClick={() => handleAddNode('data')}>Add Data Transaction Node</button>
+      <button onClick={() => handleAddNode('string')}>Add StringEntry Node</button>
       <button onClick={() => handleAddNode('callable')}>Add Callable Node</button>
       <button onClick={() => handleAddNode('error')}>Add Error Node</button>
       <button onClick={exportToJson}>Export Graph to JSON</button>

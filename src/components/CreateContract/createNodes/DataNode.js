@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Handle, Position, NodeToolbar } from 'reactflow';
 import './nodes.css'; // Assuming you have a CSS file for styling your nodes
 
-function DataTransactionNode({ id, data, isConnectable, setNodes }) {
+function StringEntryNode({ id, data, isConnectable, setNodes }) {
     const onChange = useCallback((evt) => {
         const value = evt.target.value;
         setNodes((nds) =>
@@ -23,7 +23,7 @@ function DataTransactionNode({ id, data, isConnectable, setNodes }) {
             </NodeToolbar>
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
-                <label>DataTransaction</label>
+                <label>StringEntry</label>
                 <label htmlFor={`targetAddress-${id}`}>Target Address:</label>
                 <input
                     id={`targetAddress-${id}`}
@@ -49,4 +49,4 @@ function DataTransactionNode({ id, data, isConnectable, setNodes }) {
     );
 }
 
-export default DataTransactionNode;
+export default StringEntryNode;

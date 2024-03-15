@@ -12,7 +12,71 @@ import CallableNode from './overviewNodes/CallableNode';
 import DAppNode from './overviewNodes/DAppNode';
 
 const initialEdges = [];
-const initialNodes = [];
+const initialNodes = [
+    {
+        "id": "node-C1",
+        "type": "callable",
+        "data": {
+            "label": "value Node 1",
+            "functionName": "trade",
+            "parameters": "beneficiary: ByteVector"
+        },
+        "position": {
+            "x": 801.4054681087307,
+            "y": 1253.0822047055394
+        },
+        "width": 189,
+        "height": 142,
+        "selected": false,
+        "positionAbsolute": {
+            "x": 801.4054681087307,
+            "y": 1253.0822047055394
+        },
+        "dragging": false
+    },
+    {
+        "id": "node-jasdf7hnvi",
+        "type": "dapp",
+        "data": {
+            "label": "value Node 1",
+            "key": "1234",
+            "value": "4321"
+        },
+        "position": {
+            "x": 801.4054681087307,
+            "y": 1253.0822047055394
+        },
+        "width": 189,
+        "height": 142,
+        "selected": false,
+        "positionAbsolute": {
+            "x": 801.4054681087307,
+            "y": 1253.0822047055394
+        },
+        "dragging": false
+    },
+    {
+        "id": "node-jasdf7hnvi",
+        "type": "dapp",
+        "data": {
+            "label": "value Node 1",
+            "key": "1234",
+            "value": "4321"
+        },
+        "position": {
+            "x": 801.4054681087307,
+            "y": 1253.0822047055394
+        },
+        "width": 189,
+        "height": 142,
+        "selected": false,
+        "positionAbsolute": {
+            "x": 801.4054681087307,
+            "y": 1253.0822047055394
+        },
+        "dragging": false
+    },
+];
 
 function ContractOverview() {
     const [nodes, setNodes] = useState(initialNodes);

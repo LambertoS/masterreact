@@ -13,7 +13,7 @@ import SendTokenNode from './createNodes/TokenNode';
 import SetValueNode from './createNodes/ValueNode';
 import LogicalNode from './createNodes/LogicNode';
 import DataTransactionNode from './createNodes/DataNode';
-import SendMessageNode from './createNodes/MessageNode';
+import ErrorNode from './createNodes/ErrorNode';
 
 
 // import SpecialNode from './Nodes/SpecialNode'; // Uncomment if SpecialNode is defined and used
@@ -67,7 +67,7 @@ function Flow() {
     logic: (nodeProps) => <LogicalNode {...nodeProps} setNodes={setNodes} />,
     value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} />,
     data: (nodeProps) => <DataTransactionNode {...nodeProps} setNodes={setNodes} />,
-    message: (nodeProps) => <SendMessageNode {...nodeProps} setNodes={setNodes} />,
+    error: (nodeProps) => <ErrorNode {...nodeProps} setNodes={setNodes} />,
   }), [setNodes]);
 
   const handleAddNode = useCallback((nodeType) => {
@@ -135,7 +135,7 @@ function Flow() {
       <button onClick={() => handleAddNode('token')}>Add sendToken Node</button>
       <button onClick={() => handleAddNode('data')}>Add Data Transaction Node</button>
       <button onClick={() => handleAddNode('callable')}>Add Callable Node</button>
-      <button onClick={() => handleAddNode('message')}>Add Message Node</button>
+      <button onClick={() => handleAddNode('error')}>Add Error Node</button>
       <button onClick={exportToJson}>Export Graph to JSON</button>
       <button onClick={handleImportJson}>Import Graph from JSON</button>
       {/* Hidden file input for importing JSON */}

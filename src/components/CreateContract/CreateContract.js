@@ -8,12 +8,13 @@ import ReactFlow, {
   MiniMap,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import CallableNode from './createNodes/CallableNode';
+import FunctionNode from './createNodes/FunctionNode';
 import SendTokenNode from './createNodes/TokenNode';
 import SetValueNode from './createNodes/ValueNode';
 import LogicalNode from './createNodes/LogicNode';
 import StringEntryNode from './createNodes/DataNode';
 import ErrorNode from './createNodes/ErrorNode';
+import KeyNode from './createNodes/KeyNode';
 
 
 // import SpecialNode from './Nodes/SpecialNode'; // Uncomment if SpecialNode is defined and used
@@ -62,12 +63,14 @@ function Flow() {
 
 
   const nodeTypes = useMemo(() => ({
-    callable: (nodeProps) => <CallableNode {...nodeProps} setNodes={setNodes} />,
+    function: (nodeProps) => <FunctionNode {...nodeProps} setNodes={setNodes} />,
     token: (nodeProps) => <SendTokenNode {...nodeProps} setNodes={setNodes} />,
     logic: (nodeProps) => <LogicalNode {...nodeProps} setNodes={setNodes} />,
-    value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} />,
+    // value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} />,
+    value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} allNodes={nodes} />,
     string: (nodeProps) => <StringEntryNode {...nodeProps} setNodes={setNodes} />,
     error: (nodeProps) => <ErrorNode {...nodeProps} setNodes={setNodes} />,
+    key: (nodeProps) => <KeyNode {...nodeProps} setNodes={setNodes} />,
   }), [setNodes]);
 
   const handleAddNode = useCallback((nodeType) => {
@@ -130,11 +133,12 @@ function Flow() {
 
   return (
     <div style={{ height: '800px', width: '100%' }}>
+      <button onClick={() => handleAddNode('key')}>Add Key Node</button>
       <button onClick={() => handleAddNode('value')}>Add Value Node</button>
       <button onClick={() => handleAddNode('logic')}>Add Logic Node</button>
       <button onClick={() => handleAddNode('token')}>Add sendToken Node</button>
       <button onClick={() => handleAddNode('string')}>Add StringEntry Node</button>
-      <button onClick={() => handleAddNode('callable')}>Add Callable Node</button>
+      <button onClick={() => handleAddNode('function')}>Add Function Node</button>
       <button onClick={() => handleAddNode('error')}>Add Error Node</button>
       <button onClick={exportToJson}>Export Graph to JSON</button>
       <button onClick={handleImportJson}>Import Graph from JSON</button>

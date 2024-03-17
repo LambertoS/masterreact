@@ -1,6 +1,6 @@
 import React from 'react';
 import { Handle, Position, NodeToolbar } from 'reactflow';
-import './oNodes.css';
+import './nodes.css';
 
 function DAppNode({ id, data, isConnectable, setNodes }) {
     const handleDelete = () => {

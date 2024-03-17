@@ -13,7 +13,7 @@
 }
 
 .logic-node {
-    height: 60px;
+    height: 70px;
     width: 80px;
     border: 1px solid #000000;
     padding: 5px;
@@ -42,7 +42,7 @@
 }
 
 .value-set-node {
-    height: 130px;
+    height: 65px;
     border: 1px solid #000000;
     padding: 5px;
     border-radius: 5px;
@@ -70,17 +70,63 @@
 }
 
 
-.message-node {
-    height: 40px;
+.error-node {
+    height: 60px;
     border: 1px solid #000000;
     padding: 5px;
     border-radius: 5px;
     background: white;
 }
 
-.message-node label {
+.error-node label {
     display: block;
     color: #777;
     font-size: 12px;
 }
 
+
+.key-node {
+    height: 100px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.key-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+
+
+.dapp-node {
+    height: 60px;
+    width: 100px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.dapp-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+.callable-node {
+    height: 60px;
+    width: 100px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.callable-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}

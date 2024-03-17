@@ -8,8 +8,8 @@ import ReactFlow, {
     MiniMap,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import CallableNode from './overviewNodes/CallableNode';
-import DAppNode from './overviewNodes/DAppNode';
+import CallableNode from './createNodes/CallableNode';
+import DAppNode from './createNodes/DAppNode';
 
 const initialEdges = [];
 const initialNodes = [

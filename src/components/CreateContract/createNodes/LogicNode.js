@@ -65,6 +65,10 @@ function LogicNode({ id, data, isConnectable, setNodes }) {
         setNodes((nds) => nds.filter((node) => node.id !== id));
     }, [id, setNodes]);
 
+
+    const handleStyleTrue = { right: 10 };
+    const handleStyleFalse = { left: 10 };
+
     return (
         <div className="logic-node">
             <NodeToolbar isVisible={data.toolbarVisible} position={data.toolbarPosition}>
@@ -81,19 +85,23 @@ function LogicNode({ id, data, isConnectable, setNodes }) {
                     onChange={onChange}
                     className="nodrag"
                 >
+                    <option value="OR">EQUALS</option>
                     <option value="AND">AND</option>
                     <option value="OR">OR</option>
                 </select>
+                <label>flase true</label>
             </div>
             <Handle
                 type="source"
                 position={Position.Bottom}
+                style={handleStyleFalse}
                 id="f"
                 isConnectable={isConnectable}
             />
             <Handle
                 type="source"
                 position={Position.Bottom}
+                style={handleStyleTrue}
                 id="t"
                 isConnectable={isConnectable}
             />

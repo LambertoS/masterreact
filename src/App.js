@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { WavesTransactionsProvider } from './components/Blockchain/WavesTransactionContext'; 
-import ContractOverview from './components/ContractOverview/ContractOverview';
+import ContractOverview from './components/CreateContract/ContractOverview';
 import ComponentsOverview from './components/ComponentsOverview/ComponentsOverview';
 import AddComponent from './components/AddComponent/AddComponent';
 import CreateContract from './components/CreateContract/CreateContract';

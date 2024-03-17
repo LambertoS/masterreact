@@ -9,13 +9,13 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import FunctionNode from './createNodes/FunctionNode';
-import SendTokenNode from './createNodes/TokenNode';
+import SendTokenNode from './createNodes/SendTokenNode';
 import SetValueNode from './createNodes/ValueNode';
 import LogicalNode from './createNodes/LogicNode';
 import StringEntryNode from './createNodes/DataNode';
 import ErrorNode from './createNodes/ErrorNode';
 import KeyNode from './createNodes/KeyNode';
-
+import NoteNode from './createNodes/NoteNode';
 
 // import SpecialNode from './Nodes/SpecialNode'; // Uncomment if SpecialNode is defined and used
 import edges from './edges';
@@ -71,6 +71,7 @@ function Flow() {
     string: (nodeProps) => <StringEntryNode {...nodeProps} setNodes={setNodes} />,
     error: (nodeProps) => <ErrorNode {...nodeProps} setNodes={setNodes} />,
     key: (nodeProps) => <KeyNode {...nodeProps} setNodes={setNodes} />,
+    note: (nodeProps) => <NoteNode {...nodeProps} setNodes={setNodes}/>,
   }), [setNodes]);
 
   const handleAddNode = useCallback((nodeType) => {
@@ -140,6 +141,7 @@ function Flow() {
       <button onClick={() => handleAddNode('string')}>Add StringEntry Node</button>
       <button onClick={() => handleAddNode('function')}>Add Function Node</button>
       <button onClick={() => handleAddNode('error')}>Add Error Node</button>
+      <button onClick={() => handleAddNode('note')}>Add Note Node</button>
       <button onClick={exportToJson}>Export Graph to JSON</button>
       <button onClick={handleImportJson}>Import Graph from JSON</button>
       {/* Hidden file input for importing JSON */}

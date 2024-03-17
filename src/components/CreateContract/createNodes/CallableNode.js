@@ -9,6 +9,9 @@ function CallableNode({ id, data, isConnectable, setNodes }) {
 
     return (
         <div className="callable-node">
+            <NodeToolbar isVisible={data.toolbarVisible} position={data.toolbarPosition}>
+                <button onClick={handleDelete}>delete</button>
+            </NodeToolbar>
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
                 <div><strong>@callable</strong></div>

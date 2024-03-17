@@ -130,3 +130,27 @@
     color: #777;
     font-size: 12px;
 }
+
+
+.note-node {
+    height: 100px;
+    width: 125px;
+    border: 1px solid #000000;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.note-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+}
+
+input[name="Note"] {
+    height: 90%; /* Increase height for more vertical space */
+    width: 90%; /* Optional: Adjust width as needed */
+    padding: 10px 5px; /* Adjust padding for better spacing and text alignment */
+    margin-top: 5px; /* Add some space above the input field */
+    font-size: 16px; /* Increase font size for better readability */
+}

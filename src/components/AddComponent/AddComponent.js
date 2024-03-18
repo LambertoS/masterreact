@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useWavesTransactions, WavesTransactionsProvider } from '../Blockchain/WavesTransactionContext';
+import {convertJsonToKeyValue} from "../../util/eldatImport";
 
 
 const EntryForm = ({ onSubmit }) => {
@@ -63,6 +64,7 @@ const EntryForm = ({ onSubmit }) => {
 };
 
 const DataDisplay = ({ data, onAdd, path = [] }) => {
+    console.log(data, onAdd, path)
     return (
         <div>
             {Object.entries(data).map(([key, value], index) => (
@@ -93,21 +95,21 @@ const DataDisplay = ({ data, onAdd, path = [] }) => {
 };
 
 const JsonObjectBuilder = () => {
-
     const [data, setData] = useState({}); // Richtig, da es an der obersten Ebene aufgerufen wird
 
     // const context = useContext(useWavesTransactions);
-    const context = useWavesTransactions;
-    console.log('Context:', context);
+    const { dataTransaction } = useWavesTransactions();
+    //console.log('Context:', context);
     // if (!context) {
     //     console.error('WavesTransactionsContext is undefined.');
     //     return <div>WavesTransactionsContext nicht verfügbar. Bitte stellen Sie sicher, dass diese Komponente innerhalb eines WavesTransactionsProvider gerendert wird.</div>;// Frühe Rückkehr ist in Ordnung, solange alle Hooks vorher aufgerufen wurden
     // }
-    const { dataTransaction } = context; // Korrekte Verwendung des Kontexts
+    //const { dataTransaction } = context; // Korrekte Verwendung des Kontexts
 
     // const { dataTransaction } = useContext(useWavesTransactions);
 
     const addEntry = (key, value, path) => {
+        console.log(key, value, path)
         setData((prevData) => {
             const newData = JSON.parse(JSON.stringify(prevData)); // Deep clone von prevData
 
@@ -172,20 +174,25 @@ const JsonObjectBuilder = () => {
     };
 
     const handleDataTransaction = async () => {
-        try {
-            await dataTransaction({
-                data: [
-                    {
-                        key: 'data',
-                        value: JSON.stringify(data),
-                        type: 'string'
-                    }
-                ]
-            });
-            console.log('Data successfully sent over the blockchain');
-        } catch (error) {
-            console.error('Error sending data transaction:', error);
-        }
+        // Converts the data to a key-value pair
+        convertJsonToKeyValue(data, async (filtered) => {
+            console.log(filtered)
+            // Convert it to the blockchain type
+            const blockchainArray = Object.entries(filtered).map(([key, value]) => ({
+                key: key,
+                value: value,
+                type: "string",
+            }));
+
+            try {
+                await dataTransaction({
+                    data: blockchainArray
+                });
+                console.log('Data successfully sent over the blockchain');
+            } catch (error) {
+                console.error('Error sending data transaction:', error);
+            }
+        });
     };
 
     return (

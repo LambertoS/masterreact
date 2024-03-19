@@ -4,6 +4,7 @@ import './nodes.css'; // Assuming you have a CSS file for styling your nodes
 
 function StringEntryNode({ id, data, isConnectable, setNodes }) {
     const onChange = useCallback((evt) => {
+        const fieldName = evt.target.name;
         const value = evt.target.value;
         setNodes((nds) =>
             nds.map((node) =>

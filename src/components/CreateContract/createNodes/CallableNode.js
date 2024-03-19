@@ -4,6 +4,7 @@ import './nodes.css';
 
 function CallableNode({ id, data, isConnectable, setNodes }) {
     const onChange = useCallback((evt) => {
+        const fieldName = evt.target.name;
         const value = evt.target.value;
         setNodes((nds) =>
             nds.map((node) =>

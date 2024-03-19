@@ -142,7 +142,7 @@ function Flow() {
   const setScript = null;
 
   return (
-    <div style={{ height: '1000px', width: '100%' }}>
+    <div style={{ height: '950px', width: '100%' }}>
       <button onClick={() => handleAddNode('key')}>Add Key Node</button>
       <button onClick={() => handleAddNode('value')}>Add Value Node</button>
       <button onClick={() => handleAddNode('logic')}>Add Logic Node</button>

@@ -30,11 +30,11 @@ const Header = () => {
                 <h1><Link to="/" className="header-title">CircularBlockNet</Link></h1>
                 <nav>
                     <ul>
-                        <li><Link to="/contract-overview">Übersicht Contract</Link></li>
-                        <li><Link to="/create-contract">Contract Erstellen</Link></li>
-                        <li><Link to="/components-overview">Übersicht Komponenten</Link></li>
-                        <li><Link to="/add-component">Komponente Hinzufügen</Link></li>
-                        <li><Link to="/execute-transaction">Transaktion Ausführen</Link></li>
+                        <li><Link to="/contract-overview">Contract Overview</Link></li>
+                        <li><Link to="/create-contract">Create Contract</Link></li>
+                        <li><Link to="/components-overview">Component Overview</Link></li>
+                        <li><Link to="/add-component">Add Component</Link></li>
+                        <li><Link to="/execute-transaction">Execute Transaction</Link></li>
                     </ul>
                 </nav>
                 <button

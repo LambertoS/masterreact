@@ -25,7 +25,7 @@ function NoteNodes({ id, data, isConnectable, setNodes }) {
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
                 <div><strong>Note: {data.note}</strong></div>
-                <input
+                <textarea
                     id={`Note-${id}`}
                     name="Note"
                     defaultValue={data.note || ''}

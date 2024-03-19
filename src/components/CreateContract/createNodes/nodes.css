@@ -133,8 +133,9 @@
 
 
 .note-node {
-    height: 100px;
-    width: 125px;
+    height: auto; /* Adjusted to auto to accommodate content */
+    min-height: 100px; /* Minimum height */
+    width: 200px;
     border: 1px solid #000000;
     padding: 5px;
     border-radius: 5px;
@@ -147,10 +148,12 @@
     font-size: 12px;
 }
 
-input[name="Note"] {
-    height: 90%; /* Increase height for more vertical space */
-    width: 90%; /* Optional: Adjust width as needed */
-    padding: 10px 5px; /* Adjust padding for better spacing and text alignment */
-    margin-top: 5px; /* Add some space above the input field */
-    font-size: 16px; /* Increase font size for better readability */
+.note-node textarea {
+    width: 100%; /* Make the textarea fill the container */
+    height: 80px; /* Initial height */
+    border: 1px solid #ccc; /* Lighter border for the textarea */
+    border-radius: 4px; /* Match the border-radius of the container */
+    padding: 4px; /* Padding inside the textarea */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    resize: vertical; /* Allow vertical resizing */
 }

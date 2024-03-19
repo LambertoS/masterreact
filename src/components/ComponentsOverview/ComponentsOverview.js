@@ -94,7 +94,7 @@ const ComponentsOverview = () => {
 
     return (
         <div className="components-overview">
-            <h1>Übersicht Komponenten</h1>
+            <h1>Component Overview</h1>
             {accountData ? (
                 <div>
                     <p>Account Address: {accountAddress}</p>

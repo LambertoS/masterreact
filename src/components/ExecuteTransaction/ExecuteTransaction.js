@@ -98,7 +98,7 @@ const ExecuteTransaction = () => {
         <h2>Send Waves</h2>
         <form onSubmit={handleWavesSubmit}>
           <div className="form-field">
-            <label>Menge:</label>
+            <label>Amount:</label>
             <input
               type="text"
               value={wavesAmount}
@@ -106,23 +106,23 @@ const ExecuteTransaction = () => {
             />
           </div>
           <div className="form-field">
-            <label>Zieladresse:</label>
+            <label>target Address:</label>
             <input
               type="text"
               value={targetAddress}
               onChange={(e) => setTargetAddress(e.target.value)}
             />
           </div>
-          <button type="submit" className="form-submit-button">Senden</button>
+          <button type="submit" className="form-submit-button">Send</button>
         </form>
       </div>
 
       {/* Formular für den Smart-Contract-Aufruf */}
       <div className="form-container">
-        <h2>Smart Contract Aufruf</h2>
+        <h2>Invoke Smart Contract</h2>
         <form onSubmit={handleSCSubmit}>
           <div className="form-field">
-            <label>SC-Adresse:</label>
+            <label>SC-Adress:</label>
             <input
               type="text"
               value={scAddress}
@@ -130,20 +130,20 @@ const ExecuteTransaction = () => {
             />
           </div>
           <div className="form-field">
-            <label>Funktionsname:</label>
+            <label>Callable Function:</label>
             <input
               type="text"
               value={functionName}
               onChange={(e) => setFunctionName(e.target.value)}
             />
           </div>
-          <button type="submit">Aufruf ausführen</button>
+          <button type="submit">InvokeSC</button>
         </form>
       </div>
 
       {/* Bereich für das Hochladen und Anzeigen der JSON-Daten */}
       <div className="form-container">
-        <h2>JSON-Daten für den SmartContract</h2>
+        <h2>JSON-file for SC</h2>
         <input type="file" onChange={handleJsonUpload} />
         <div>{jsonData && generateFormFields(jsonData)}</div>
       </div>

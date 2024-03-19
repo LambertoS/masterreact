@@ -79,12 +79,22 @@ function Flow() {
       return;
     }
 
+    // const newNode = {
+    //   id: `node-${Math.random().toString(36).substr(2, 9)}`,
+    //   type: nodeType,
+    //   data: { label: `${nodeType} Node ${nodes.length + 1}` },
+    //   position: { x: Math.random() * window.innerWidth * 0.8, y: Math.random() * window.innerHeight * 0.8 },
+    // };
     const newNode = {
       id: `node-${Math.random().toString(36).substr(2, 9)}`,
       type: nodeType,
       data: { label: `${nodeType} Node ${nodes.length + 1}` },
-      position: { x: Math.random() * window.innerWidth * 0.8, y: Math.random() * window.innerHeight * 0.8 },
-    };
+      position: {
+          // Set x and y to be in the center of the screen
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2
+      },
+  };
 
     setNodes((nds) => [...nds, newNode]);
   }, [nodeTypes, nodes, setNodes]);

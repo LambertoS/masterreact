@@ -7,7 +7,7 @@ function CallableNode({ id, data, isConnectable, setNodes }) {
         const value = evt.target.value;
         setNodes((nds) =>
             nds.map((node) =>
-                node.id === id ? { ...node, data: { ...node.data, targetAddress: value } } : node
+                node.id === id ? { ...node, data: { ...node.data, [fieldName]: value } } : node
             )
         );
     }, [id, setNodes]);

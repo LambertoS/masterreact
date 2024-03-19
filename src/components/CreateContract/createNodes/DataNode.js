@@ -7,7 +7,7 @@ function StringEntryNode({ id, data, isConnectable, setNodes }) {
         const value = evt.target.value;
         setNodes((nds) =>
             nds.map((node) =>
-                node.id === id ? { ...node, data: { ...node.data, targetAddress: value } } : node
+                node.id === id ? { ...node, data: { ...node.data, [fieldName]: value } } : node
             )
         );
     }, [id, setNodes]);
@@ -24,11 +24,19 @@ function StringEntryNode({ id, data, isConnectable, setNodes }) {
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
                 <label>StringEntry</label>
-                <label htmlFor={`targetAddress-${id}`}>Target Address:</label>
+                <label htmlFor={`key-${id}`}>Key:</label>
                 <input
-                    id={`targetAddress-${id}`}
-                    name="targetAddress"
-                    defaultValue={data.targetAddress || ''}
+                    id={`key-${id}`}
+                    name="key"
+                    defaultValue={data.key || ''}
+                    onChange={onChange}
+                    className="nodrag"
+                />
+                <label htmlFor={`value-${id}`}>Value:</label>
+                <input
+                    id={`value-${id}`}
+                    name="value"
+                    defaultValue={data.value || ''}
                     onChange={onChange}
                     className="nodrag"
                 />

@@ -2,10 +2,6 @@
 {-# CONTENT_TYPE DAPP #-}
 {-# SCRIPT_TYPE ACCOUNT #-}
 
-# Egger
-# for account role: egger
-# v0.1
-
 func getData (adr: Address, key: String) = {
     let data = match getString(adr, key) {
         case a: String =>
@@ -31,7 +27,7 @@ func authUser(callerPublicKey: ByteVector) = {
 
 @Callable(i)
 func refundWaves(cost: Int) = {
-    # check if caller is authorized
+
     let authenticated = authUser(i.callerPublicKey)
 
     if (!authenticated) then

@@ -55,10 +55,10 @@ func saveSingleKeyValueOnAccount(key: String, keyValue: String) = {
   # check if caller is authorized
   let authenticated = authUser(i.callerPublicKey)
   let refundAcc = Address(base58'3MtEvVnBT3Fqc8qHhG3C4ohsc1RZ8JDCn4w')
+
   if (authenticated) then
-    [StringEntry(key, keyValue),
-    invoke(refundAcc, "refundWaves", [i.fee], [])
-    ]
+    strict r =  invoke(refundAcc, "refundWaves", [i.fee], [])
+    [StringEntry(key, keyValue)]
   else
     throw("Account hat nicht die nötige Berechtigung für diese Aktion.")
 }

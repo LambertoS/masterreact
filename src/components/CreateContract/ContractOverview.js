@@ -130,7 +130,7 @@ function ContractOverview() {
         };
     }, []);
     return (
-        <div style={{ height: '800px', width: '100%' }}>
+        <div style={{ height: '950px', width: '100%' }}>
             <button onClick={() => handleAddNode('dApp')}>Add dApp Node</button>
             <button onClick={() => handleAddNode('callable')}>Add Callable Node</button>
             <button onClick={() => handleAddNode('invoke')}>Add invoke Node</button>

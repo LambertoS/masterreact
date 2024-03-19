@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Handle, Position, NodeToolbar } from 'reactflow';
-import './nodes.css';
+import './nodes.css'; 
 
 function DAppNode({ id, data, isConnectable, setNodes }) {
-    const handleDelete = () => {
+    const onChange = useCallback((evt) => {
+        const value = evt.target.value;
+        setNodes((nds) =>
+            nds.map((node) =>
+                node.id === id ? { ...node, data: { ...node.data, targetAddress: value } } : node
+            )
+        );
+    }, [id, setNodes]);
+
+    const handleDelete = useCallback(() => {
         setNodes((nds) => nds.filter((node) => node.id !== id));
-    };
+    }, [id, setNodes]);
 
     return (
         <div className="dapp-node">
@@ -15,7 +24,15 @@ function DAppNode({ id, data, isConnectable, setNodes }) {
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
                 <div><strong>dApp</strong></div>
-                <div>Address: {data.address}</div>
+                {/* <div>Address: {data.address}</div> */}
+                <label htmlFor={`address-${id}`}>Address:</label>
+                <input
+                    id={`address-${id}`}
+                    name="address"
+                    defaultValue={data.address || ''}
+                    onChange={onChange}
+                    className="nodrag"
+                />
             </div>
             <Handle type="source" position={Position.Bottom} id="b" isConnectable={isConnectable} />
         </div>

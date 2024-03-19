@@ -1,87 +1,37 @@
-import React, { useState, useCallback, useMemo, } from 'react';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import ReactFlow, {
     Controls,
     Background,
     applyNodeChanges,
     applyEdgeChanges,
     addEdge,
+    setEdges,
     MiniMap,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CallableNode from './createNodes/CallableNode';
+import InvokeNode from './createNodes/InvokeNode';
 import DAppNode from './createNodes/DAppNode';
+import NoteNode from './createNodes/NoteNode';
+
 
 const initialEdges = [];
-const initialNodes = [
-    {
-        "id": "node-C1",
-        "type": "callable",
-        "data": {
-            "label": "value Node 1",
-            "functionName": "trade",
-            "parameters": "beneficiary: ByteVector"
-        },
-        "position": {
-            "x": 801.4054681087307,
-            "y": 1253.0822047055394
-        },
-        "width": 189,
-        "height": 142,
-        "selected": false,
-        "positionAbsolute": {
-            "x": 801.4054681087307,
-            "y": 1253.0822047055394
-        },
-        "dragging": false
-    },
-    {
-        "id": "node-jasdf7hnvi",
-        "type": "dapp",
-        "data": {
-            "label": "value Node 1",
-            "key": "1234",
-            "value": "4321"
-        },
-        "position": {
-            "x": 801.4054681087307,
-            "y": 1253.0822047055394
-        },
-        "width": 189,
-        "height": 142,
-        "selected": false,
-        "positionAbsolute": {
-            "x": 801.4054681087307,
-            "y": 1253.0822047055394
-        },
-        "dragging": false
-    },
-    {
-        "id": "node-jasdf7hnvi",
-        "type": "dapp",
-        "data": {
-            "label": "value Node 1",
-            "key": "1234",
-            "value": "4321"
-        },
-        "position": {
-            "x": 801.4054681087307,
-            "y": 1253.0822047055394
-        },
-        "width": 189,
-        "height": 142,
-        "selected": false,
-        "positionAbsolute": {
-            "x": 801.4054681087307,
-            "y": 1253.0822047055394
-        },
-        "dragging": false
-    },
-];
+const initialNodes = [];
 
 function ContractOverview() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
-    const [rootAddress, setRootAddress] = useState('');
+
+
+
+    // Create a ref for the file input
+    const fileInputRef = useRef(null);
+    // Function to trigger file input dialog
+    const handleImportJson = useCallback(() => {
+        fileInputRef.current.click();
+    }, []);
+
+
 
     const onNodesChange = useCallback(
         (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -93,39 +43,99 @@ function ContractOverview() {
         [setEdges],
     );
 
+    // const onConnect = useCallback(
+    //     // (connection) => {
+    //     //     const edge = { ...connection, type: 'custom-edge' };
+    //     //     setEdges((eds) => addEdge(edge, eds));
+    //     // },
+    //     // [setEdges],
+    //     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    //     [],
+    // );
     const onConnect = useCallback(
-        (connection) => setEdges((eds) => addEdge(connection, eds)),
-        [setEdges],
+        (params) => setEdges((eds) => addEdge(params, eds)),
+        [],
     );
 
     const nodeTypes = useMemo(() => ({
-        callable: CallableNode,
-        dapp: DAppNode,
-    }), []);
+        dApp: (nodeProps) => <DAppNode {...nodeProps} setNodes={setNodes} />,
+        callable: (nodeProps) => <CallableNode {...nodeProps} setNodes={setNodes} />,
+        invoke: (nodeProps) => <InvokeNode {...nodeProps} setNodes={setNodes} />,
+        note: (nodeProps) => <NoteNode {...nodeProps} setNodes={setNodes} />,
+    }), [setNodes]);
 
-    const exportToJson = useCallback(() => {
-        const data = { nodes, edges };
+    const handleAddNode = useCallback((nodeType) => {
+        if (!nodeTypes[nodeType]) {
+            console.error(`Node type "${nodeType}" is not defined.`);
+            return;
+        }
+
+        const newNode = {
+            id: `node-${Math.random().toString(36).substr(2, 9)}`,
+            type: nodeType,
+            data: { label: `${nodeType} Node ${nodes.length + 1}` },
+            position: { x: Math.random() * window.innerWidth * 0.8, y: Math.random() * window.innerHeight * 0.8 },
+        };
+
+        setNodes((nds) => [...nds, newNode]);
+    }, [nodeTypes, nodes, setNodes]);
+
+    const exportToJson = () => {
+        const data = {
+            nodes,
+            edges,
+        };
+        // Convert data object to JSON string
         const jsonString = JSON.stringify(data, null, 2);
+        // Create a blob with JSON content
         const blob = new Blob([jsonString], { type: 'application/json' });
+        // Create an URL for the blob
         const url = URL.createObjectURL(blob);
+        // Create a temporary anchor element and trigger the download
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'flow-data.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, [nodes, edges]);
+        a.download = 'flow-data.json'; // Name of the file to be downloaded
+        document.body.appendChild(a); // Append the anchor to the document
+        a.click(); // Trigger the download
+        document.body.removeChild(a); // Clean up
+        URL.revokeObjectURL(url); // Free up memory allocated for the blob
+    };
 
+    // Function to handle file input change event
+    const handleFileChange = useCallback((event) => {
+        const fileReader = new FileReader();
+        const files = event.target.files;
+        if (files.length === 0) return; // Exit if no file selected
+
+        const file = files[0];
+        fileReader.readAsText(file);
+        fileReader.onload = () => {
+            try {
+                const json = JSON.parse(fileReader.result);
+                setNodes(json.nodes || []);
+                setEdges(json.edges || []);
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+            }
+        };
+    }, []);
     return (
         <div style={{ height: '800px', width: '100%' }}>
-            <input
-                type="text"
-                value={rootAddress}
-                onChange={(e) => setRootAddress(e.target.value)}
-                placeholder="RootAddress"
-            />
+            <button onClick={() => handleAddNode('dApp')}>Add dApp Node</button>
+            <button onClick={() => handleAddNode('callable')}>Add Callable Node</button>
+            <button onClick={() => handleAddNode('invoke')}>Add invoke Node</button>
+            <button onClick={() => handleAddNode('note')}>Add Note Node</button>
+
             <button onClick={exportToJson}>Export Graph to JSON</button>
+            <button onClick={handleImportJson}>Import Graph from JSON</button>
+            {/* Hidden file input for importing JSON */}
+            <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+                accept=".json"
+            />
             <ReactFlow
                 nodes={nodes}
                 onNodesChange={onNodesChange}
@@ -133,11 +143,12 @@ function ContractOverview() {
                 edges={edges}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                // edgeTypes={edgeTypes}
                 fitView
             >
                 <Background />
                 <Controls />
-                <MiniMap nodeStrokeWidth={3} />
+                <MiniMap nodeStrokeWidth={3} zoomable pannable />
             </ReactFlow>
         </div>
     );

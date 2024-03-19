@@ -17,7 +17,6 @@ import ErrorNode from './createNodes/ErrorNode';
 import KeyNode from './createNodes/KeyNode';
 import NoteNode from './createNodes/NoteNode';
 
-// import SpecialNode from './Nodes/SpecialNode'; // Uncomment if SpecialNode is defined and used
 import edges from './edges';
 
 const initialEdges = [];

@@ -13,28 +13,20 @@ const EntryForm = ({ onSubmit }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let adjustedValue = type === 'text' ? value : (type === 'object' ? {} : []);
 
-        // Konvertieren des Werts basierend auf dem Typ
-        adjustedValue = type === 'text' ? adjustedValue : JSON.stringify(adjustedValue);
+        let adjustedValue;
+        if (type === 'text') {
+            adjustedValue = value; // Use the text value directly
+        } else if (type === 'object' || type === 'array') {
+            adjustedValue = JSON.stringify(type === 'object' ? {} : []);
+        }
 
-        // // Verwenden von dataTransaction aus dem Context
-        // try {
-        //     await dataTransaction({
-        //         data: [
-        //             {
-        //                 key,
-        //                 value: adjustedValue,
-        //                 type: 'string' // Anpassen basierend auf den Anforderungen
-        //             }
-        //         ]
-        //     });
-        //     setKey('');
-        //     setValue('');
-        //     setType('text');
-        // } catch (error) {
-        //     console.error('Fehler beim Senden der Daten-Transaktion:', error);
-        // }
+        onSubmit(key, adjustedValue);
+
+        // Reset form fields after submission
+        setKey('');
+        setValue('');
+        setType('text');
     };
 
     return (
@@ -109,7 +101,7 @@ const JsonObjectBuilder = () => {
     // const { dataTransaction } = useContext(useWavesTransactions);
 
     const addEntry = (key, value, path) => {
-        console.log(key, value, path)
+        console.log("addEntry: ", key, value, path)
         setData((prevData) => {
             const newData = JSON.parse(JSON.stringify(prevData)); // Deep clone von prevData
 

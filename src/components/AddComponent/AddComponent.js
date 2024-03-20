@@ -7,9 +7,8 @@ const EntryForm = ({ onSubmit }) => {
     const [key, setKey] = useState('');
     const [value, setValue] = useState('');
     const [type, setType] = useState('text'); // 'text', 'object', 'array'
-    const { dataTransaction } = useWavesTransactions;
+    const { dataTransaction } = useWavesTransactions();
     console.log('Context value in consumer:', dataTransaction);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();

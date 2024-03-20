@@ -5,6 +5,7 @@ const ComponentsOverview = () => {
     const [accountBalance, setAccountBalance] = useState(0)
     const [accountData, setAccountData] = useState([]);
     const [accountAddress, setAccountAddress] = useState("")
+    const [accountCallableScriptFunctions, setAccountCallableScriptFunctions] = useState([])
 
     useEffect(() => {
         const fetchAccountData = async () => {
@@ -35,6 +36,8 @@ const ComponentsOverview = () => {
                     const data = await responseData.json()
                     setAccountData(data)
                 }
+
+                await getScriptFunctions(account.address);
                 // Abrufen der aktuellen Adresse des Benutzers
                 /*const address = authData.address;*/
 
@@ -59,6 +62,49 @@ const ComponentsOverview = () => {
         fetchAccountData();
     }, []);
 
+    const getScriptFunctions = async (address) => {
+        const responseData = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/scriptInfo/${address}`);
+        const data = await responseData.json()
+        const scriptBase64 = data.script
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: scriptBase64
+        };
+        const responseUtilsScriptDecompile = await fetch(`https://nodes-testnet.wavesnodes.com/utils/script/decompile`, requestOptions);
+        const responseUtilsScriptDecompileData = await responseUtilsScriptDecompile.json()
+        const script = responseUtilsScriptDecompileData.script
+        console.log(script)
+
+        const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
+        const invokeFunctionRegex = /invoke\([^,]+,\s*"([^"]+)",/g;
+
+        let callableFunctions = [];
+        let match;
+
+        while ((match = callableFunctionRegex.exec(script)) !== null) {
+            const functionName = match[1].trim();
+            const params = match[2].trim().split(',').map(param => param.trim());
+            const functionBody = match[3];
+
+            let invokedFunctions = [];
+            let invokeMatch;
+            while ((invokeMatch = invokeFunctionRegex.exec(functionBody)) !== null) {
+                invokedFunctions.push(invokeMatch[1]);
+            }
+
+            callableFunctions.push({
+                name: functionName,
+                params: params,
+                invokes: invokedFunctions
+            });
+        }
+
+        console.log(callableFunctions)
+        setAccountCallableScriptFunctions(callableFunctions);
+    }
+
     const DataTable = () => {
         return (
             <table>
@@ -81,11 +127,36 @@ const ComponentsOverview = () => {
     }
 
     function DataList() {
+        if (accountData.length === 0) {
+            return " No data."
+        }
+
         return (
             <ul>
                 {accountData.map((item, index) => (
                     <li key={index}>
                         <strong>{item.key}:</strong> {item.value}
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+
+    function ScriptList() {
+        if (accountCallableScriptFunctions.length === 0) {
+            return " No data."
+        }
+
+        return (
+            <ul>
+                {accountCallableScriptFunctions.map((item, index) => (
+                    <li key={index}>
+                        <strong>{item.name}:</strong> {item.params.join(', ')}
+                        {item.invokes && item.invokes.length > 0 && (
+                            <>
+                                <br /><strong>Invokes:</strong> {item.invokes.join(', ')}
+                            </>
+                        )}
                     </li>
                 ))}
             </ul>
@@ -100,9 +171,12 @@ const ComponentsOverview = () => {
                     <p>Account Address: {accountAddress}</p>
                     <p>Account Balance: {(accountBalance / 100000000).toFixed(2)} WAVES</p>
                     <div>
-                        Account Data: {
-                            <DataList/>
-                        }
+                        Account Scripts:
+                        <ScriptList/>
+                    </div>
+                    <div>
+                        Account Data:
+                        <DataList/>
                     </div>
                 </div>
             ) : (

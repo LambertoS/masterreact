@@ -75,7 +75,7 @@ function SetValueNode({ id, data, isConnectable, setNodes }) {
             <Handle
                 type="source"
                 position={Position.Bottom}
-                id="c"
+                id="b"
                 isConnectable={isConnectable}
             />
         </div>

@@ -52,13 +52,13 @@ function KeyNode({ id, data, isConnectable, setNodes }) {
             <Handle
                 type="source"
                 position={Position.Bottom}
-                id="c"
+                id="b"
                 isConnectable={isConnectable}
             />
             <Handle
                 type="source"
                 position={Position.Left}
-                id="v"
+                id="l"
                 isConnectable={isConnectable}
             />
         </div>

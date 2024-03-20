@@ -108,7 +108,7 @@ function LogicNode({ id, data, isConnectable, setNodes }) {
             <Handle
                 type="source"
                 position={Position.Left}
-                id="c"
+                id="l"
                 isConnectable={isConnectable}
             />
         </div>

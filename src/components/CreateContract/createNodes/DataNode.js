@@ -45,13 +45,13 @@ function StringEntryNode({ id, data, isConnectable, setNodes }) {
             <Handle
                 type="source"
                 position={Position.Bottom}
-                id="a"
+                id="b"
                 isConnectable={isConnectable}
             />
             <Handle
                 type="source"
                 position={Position.Left}
-                id="c"
+                id="l"
                 isConnectable={isConnectable}
             />
         </div>

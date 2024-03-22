@@ -32,8 +32,8 @@ const Header = () => {
                     <ul>
                         <li><Link to="/contract-overview">Contract Overview</Link></li>
                         <li><Link to="/create-contract">Create Contract</Link></li>
-                        <li><Link to="/components-overview">Component Overview</Link></li>
-                        <li><Link to="/add-component">Add Component</Link></li>
+                        <li><Link to="/components-overview">Account Overview</Link></li>
+                        <li><Link to="/add-component">Add Data</Link></li>
                         <li><Link to="/execute-transaction">Execute Transaction</Link></li>
                     </ul>
                 </nav>

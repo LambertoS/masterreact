@@ -1,0 +1,86 @@
+{-# STDLIB_VERSION 5     #-}
+{-# SCRIPT_TYPE ACCOUNT  #-}
+{-# CONTENT_TYPE DAPP    #-}
+
+let adminAddress = addressFromStringValue("3N4zgeML2gUD4hY5YT1anEEUydY3wmwkmAt")
+
+func getData (adr: Address, key: String) = {
+    let data = match getString(adr, key) {
+        case a: String =>
+            a
+        case _ =>
+            ""
+    }
+  data
+}
+
+# checks if the user is authenticated by checking the connection key (connection.Root) on the script account and if it matches the caller publicKey
+func authUser (i: Invocation) = {
+  # Caller is Script Account
+  if (i.caller == this) then
+    true
+  else
+    # Get the Address as a string from the Caller
+    let callerAddress = toString(i.caller)
+
+    # get connection address
+    let dataValue = getData(this, "connection.root");
+    # Check if the value exist
+    if (dataValue == "") then 
+      false
+    else
+      # check if they match
+      if (i.caller == addressFromStringValue(dataValue)) then
+        true
+      else
+        false
+}
+
+@Callable(i)
+func saveListOnAccount(keys: List[String], values: List[String]) = {
+  # check if caller is authorized
+  let authenticated = authUser(i)
+
+  if (authenticated) then
+    # Dont call yourself please
+    if (i.caller != adminAddress) then
+      strict refund = invoke(adminAddress, "refundWaves", [i.fee], [])
+
+      func addStringEntry(accum: (List[StringEntry], Int), nextValue: String) = {
+        let (result, j) = accum
+        (result :+ StringEntry(keys[j], nextValue), j + 1)
+      }
+
+      let r = FOLD<900>(values, ([], 0), addStringEntry)
+      r._1
+    else
+      func addStringEntry(accum: (List[StringEntry], Int), nextValue: String) = {
+        let (result, j) = accum
+        (result :+ StringEntry(keys[j], nextValue), j + 1)
+      }
+
+      let r = FOLD<900>(values, ([], 0), addStringEntry)
+      r._1
+  else
+    throw("Account hat nicht die nötige Berechtigung für diese Aktion.")
+}
+
+@Callable(i)
+func saveSingleKeyValueOnAccount(key: String, keyValue: String) = {
+  # check if caller is authorized
+  let authenticated = authUser(i)
+
+  if (authenticated) then
+    # Dont call yourself please
+    if (i.caller != adminAddress) then
+      strict refund = invoke(adminAddress, "refundWaves", [i.fee], [])
+      [StringEntry(key, keyValue)]
+    else
+      [StringEntry(key, keyValue)]
+  else 
+    throw("Account hat nicht die nötige Berechtigung für diese Aktion.")
+}
+
+@Verifier(tx)
+func verify() = sigVerify(tx.bodyBytes, tx.proofs[0], tx.senderPublicKey)
+        

@@ -77,8 +77,18 @@ const ComponentsOverview = () => {
         const script = responseUtilsScriptDecompileData.script
         console.log(script)
 
+        // 1. Capture and Map Variable Definitions
+        const variableDefinitionRegex = /let\s+(\w+)\s*=\s*addressFromStringValue\("([^"]+)"\)/g;
+        let variableMap = {};
+        let variableMatch;
+        while ((variableMatch = variableDefinitionRegex.exec(script)) !== null) {
+            variableMap[variableMatch[1]] = variableMatch[2]; // Map variable name to its address value
+        }
+
         const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
-        const invokeFunctionRegex = /invoke\([^,]+,\s*"([^"]+)",/g;
+        const invokeFunctionRegex = /invoke\(([^,]+),\s*"([^"]+)",/g;
+        //const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
+        //const invokeFunctionRegex = /invoke\([^,]+,\s*"([^"]+)",/g;
 
         let callableFunctions = [];
         let match;
@@ -91,7 +101,15 @@ const ComponentsOverview = () => {
             let invokedFunctions = [];
             let invokeMatch;
             while ((invokeMatch = invokeFunctionRegex.exec(functionBody)) !== null) {
-                invokedFunctions.push(invokeMatch[1]);
+                const addressVariableName = invokeMatch[1].trim();
+                const invokedFunctionName = invokeMatch[2].trim();
+                // Resolve address variable name to its actual value, if present in the map
+                const resolvedAddress = variableMap[addressVariableName] || addressVariableName;
+
+                invokedFunctions.push({
+                    function: invokedFunctionName,
+                    address: resolvedAddress // Use resolved address if available
+                });
             }
 
             callableFunctions.push({
@@ -144,7 +162,7 @@ const ComponentsOverview = () => {
 
     function ScriptList() {
         if (accountCallableScriptFunctions.length === 0) {
-            return " No data."
+            return " No data.";
         }
 
         return (
@@ -154,7 +172,14 @@ const ComponentsOverview = () => {
                         <strong>{item.name}:</strong> {item.params.join(', ')}
                         {item.invokes && item.invokes.length > 0 && (
                             <>
-                                <br /><strong>Invokes:</strong> {item.invokes.join(', ')}
+                                <br /><strong>Invokes:</strong>
+                                <ul>
+                                    {item.invokes.map((invoke, invokeIndex) => (
+                                        <li key={invokeIndex}>
+                                            {invoke.function} ({invoke.address})
+                                        </li>
+                                    ))}
+                                </ul>
                             </>
                         )}
                     </li>
@@ -162,6 +187,7 @@ const ComponentsOverview = () => {
             </ul>
         );
     }
+
 
     return (
         <div className="components-overview">

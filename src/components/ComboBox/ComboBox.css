@@ -1,0 +1,16 @@
+.custom-combo-box ul {
+    background-color: white;
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    position: absolute;
+    list-style-type: none; /* Removes bullet points */
+}
+
+.custom-combo-box li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.custom-combo-box li:hover {
+    background-color: #f0f0f0; /* Adds a hover effect */
+}

@@ -1,0 +1,57 @@
+{-# STDLIB_VERSION 5     #-}
+{-# SCRIPT_TYPE ACCOUNT  #-}
+{-# CONTENT_TYPE DAPP    #-}
+
+func getData (adr: Address, key: String) = {
+    let data = match getString(adr, key) {
+        case a: String =>
+            a
+        case _ =>
+            ""
+    }
+  data
+}
+
+func authUser(i: Invocation) = {
+    # Caller is Script Account
+    if (i.caller == this) then
+        true
+    else
+        # Get the Address as a string from the Caller
+        let callerAddress = toString(i.caller)
+
+        # Build the expected key (connection.callerAddress) and gets the value of the key
+        let dataValue = getData(this, "connection." + callerAddress);
+        # Expected Value is the Caller Address
+        let expectedValue = "authorized"
+
+        # Check if Value matches the Caller
+        if (dataValue == expectedValue) then
+            true
+        else
+            false
+}
+
+@Callable(i)
+func saveSingleKeyValueOnAccount(key: String, keyValue: String) = {
+  # Only the Script Account is allowed to alter the content
+  if (i.caller == this) then
+    [StringEntry(key, keyValue)]
+  else 
+    throw("Account hat nicht die nötige Berechtigung für diese Aktion.")
+}
+
+@Callable(i)
+func refundWaves(cost: Int) = {
+    # check if caller is authorized
+    let authenticated = authUser(i)
+
+    if (!authenticated) then
+        throw("Account hat nicht die nötige Berechtigung für diese Aktion.")
+    else
+        [ScriptTransfer(i.caller, cost, unit)]
+}
+
+@Verifier(tx)
+func verify() = sigVerify(tx.bodyBytes, tx.proofs[0], tx.senderPublicKey)
+        

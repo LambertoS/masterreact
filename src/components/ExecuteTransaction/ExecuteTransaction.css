@@ -1,0 +1,21 @@
+.execute-transaction {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 25px;
+}
+
+.sub-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-container {
+
+}
+
+.form-field {
+    display: flex; /* This makes the label and CustomComboBox align horizontally */
+    align-items: center; /* This vertically centers the label and CustomComboBox */
+    gap: 10px;
+}

@@ -2,9 +2,6 @@
 {-# CONTENT_TYPE DAPP #-}
 {-# SCRIPT_TYPE ACCOUNT #-}
 
-# Egger
-# for account role: provider/supplier
-# v0.1
 
 # returns the bytevector of the key, when it not exist it returns an empty string
 func getBinaryValueFromScriptAccount (adr: Address, key: String) = {
@@ -17,26 +14,29 @@ func getBinaryValueFromScriptAccount (adr: Address, key: String) = {
   data
 }
 
-# checks if the user is authenticated by checking the connection key (connection.Egger.hash) on the script account and if it matches the caller publicKey
-func authUser (callerPublicKey: ByteVector) = {
-  # hash publicKey
-  let callerPublicKeyHash = sha256(callerPublicKey);
-
-  # get connection data from script account as hash
-  # throws an exception when the key isnt found
-  let scriptAccountPublicKeyHash = getBinaryValueFromScriptAccount(this, "connection.Egger.hash");
-
-  # check if they match
-  if (scriptAccountPublicKeyHash == callerPublicKeyHash) then
+# checks if the user is authenticated by checking the connection key (connection.Root.hash) on the script account and if it mathces the caller publicKey
+func authUser (i: Invocation) = {
+  if (i.caller == this) then
     true
   else
-    false
+    # hash publicKey
+    let callerPublicKeyHash = sha256(i.callerPublicKey);
+
+    # get connection data from script account as hash
+    # throws an exception when the key isnt found
+    let scriptAccountPublicKeyHash = getBinaryValueFromScriptAccount(this, "connection.Root.hash");
+
+    # check if they match
+    if (scriptAccountPublicKeyHash == callerPublicKeyHash) then
+      true
+    else
+      false
 }
 
 @Callable(i)
 func saveListOnAccount(keys: List[String], values: List[String]) = {
   # check if caller is authorized
-  let authenticated = authUser(i.callerPublicKey)
+  let authenticated = authUser(i)
 
   if (authenticated) then
     func addStringEntry(accum: (List[StringEntry], Int), nextValue: String) = {
@@ -53,7 +53,7 @@ func saveListOnAccount(keys: List[String], values: List[String]) = {
 @Callable(i)
 func saveSingleKeyValueOnAccount(key: String, keyValue: String) = {
   # check if caller is authorized
-  let authenticated = authUser(i.callerPublicKey)
+  let authenticated = authUser(i)
   let refundAcc = Address(base58'3MtEvVnBT3Fqc8qHhG3C4ohsc1RZ8JDCn4w')
 
   if (authenticated) then

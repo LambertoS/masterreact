@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { WavesTransactionsProvider } from './components/Blockchain/WavesTransactionContext'; 
 import ContractOverview from './components/CreateContract/ContractOverview';
 import ComponentsOverview from './components/ComponentsOverview/ComponentsOverview';
 import AddComponent from './components/AddComponent/AddComponent';
@@ -9,6 +8,7 @@ import ExecuteTransaction from './components/ExecuteTransaction/ExecuteTransacti
 import Header from './components/Header/Header';
 import Homepage from './components/Homepage/Homepage';
 import './App.css';
+import {WavesTransactionsProvider} from "./context/WavesTransactionContext";
 
 function App() {
   return (

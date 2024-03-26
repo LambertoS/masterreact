@@ -1,14 +1,13 @@
-import React, { useState, useContext } from 'react';
-import { useWavesTransactions, WavesTransactionsProvider } from '../Blockchain/WavesTransactionContext';
+import React, { useState } from 'react';
 import {convertJsonToKeyValue} from "../../util/eldatImport";
-
+import {useWavesTransactions} from "../../context/WavesTransactionContext";
+import {Accordion} from "../Accordion/Accordion";
+import "./AddComponent.css"
 
 const EntryForm = ({ onSubmit }) => {
     const [key, setKey] = useState('');
     const [value, setValue] = useState('');
     const [type, setType] = useState('text'); // 'text', 'object', 'array'
-    const { dataTransaction } = useWavesTransactions();
-    console.log('Context value in consumer:', dataTransaction);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,7 +54,6 @@ const EntryForm = ({ onSubmit }) => {
 };
 
 const DataDisplay = ({ data, onAdd, path = [] }) => {
-    console.log(data, onAdd, path)
     return (
         <div>
             {Object.entries(data).map(([key, value], index) => (
@@ -100,7 +98,6 @@ const JsonObjectBuilder = () => {
     // const { dataTransaction } = useContext(useWavesTransactions);
 
     const addEntry = (key, value, path) => {
-        console.log("addEntry: ", key, value, path)
         setData((prevData) => {
             const newData = JSON.parse(JSON.stringify(prevData)); // Deep clone von prevData
 
@@ -187,12 +184,19 @@ const JsonObjectBuilder = () => {
     };
 
     return (
-        <div>
-            <DataDisplay data={data} onAdd={addEntry} />
+        <div className="add-component">
+            <Accordion title="Show/Hide Entries">
+                <DataDisplay data={data} onAdd={addEntry} />
+            </Accordion>
+
+            <hr/>
+
             <button onClick={handleExport}>Export JSON</button>
             <input type="file" accept=".json" onChange={handleImport} />
             <button onClick={handleDataTransaction}>Send Data via Blockchain</button>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+            <Accordion title="Show/Hide JSON">
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+            </Accordion>
         </div>
     );
 };

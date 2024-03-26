@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import './ComponentsOverview.css';
+import {loginWavesKeeper} from "../../util/wavesKeeper";
+import {getWavesAccountData, getWavesScriptFunctions} from "../../util/wavesUtil";
 
 const ComponentsOverview = () => {
+    const [accountName, setAccountName] = useState("")
     const [accountBalance, setAccountBalance] = useState(0)
     const [accountData, setAccountData] = useState([]);
     const [accountAddress, setAccountAddress] = useState("")
@@ -10,50 +13,21 @@ const ComponentsOverview = () => {
     useEffect(() => {
         const fetchAccountData = async () => {
             try {
-                const wavesKeeper = window.WavesKeeper; // Zugriff auf WavesKeeper-API
-                if (!wavesKeeper) {
-                    throw new Error('WavesKeeper not found');
-                }
-
-                // Überprüfen, ob der Benutzer angemeldet ist
-                const authData = await wavesKeeper.auth({
-                    data: 'Authentication required',
-                    name: 'WavesKeeper App',
-                    icon: 'URL_zu_Ihrem_App-Icon'
-                });
+                const wavesKeeper = await loginWavesKeeper()
 
                 const publicState = await wavesKeeper.publicState()
                 const account = publicState["account"]
 
                 setAccountBalance(account.balance.available)
                 setAccountAddress(account.address)
+                setAccountName(account.name)
 
                 // Get the account data
-                const responseData = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/data/${account.address}`);
-                if (!responseData.ok) {
-                    setAccountData([{key: "Fehler", type: "string", value: "Ein Fehler ist aufgetreten."}])
-                } else {
-                    const data = await responseData.json()
-                    setAccountData(data)
-                }
+                setAccountData(await getWavesAccountData(account.address))
 
-                await getScriptFunctions(account.address);
-                // Abrufen der aktuellen Adresse des Benutzers
-                /*const address = authData.address;*/
-
-                // Abrufen von Daten von der Waves-Keeper-API mit der aktuellen Adresse
-                /*const responseBalance = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/balance/${address}`);
-                const responseData = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/data/${address}`);
-                console.log(responseBalance)
-                if (!responseBalance.ok || !responseData.ok) {
-                    throw new Error('Failed to fetch account data');
-                }
-                const balance = await responseBalance.json();
-                setAccountBalance(balance.balance);
-                setAccountAddress(balance.address)
-
-                const data = await responseData.json()
-                setAccountData(data)*/
+                // Get the callable functions
+                const callableFunctions = await getWavesScriptFunctions(account.address);
+                setAccountCallableScriptFunctions(callableFunctions);
             } catch (error) {
                 console.error('Error fetching account data:', error);
             }
@@ -62,91 +36,15 @@ const ComponentsOverview = () => {
         fetchAccountData();
     }, []);
 
-    const getScriptFunctions = async (address) => {
-        const responseData = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/scriptInfo/${address}`);
-        const data = await responseData.json()
-        const scriptBase64 = data.script
-
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: scriptBase64
-        };
-        const responseUtilsScriptDecompile = await fetch(`https://nodes-testnet.wavesnodes.com/utils/script/decompile`, requestOptions);
-        const responseUtilsScriptDecompileData = await responseUtilsScriptDecompile.json()
-        const script = responseUtilsScriptDecompileData.script
-        console.log(script)
-
-        // 1. Capture and Map Variable Definitions
-        const variableDefinitionRegex = /let\s+(\w+)\s*=\s*addressFromStringValue\("([^"]+)"\)/g;
-        let variableMap = {};
-        let variableMatch;
-        while ((variableMatch = variableDefinitionRegex.exec(script)) !== null) {
-            variableMap[variableMatch[1]] = variableMatch[2]; // Map variable name to its address value
-        }
-
-        const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
-        const invokeFunctionRegex = /invoke\(([^,]+),\s*"([^"]+)",/g;
-        //const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
-        //const invokeFunctionRegex = /invoke\([^,]+,\s*"([^"]+)",/g;
-
-        let callableFunctions = [];
-        let match;
-
-        while ((match = callableFunctionRegex.exec(script)) !== null) {
-            const functionName = match[1].trim();
-            const params = match[2].trim().split(',').map(param => param.trim());
-            const functionBody = match[3];
-
-            let invokedFunctions = [];
-            let invokeMatch;
-            while ((invokeMatch = invokeFunctionRegex.exec(functionBody)) !== null) {
-                const addressVariableName = invokeMatch[1].trim();
-                const invokedFunctionName = invokeMatch[2].trim();
-                // Resolve address variable name to its actual value, if present in the map
-                const resolvedAddress = variableMap[addressVariableName] || addressVariableName;
-
-                invokedFunctions.push({
-                    function: invokedFunctionName,
-                    address: resolvedAddress // Use resolved address if available
-                });
-            }
-
-            callableFunctions.push({
-                name: functionName,
-                params: params,
-                invokes: invokedFunctions
-            });
-        }
-
-        console.log(callableFunctions)
-        setAccountCallableScriptFunctions(callableFunctions);
-    }
-
-    const DataTable = () => {
-        return (
-            <table>
-                <thead>
-                <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                </tr>
-                </thead>
-                <tbody>
-                {accountData.map((item, index) => (
-                    <tr key={index}>
-                        <td>{item.key}</td>
-                        <td>{item.value}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        );
-    }
-
     function DataList() {
         if (accountData.length === 0) {
-            return " No data."
+            return (
+                <ul>
+                    <li key={"noData"}>
+                        No data found on account.
+                    </li>
+                </ul>
+            )
         }
 
         return (
@@ -162,7 +60,13 @@ const ComponentsOverview = () => {
 
     function ScriptList() {
         if (accountCallableScriptFunctions.length === 0) {
-            return " No data.";
+            return (
+                <ul>
+                    <li key={"noData"}>
+                        No scripts found on account.
+                    </li>
+                </ul>
+            );
         }
 
         return (
@@ -176,7 +80,14 @@ const ComponentsOverview = () => {
                                 <ul>
                                     {item.invokes.map((invoke, invokeIndex) => (
                                         <li key={invokeIndex}>
-                                            {invoke.function} ({invoke.address})
+                                            {/* Here we dynamically construct the string based on the presence of params and address */}
+                                            {invoke.function}
+                                            {invoke.params && invoke.params.filter(param => param).length > 0 && (
+                                                ` [${invoke.params.join(', ')}]`
+                                            )}
+                                            {invoke.address && invoke.address.trim() !== "" && (
+                                                ` (${invoke.address})`
+                                            )}
                                         </li>
                                     ))}
                                 </ul>
@@ -189,25 +100,39 @@ const ComponentsOverview = () => {
     }
 
 
+    const AccountInformation = () => {
+        return (
+            <ul>
+                <li key={"noData"}>
+                    <strong>Waves Keeper:</strong> {accountName}
+                </li>
+                <li key={"noData"}>
+                    <strong>Address:</strong> {accountAddress}
+                </li>
+                <li key={"noData"}>
+                    <strong>Balance:</strong> {(accountBalance / 100000000).toFixed(2)} WAVES
+                </li>
+            </ul>
+        )
+    }
+
     return (
         <div className="components-overview">
             <h1>Account Overview</h1>
-            {accountData ? (
+            <div>
                 <div>
-                    <p>Account Address: {accountAddress}</p>
-                    <p>Account Balance: {(accountBalance / 100000000).toFixed(2)} WAVES</p>
-                    <div>
-                        Account Scripts:
-                        <ScriptList/>
-                    </div>
-                    <div>
-                        Account Data:
-                        <DataList/>
-                    </div>
+                    Account Information:
+                    <AccountInformation/>
                 </div>
-            ) : (
-                <p>Lade Daten...</p>
-            )}
+                <div>
+                    Account Scripts:
+                    <ScriptList/>
+                </div>
+                <div>
+                    Account Data:
+                    <DataList/>
+                </div>
+            </div>
         </div>
     );
 };

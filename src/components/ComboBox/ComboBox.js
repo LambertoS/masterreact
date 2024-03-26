@@ -1,15 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import "./ComboBox.css"
 
-export const CustomComboBox = ({ options, inputChanged }) => {
+export const CustomComboBox = ({ options, inputChanged, inputClassName = '' }) => {
     const [inputValue, setInputValue] = useState('');
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-    useEffect(() => {
-        if (options.length > 0) {
-            handleSelect(options[0])
-        }
-    }, [options])
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -26,6 +20,7 @@ export const CustomComboBox = ({ options, inputChanged }) => {
     return (
         <div className="custom-combo-box">
             <input
+                className={inputClassName}
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}

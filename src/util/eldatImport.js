@@ -6,8 +6,11 @@
  */
 export const convertJsonToKeyValue = (jsonObject, callback) => {
     const filtered = []; // todo type & name
-    recursive(jsonObject.document, "", filtered);
-    callback(filtered)
+    // Check if jsonObject.document exists, otherwise start with jsonObject
+    const startingPoint = jsonObject.document ? jsonObject.document : jsonObject;
+
+    recursive(startingPoint, "", filtered);
+    callback(filtered);
 }
 
 /**

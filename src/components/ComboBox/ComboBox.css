@@ -1,9 +1,17 @@
+.custom-combo-box {
+    position: relative;
+    width: auto;
+}
+
 .custom-combo-box ul {
     background-color: white;
-    margin: 0; /* Removes default margin */
-    padding: 0; /* Removes default padding */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    margin: 0;
+    padding: 0;
     position: absolute;
-    list-style-type: none; /* Removes bullet points */
+    list-style-type: none;
+    width: 100%;
+    z-index: 1;
 }
 
 .custom-combo-box li {

@@ -178,11 +178,12 @@ func verify() = sigVerify(tx.bodyBytes, tx.proofs[0], tx.senderPublicKey)
                 if (connectedNode) {
                     // Fetching the string representation of the connected node for 'key' nodes with 'l' connections
                     extraInfo = getConnectedNodeString(connectedNode, 0); // Assuming this function returns the connected node's string representation
-                    contractString += `${' '.repeat(indent)}${node.data.strict ? 'strict ' : ''}${node.data.key} = ${extraInfo}\n`;
+                    visitedNodes.add(lConnection.target); // Mark this node as used for extraInfo
+                    contractString += `${' '.repeat(indent)}${node.data.strict ? 'strict ' : 'let '}${node.data.key} = ${extraInfo}\n`;
                 }
             } else {
                 // If no 'l' connection, append the key node as usual
-                contractString += `${' '.repeat(indent)}${node.data.strict ? 'strict ' : ''}${node.data.key}\n`;
+                contractString += `${' '.repeat(indent)}${node.data.strict ? 'strict ' : 'let '}${node.data.key}\n`;
             }
         } else if (node.type === 'function') {
             // Handling for function nodes

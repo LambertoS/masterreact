@@ -24,11 +24,7 @@ export class WavesTransactionsProvider extends React.Component {
 
     sendToken = (data) => this.signAndPublishTransaction({ type: 4, data });
     invokeScript = (data) => this.signAndPublishTransaction({ type: 16, data });
-    dataTransaction = (data) => this.signAndPublishTransaction({
-        type: 12,
-        data,
-        fee: 500000
-    });
+    dataTransaction = (data) => this.signAndPublishTransaction({ type: 12, data });
     setScript = (data) => this.signAndPublishTransaction({ type: 13, data });
 
     render() {

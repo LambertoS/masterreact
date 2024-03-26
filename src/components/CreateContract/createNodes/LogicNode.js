@@ -69,6 +69,8 @@ function LogicNode({ id, data, isConnectable, setNodes }) {
     const handleStyleTrue = { right: 10 };
     const handleStyleFalse = { left: 10 };
 
+    
+    
     return (
         <div className="logic-node">
             <NodeToolbar isVisible={data.toolbarVisible} position={data.toolbarPosition}>
@@ -85,9 +87,10 @@ function LogicNode({ id, data, isConnectable, setNodes }) {
                     onChange={onChange}
                     className="nodrag"
                 >
-                    <option value="OR">EQUALS</option>
+                    <option value="EQUALS">EQUALS</option>
                     <option value="AND">AND</option>
                     <option value="OR">OR</option>
+                    <option value="NOTEQUAL">NOTEQUAL</option>
                 </select>
                 <label>flase true</label>
             </div>

@@ -27,11 +27,11 @@ function CallableNode({ id, data, isConnectable, setNodes }) {
                 <div><strong>@callable</strong></div>
                 {/* <div>Function Name: {data.functionName}</div>
                 <div>Parameters: {data.parameters}</div> */}
-                <label htmlFor={`funktionName-${id}`}>FunktionName:</label>
+                <label htmlFor={`functionName-${id}`}>FunctionName:</label>
                 <input
-                    id={`funktionName-${id}`}
-                    name="funktionName"
-                    defaultValue={data.funktionName || ''}
+                    id={`functionName-${id}`}
+                    name="functionName"
+                    defaultValue={data.functionName || ''}
                     onChange={onChange}
                     className="nodrag"
                 />

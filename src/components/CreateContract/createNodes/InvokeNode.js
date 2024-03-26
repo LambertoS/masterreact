@@ -36,11 +36,11 @@ function InvokeNode({ id, data, isConnectable, setNodes }) {
                     onChange={onChange}
                     className="nodrag"
                 />
-                <label htmlFor={`funktionName-${id}`}>FunktionName:</label>
+                <label htmlFor={`functionName-${id}`}>FunctionName:</label>
                 <input
-                    id={`funktionName-${id}`}
-                    name="funktionName"
-                    defaultValue={data.funktionName || ''}
+                    id={`functionName-${id}`}
+                    name="functionName"
+                    defaultValue={data.functionName || ''}
                     onChange={onChange}
                     className="nodrag"
                 />

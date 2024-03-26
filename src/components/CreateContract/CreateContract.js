@@ -18,9 +18,26 @@ import KeyNode from './createNodes/KeyNode';
 import NoteNode from './createNodes/NoteNode';
 
 import edges from './edges';
+import StartNode from './createNodes/StartNode';
+
+import createContract from './CreateSC';
+
+
 
 const initialEdges = [];
-const initialNodes = [];
+const initialNodes = [{
+  "id": "startnode",
+  "type": "start",
+  "data": {
+      "label": "start Node 1"
+  },
+  "position": {
+      "x": 1024,
+      "y": 100
+  },
+  "width": 87,
+  "height": 62
+}];
 
 const edgeTypes = {
   'custom-edge': edges,
@@ -62,6 +79,7 @@ function Flow() {
 
 
   const nodeTypes = useMemo(() => ({
+    start:(nodeProps) => <StartNode {...nodeProps} setNodes={setNodes} />,
     function: (nodeProps) => <FunctionNode {...nodeProps} setNodes={setNodes} />,
     token: (nodeProps) => <SendTokenNode {...nodeProps} setNodes={setNodes} />,
     logic: (nodeProps) => <LogicalNode {...nodeProps} setNodes={setNodes} />,
@@ -139,10 +157,28 @@ function Flow() {
     };
   }, []);
 
-  const setScript = null;
+
+  
+
+  const setScript = useCallback(() => {
+    const data = {
+      nodes,
+      edges,
+    };
+    createContract(data)
+      .then(response => {
+        // Handle success, e.g., show a success message or log the response
+        console.log('Contract deployed successfully:', response);
+      })
+      .catch(error => {
+        // Handle error, e.g., show an error message
+        console.error('Error deploying contract:', error);
+      });
+  }, [nodes, edges]);
 
   return (
     <div style={{ height: '1950px', width: '100%' }}>
+            {/* <button onClick={() => handleAddNode('start')}>Add Start Node</button> */}
       <button onClick={() => handleAddNode('key')}>Add Key Node</button>
       <button onClick={() => handleAddNode('value')}>Add Value Node</button>
       <button onClick={() => handleAddNode('logic')}>Add Logic Node</button>

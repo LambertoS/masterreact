@@ -77,7 +77,7 @@ func verify() = sigVerify(tx.bodyBytes, tx.proofs[0], tx.senderPublicKey)
             //             }
             case 'function':
                 // Adjust the function string based on callable and left connections
-                const functionPrefix = node.data.callable ? `${indentation}@Callable(i)\n    ` : `${indentation}`;
+                const functionPrefix = node.data.callable ? `${indentation}@Callable(i)\n` : `${indentation}`;
                 const functionDeclaration = `func ${node.data.function}(${node.data.parameters})`;
                 const functionDeclarationNoConnection = `${node.data.function}(${node.data.parameters})`;
                 // If there are left connections, add "=" on the same line

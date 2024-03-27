@@ -92,7 +92,7 @@ function LogicNode({ id, data, isConnectable, setNodes }) {
                     <option value="OR">OR</option>
                     <option value="NOTEQUAL">NOTEQUAL</option>
                 </select>
-                <label>false true</label>
+                <label>false     true</label>
             </div>
             <Handle
                 type="source"

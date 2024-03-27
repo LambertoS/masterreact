@@ -13,6 +13,7 @@ import CallableNode from './createNodes/CallableNode';
 import InvokeNode from './createNodes/InvokeNode';
 import DAppNode from './createNodes/DAppNode';
 import NoteNode from './createNodes/NoteNode';
+import {getWavesScriptFunctions, getWavesScriptMeta} from "../../util/wavesUtil";
 
 //https://reactflow.dev/learn/layouting/layoutinghttps://reactflow.dev/learn/layouting/layouting
 const initialEdges = [];
@@ -21,7 +22,6 @@ const initialNodes = [];
 function ContractOverview() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
-
 
     const onNodesChange = useCallback(
         (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -95,66 +95,6 @@ function ContractOverview() {
 
     const findDAppNodeByAddress = (address) => nodes.find(node => node.type === 'dApp' && node.data.address === address);
 
-    const getScriptFunctions = async (address) => {
-        const responseData = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/scriptInfo/${address}`);
-        const data = await responseData.json()
-        const scriptBase64 = data.script
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: scriptBase64
-        };
-        const responseUtilsScriptDecompile = await fetch(`https://nodes-testnet.wavesnodes.com/utils/script/decompile`, requestOptions);
-        const responseUtilsScriptDecompileData = await responseUtilsScriptDecompile.json()
-        const script = responseUtilsScriptDecompileData.script
-
-        // 1. Capture and Map Variable Definitions
-        const variableDefinitionRegex = /let\s+(\w+)\s*=\s*addressFromStringValue\("([^"]+)"\)/g;
-        let variableMap = {};
-        let variableMatch;
-        while ((variableMatch = variableDefinitionRegex.exec(script)) !== null) {
-            variableMap[variableMatch[1]] = variableMatch[2]; // Map variable name to its address value
-        }
-
-        const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
-        const invokeFunctionRegex = /invoke\(([^,]+),\s*"([^"]+)",/g;
-        //const callableFunctionRegex = /@Callable\(i\)\s*func\s+([^(]+)\(([^)]*)\)\s*=\s*{([\s\S]*?)}(?:\n\s*@|$)/gm;
-        //const invokeFunctionRegex = /invoke\([^,]+,\s*"([^"]+)",/g;
-
-        let callableFunctions = [];
-        let match;
-
-        while ((match = callableFunctionRegex.exec(script)) !== null) {
-            const functionName = match[1].trim();
-            const params = match[2].trim().split(',').map(param => param.trim());
-            const functionBody = match[3];
-
-            let invokedFunctions = [];
-            let invokeMatch;
-            while ((invokeMatch = invokeFunctionRegex.exec(functionBody)) !== null) {
-                const addressVariableName = invokeMatch[1].trim();
-                const invokedFunctionName = invokeMatch[2].trim();
-                // Resolve address variable name to its actual value, if present in the map
-                const resolvedAddress = variableMap[addressVariableName] || addressVariableName;
-
-                invokedFunctions.push({
-                    function: invokedFunctionName,
-                    address: resolvedAddress // Use resolved address if available
-                });
-            }
-
-            callableFunctions.push({
-                name: functionName,
-                params: params,
-                invokes: invokedFunctions
-            });
-        }
-
-        console.log(callableFunctions)
-        return callableFunctions;
-    }
-
     // Function to add an edge from an Invoke node to a dApp node
     const addEdgeFromInvokeToDApp = (invoke, targetDAppNodeId) => {
         const edge = {
@@ -167,9 +107,6 @@ function ContractOverview() {
         };
         setEdges((eds) => [...eds, edge]);
     };
-
-
-
 
     // Erweiterte handleAddNode Function, um eine Adresse für dApp Knoten zu speichern und Functionen abzurufen
     const handleAddNodeWithAddress = async (nodeType) => {
@@ -208,64 +145,143 @@ function ContractOverview() {
         }
     };
 
+    async function fetchAllData(scriptFunctions) {
+        // Identify all unique dApp addresses you'll need metadata for
+        const uniqueAddresses = new Set(scriptFunctions.flatMap(func =>
+            func.invokes.map(invoke => invoke.address)
+        ));
 
+        // Fetch metadata for each unique address
+        const addressMetadataPromises = Array.from(uniqueAddresses).map(async address => {
+            return {
+                address,
+                metadata: await getWavesScriptMeta(address)
+            };
+        });
 
+        // Wait for all metadata fetches to complete
+        const addressMetadata = await Promise.all(addressMetadataPromises);
 
+        // Convert the array of metadata into a Map for easy lookup
+        const addressMetadataMap = new Map(addressMetadata.map(item => [item.address, item.metadata]));
 
+        return addressMetadataMap;
+    }
 
     const addCallableAndInvokeNodes = async (address, dAppNodeId) => {
         // Nutze getScriptFunctions, um die Script-Functionen für die gegebene Adresse zu bekommen
-        const scriptFunctions = await getScriptFunctions(address); // Stellen Sie sicher, dass getScriptFunctions die Daten jetzt zurückgibt
+        const scriptFunctions = await getWavesScriptFunctions(address); // Stellen Sie sicher, dass getScriptFunctions die Daten jetzt zurückgibt
+        const addressMetadataMap = await fetchAllData(scriptFunctions);
+        console.log(addressMetadataMap)
+
+        // Use a Map to track dApp nodes by their addresses to avoid duplicates
+        let addressToNodeIdMap = new Map();
+        addressToNodeIdMap.set(address, dAppNodeId); // Add the initial dApp node
+
+        // Helper function to ensure a dApp node for a given address exists or creates one
+        const ensureDAppNodeExists = (address) => {
+            if (!addressToNodeIdMap.has(address)) {
+                const newNodeId = `node-${Math.random().toString(36).substr(2, 9)}`;
+                const newNode = {
+                    id: newNodeId,
+                    type: 'dApp',
+                    data: { label: `dApp Node`, address },
+                    position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight }, // Randomize for demo
+                };
+                setNodes((nds) => [...nds, newNode]);
+                addressToNodeIdMap.set(address, newNodeId);
+                return newNodeId;
+            }
+            return addressToNodeIdMap.get(address);
+        };
+
+        // New function to ensure the callable node for refundWaves exists
+        const ensureCallableNodeExistsForFunction = (targetDAppNodeId, functionName, functionParams) => {
+            // Check if a callable node for this function already exists for the target dApp node
+            let existingCallableNode = nodes.find(node =>
+                node.data.functionName === functionName &&
+                node.type === 'callable' &&
+                node.data.address === addressToNodeIdMap.get(targetDAppNodeId)
+            );
+
+            if (!existingCallableNode) {
+                // If not, create it
+                const callableNodeId = `callable-${targetDAppNodeId}-${functionName}`;
+                const callableNode = {
+                    id: callableNodeId,
+                    type: 'callable',
+                    data: {
+                        label: `Callable: ${functionName}`,
+                        functionName: functionName,
+                        address: addressToNodeIdMap.get(targetDAppNodeId),
+                        parameters: functionParams, // Include parameters here
+                    },
+                    position: {
+                        x: Math.random() * window.innerWidth,
+                        y: Math.random() * window.innerHeight,
+                    },
+                };
+                setNodes((nds) => [...nds, callableNode]);
+
+                // Also, create an edge from the dApp node to this callable node
+                const edge = {
+                    id: `edge-${targetDAppNodeId}-to-${callableNodeId}`,
+                    source: targetDAppNodeId,
+                    target: callableNodeId,
+                    type: 'smoothstep',
+                    animated: true,
+                };
+                setEdges((eds) => [...eds, edge]);
+
+                return callableNodeId;
+            }
+
+            return existingCallableNode.id;
+        };
 
         scriptFunctions.forEach((func, index) => {
-            // Für jede callable Function, erstelle einen CallableNode
+            // Create callable node for each function
             const callableNode = {
                 id: `callable-${dAppNodeId}-${index}`,
                 type: 'callable',
-                data: { label: `Callable: ${func.name}`, functionName: func.name, parameters: func.params },
-                position: { x: window.innerWidth / 2 + 100, y: window.innerHeight / 2 + (index * 100) },
+                data: {
+                    label: `Callable: ${func.name}`,
+                    functionName: func.name,
+                    parameters: func.params
+                },
+                position: { x: 100 + Math.random() * (window.innerWidth - 200), y: 100 + index * 120 }, // Randomize for demo
             };
-
-            // Füge den neuen CallableNode den Nodes hinzu
             setNodes((nds) => [...nds, callableNode]);
 
-            // Erstelle eine Kante zwischen dem dAppNode und dem CallableNode
+            // Create an edge from dApp node to callable node
             const edgeToCallable = {
                 id: `edge-${dAppNodeId}-to-${callableNode.id}`,
                 source: dAppNodeId,
                 target: callableNode.id,
-                type: 'straight',
+                type: 'smoothstep',
                 animated: true,
             };
-
             setEdges((eds) => [...eds, edgeToCallable]);
 
-            // Für jede Invoke Aktion in der callable Function, erstelle einen InvokeNode
-            func.invokes.forEach(async (invoke, invokeIndex) => {
+            // Process each invoke within the callable function
+            for (const [invokeIndex, invoke] of func.invokes.entries()) {
+                let targetDAppNodeId = ensureDAppNodeExists(invoke.address);
 
-                let targetDAppNode = findDAppNodeByAddress(invoke.address);
-                console.log("targetDAppNode; " + targetDAppNode)
-                if (!targetDAppNode) {
-                    // If the dApp node does not exist, create a new one
-                    targetDAppNode = await handledAppFromInvoke('dApp', invoke.address); // Await the new dApp node creation
-                }
-
-
-
+                // Now, create the invoke node with the fetched callable function parameters included
                 const invokeNode = {
                     id: `invoke-${callableNode.id}-${invokeIndex}`,
                     type: 'invoke',
-                    // data: { label: `Invoke: ${invoke.function}`, address: invoke.address, functionName:function , invokeParameters: invoke.invokedParameters },
                     data: {
-                        label: `Invoke: ${invoke.function}`, address: invoke.address, functionName: invoke.function
+                        label: `Invoke: ${invoke.function}`,
+                        address: invoke.address,
+                        functionName: invoke.function,
+                        invokeParameters: invoke.params !== undefined ? invoke.params.join(",") : "",
                     },
-                    position: { x: window.innerWidth / 2 + 200, y: window.innerHeight / 2 + (index * 100) + (invokeIndex * 50) },
+                    position: { x: 200 + Math.random() * (window.innerWidth - 300), y: 100 + index * 120 + invokeIndex * 50 }, // Adjust positioning as needed
                 };
-
-                // Füge den neuen InvokeNode den Nodes hinzu
                 setNodes((nds) => [...nds, invokeNode]);
 
-                // Erstelle eine Kante zwischen dem CallableNode und dem InvokeNode
+                // Create an edge from callable node to invoke node
                 const edgeToInvoke = {
                     id: `edge-${callableNode.id}-to-${invokeNode.id}`,
                     source: callableNode.id,
@@ -273,21 +289,181 @@ function ContractOverview() {
                     type: 'step',
                     animated: true,
                 };
-
                 setEdges((eds) => [...eds, edgeToInvoke]);
 
-                //  FEHLER HIER 
-                console.log("test:" + targetDAppNode)
-                if (targetDAppNode) {
-                    addEdgeFromInvokeToDApp(invoke, targetDAppNode.id);
-                } else {
-                    console.log('Adding edge from invoke to dApp:', { invoke, targetDAppNodeId: targetDAppNode.id });
+                // Create an edge from invoke node to target dApp node if applicable
+                if (targetDAppNodeId) {
+                    const edgeFromInvokeToDApp = {
+                        id: `edge-invoke-${invoke.function}-${invokeNode.id}-to-${targetDAppNodeId}`,
+                        source: invokeNode.id,
+                        target: targetDAppNodeId,
+                        type: 'smoothstep',
+                        animated: true,
+                        label: `Invoke: ${invoke.function} to dApp`,
+                    };
+                    setEdges((eds) => [...eds, edgeFromInvokeToDApp]);
                 }
-            });
-        });
+
+                // After creating and connecting the invoke node, ensure the callable node exists
+                // First, access the map using just the dApp address to get the object containing callable functions
+                const callableFunctionsForObject = addressMetadataMap.get(invoke.address);
+                // Then, use the function name to access the specific array of parameters for that callable function
+                const callableParams = callableFunctionsForObject ? callableFunctionsForObject[invoke.function] || [] : [];
+                const paramNames = callableParams.map(param => param.name).join(", ");
+
+                ensureCallableNodeExistsForFunction(targetDAppNodeId, invoke.function, paramNames);
+            }
+        })
+    }
+
+    const addCallableAndInvokeNodesOldImplementation = async (address, dAppNodeId) => {
+        // Nutze getScriptFunctions, um die Script-Functionen für die gegebene Adresse zu bekommen
+        const scriptFunctions = await getWavesScriptFunctions(address); // Stellen Sie sicher, dass getScriptFunctions die Daten jetzt zurückgibt
+        const addressMetadataMap = await fetchAllData(scriptFunctions);
+
+        // Use a Map to track dApp nodes by their addresses to avoid duplicates
+        let addressToNodeIdMap = new Map();
+        addressToNodeIdMap.set(address, dAppNodeId); // Add the initial dApp node
+
+        let callableParamsMap = new Map();
+
+        // Helper function to ensure a dApp node for a given address exists or creates one
+        const ensureDAppNodeExists = (address) => {
+            if (!addressToNodeIdMap.has(address)) {
+                const newNodeId = `node-${Math.random().toString(36).substr(2, 9)}`;
+                const newNode = {
+                    id: newNodeId,
+                    type: 'dApp',
+                    data: { label: `dApp Node`, address },
+                    position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight }, // Randomize for demo
+                };
+                setNodes((nds) => [...nds, newNode]);
+                addressToNodeIdMap.set(address, newNodeId);
+                return newNodeId;
+            }
+            return addressToNodeIdMap.get(address);
+        };
+
+        // New function to ensure the callable node for refundWaves exists
+        const ensureCallableNodeExistsForFunction = (targetDAppNodeId, functionName, functionParams) => {
+            // Check if a callable node for this function already exists for the target dApp node
+            let existingCallableNode = nodes.find(node =>
+                node.data.functionName === functionName &&
+                node.type === 'callable' &&
+                node.data.address === addressToNodeIdMap.get(targetDAppNodeId)
+            );
+
+            if (!existingCallableNode) {
+                // If not, create it
+                const callableNodeId = `callable-${targetDAppNodeId}-${functionName}`;
+                const callableNode = {
+                    id: callableNodeId,
+                    type: 'callable',
+                    data: {
+                        label: `Callable: ${functionName}`,
+                        functionName: functionName,
+                        address: addressToNodeIdMap.get(targetDAppNodeId),
+                        params: "functionParams", // Include parameters here
+                    },
+                    position: {
+                        x: Math.random() * window.innerWidth,
+                        y: Math.random() * window.innerHeight,
+                    },
+                };
+                setNodes((nds) => [...nds, callableNode]);
+
+                // Also, create an edge from the dApp node to this callable node
+                const edge = {
+                    id: `edge-${targetDAppNodeId}-to-${callableNodeId}`,
+                    source: targetDAppNodeId,
+                    target: callableNodeId,
+                    type: 'smoothstep',
+                    animated: true,
+                };
+                setEdges((eds) => [...eds, edge]);
+
+                return callableNodeId;
+            }
+
+            return existingCallableNode.id;
+        };
+
+        scriptFunctions.forEach((func, index) => {
+            // Create callable node for each function
+            const callableNode = {
+                id: `callable-${dAppNodeId}-${index}`,
+                type: 'callable',
+                data: {
+                    label: `Callable: ${func.name}`,
+                    functionName: func.name,
+                    parameters: func.params
+                },
+                position: { x: 100 + Math.random() * (window.innerWidth - 200), y: 100 + index * 120 }, // Randomize for demo
+            };
+            setNodes((nds) => [...nds, callableNode]);
+
+            // Process invokes within the callable function
+            func.invokes.forEach(async (invoke, invokeIndex) => {
+                let targetDAppNodeId = ensureDAppNodeExists(invoke.address);
+
+                // Fetch metadata for invoked dApp addresses to get callable function parameters
+                /*if (invoke.address !== address) { // Skip if it's the original address
+                    try {
+                        const dAppMeta = getWavesScriptMeta(invoke.address);
+                        for (const [funcName, params] of Object.entries(dAppMeta.meta.callableFuncTypes)) {
+                            const key = `${invoke.address}-${funcName}`;
+                            callableParamsMap.set(key, params);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching callable function parameters:", error);
+                    }
+                }*/
+
+                const metadata = addressMetadataMap.get(invoke.address);
+                console.log(metadata)
+
+                const invokeNode = {
+                    id: `invoke-${callableNode.id}-${invokeIndex}`,
+                    type: 'invoke',
+                    data: {
+                        label: `Invoke: ${invoke.function}`,
+                        address: invoke.address,
+                        functionName: invoke.function,
+                        invokeParameters: invoke.params.join(","),
+                    },
+                    position: { x: 200 + Math.random() * (window.innerWidth - 300), y: 100 + index * 120 + invokeIndex * 50 }, // Adjust positioning as needed
+                };
+                setNodes((nds) => [...nds, invokeNode]);
+
+                // Create an edge from callable node to invoke node
+                const edgeToInvoke = {
+                    id: `edge-${callableNode.id}-to-${invokeNode.id}`,
+                    source: callableNode.id,
+                    target: invokeNode.id,
+                    type: 'step',
+                    animated: true,
+                };
+                setEdges((eds) => [...eds, edgeToInvoke]);
+
+                // Create an edge from invoke node to target dApp node if applicable
+                if (targetDAppNodeId) {
+                    const edgeFromInvokeToDApp = {
+                        id: `edge-invoke-${invoke.function}-${invokeNode.id}-to-${targetDAppNodeId}`,
+                        source: invokeNode.id,
+                        target: targetDAppNodeId,
+                        type: 'smoothstep',
+                        animated: true,
+                        label: `Invoke: ${invoke.function} to dApp`,
+                    };
+                    setEdges((eds) => [...eds, edgeFromInvokeToDApp]);
+                }
+
+                // After creating and connecting the invoke node, ensure the callable node exists
+                const callableParams = callableParamsMap.get(`${invoke.address}-${invoke.function}`) || [];
+                ensureCallableNodeExistsForFunction(targetDAppNodeId, invoke.function, callableParams);
+            })
+        })
     };
-
-
 
     const handleAddNode = useCallback((nodeType) => {
         if (!nodeTypes[nodeType]) {
@@ -308,9 +484,6 @@ function ContractOverview() {
 
         setNodes((nds) => [...nds, newNode]);
     }, [nodeTypes, nodes, setNodes]);
-
-
-
 
     return (
         <div style={{ height: '950px', width: '100%' }}>

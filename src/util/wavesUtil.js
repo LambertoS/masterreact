@@ -83,9 +83,7 @@ export const getWavesScriptFunctions = async (address) => {
         }
 
         // Double check
-        const responseScriptMeta = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/scriptInfo/${address}/meta`);
-        const scriptMetaDataJson = await responseScriptMeta.json()
-        const scriptMetaData = scriptMetaDataJson.meta.callableFuncTypes
+        const scriptMetaData = await getWavesScriptMeta(address)
 
         let callableFunctionsMap = new Map(callableFunctions.map(func => [func.name, func]));
 
@@ -107,4 +105,14 @@ export const getWavesScriptFunctions = async (address) => {
         console.error("Error fetching account script: ", e)
         return []
     }
+}
+
+export const getWavesScriptMeta = async (address) => {
+    const responseScriptMeta = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/scriptInfo/${address}/meta`);
+    const scriptMetaDataJson = await responseScriptMeta.json()
+
+    if (scriptMetaDataJson.meta !== undefined)
+        return scriptMetaDataJson.meta.callableFuncTypes
+    else
+        return []
 }

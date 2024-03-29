@@ -82,7 +82,7 @@ export const getWavesScriptFunctions = async (address) => {
             });
         }
 
-        // Double check
+        // Check if all callable functions are present
         const scriptMetaData = await getWavesScriptMeta(address)
 
         let callableFunctionsMap = new Map(callableFunctions.map(func => [func.name, func]));

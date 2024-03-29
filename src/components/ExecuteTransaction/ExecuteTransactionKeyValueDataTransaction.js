@@ -28,15 +28,6 @@ export const ExecuteTransactionKeyValueDataTransaction = () => {
             await dataTransaction({
                 data: [{key: keyValuePairKey, type: "string", value: keyValuePairValue}]
             })
-
-            /*await invokeScript({
-                dApp: scAddress,
-                call: {
-                    function: keyValuePairFunctionName,
-                    args: [{type: "string", value: keyValuePairKey}, {type: "string", value: keyValuePairValue}],
-                },
-                payment: [],
-            });*/
         } catch (error) {
             console.error("Error uploading the key-value pair", error);
         }

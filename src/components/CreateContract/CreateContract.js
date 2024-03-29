@@ -8,23 +8,23 @@ import ReactFlow, {
     MiniMap,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import FunctionNode from './createNodes/FunctionNode';
-import SendTokenNode from './createNodes/SendTokenNode';
-import SetValueNode from './createNodes/ValueNode';
-import LogicalNode from './createNodes/LogicNode';
-import StringEntryNode from './createNodes/DataNode';
-import ErrorNode from './createNodes/ErrorNode';
-import KeyNode from './createNodes/KeyNode';
-import NoteNode from './createNodes/NoteNode';
+import FunctionNode from './Nodes/FunctionNode';
+import SendTokenNode from './Nodes/SendTokenNode';
+import ValueNode from './Nodes/ValueNode';
+import LogicalNode from './Nodes/LogicNode';
+import StringEntryNode from './Nodes/StringEntryNode';
+import ErrorNode from './Nodes/ErrorNode';
+import KeyNode from './Nodes/KeyNode';
+import NoteNode from './Nodes/NoteNode';
 
 import edges from './edges';
-import StartNode from './createNodes/StartNode';
+import StartNode from './Nodes/StartNode';
 
 import createContract, {downloadContract} from './CreateSC';
 import {useWavesTransactions} from "../../context/WavesTransactionContext";
 import {convertScriptToBase64} from "../../util/wavesApi";
 
-
+// Preset edges and nodes
 const initialEdges = [];
 const initialNodes = [{
     "id": "startnode",
@@ -40,101 +40,94 @@ const initialNodes = [{
     "height": 62
 }];
 
+/**
+ * Defines custom edge types for React Flow.
+ */
 const edgeTypes = {
     'custom-edge': edges,
 };
 
-function Flow() {
+/**
+ * The CreateContract component provides an interactive environment for creating, editing,
+ * and managing a contract workflow using a node-based graphical interface. It utilizes React Flow
+ * for rendering the workflow graph, including custom nodes and edges for contract elements such as
+ * functions, token transfers, logic operations, and more. Users can add nodes to the graph, connect
+ * them to define the flow, and export or import the graph as JSON. It also supports uploading the
+ * contract to the blockchain and downloading the contract code.
+ *
+ * Features include:
+ * - Adding various types of nodes like function, token transfer, logic, value, and more to the graph.
+ * - Connecting nodes to define the flow of the contract.
+ * - Exporting the contract graph to a JSON file for persistence or sharing.
+ * - Importing a contract graph from a JSON file.
+ * - Uploading the contract script to the blockchain.
+ * - Downloading the contract script for review or deployment outside the tool.
+ *
+ * @returns {JSX.Element} The CreateContract component rendered as a ReactFlow diagram with controls for managing the contract graph.
+ */
+function CreateContract() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
     const {setScript} = useWavesTransactions();
 
-    // Create a ref for the file input
+    // Reference to hidden file input for JSON import
     const fileInputRef = useRef(null);
     // Function to trigger file input dialog
     const handleImportJson = useCallback(() => {
         fileInputRef.current.click();
     }, []);
 
-    const onNodesChange = useCallback(
-        (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        [setNodes],
-    );
 
-    const onEdgesChange = useCallback(
-        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        [setEdges],
-    );
+    const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes],);
+    const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges],);
+    const onConnect = useCallback((connection) => setEdges((eds) => addEdge({...connection, type: 'custom-edge'}, eds)), []);
 
-    const onConnect = useCallback(
-        (connection) => {
-            const edge = {...connection, type: 'custom-edge'};
-            setEdges((eds) => addEdge(edge, eds));
-        },
-        [setEdges],
-    );
-
+    // Define node types for React Flow
     const nodeTypes = useMemo(() => ({
         start: (nodeProps) => <StartNode {...nodeProps} setNodes={setNodes}/>,
         function: (nodeProps) => <FunctionNode {...nodeProps} setNodes={setNodes}/>,
         token: (nodeProps) => <SendTokenNode {...nodeProps} setNodes={setNodes}/>,
         logic: (nodeProps) => <LogicalNode {...nodeProps} setNodes={setNodes}/>,
-        // value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} />,
-        value: (nodeProps) => <SetValueNode {...nodeProps} setNodes={setNodes} allNodes={nodes}/>,
+        value: (nodeProps) => <ValueNode {...nodeProps} setNodes={setNodes} allNodes={nodes}/>,
         string: (nodeProps) => <StringEntryNode {...nodeProps} setNodes={setNodes}/>,
         error: (nodeProps) => <ErrorNode {...nodeProps} setNodes={setNodes}/>,
         key: (nodeProps) => <KeyNode {...nodeProps} setNodes={setNodes}/>,
         note: (nodeProps) => <NoteNode {...nodeProps} setNodes={setNodes}/>,
     }), [setNodes]);
 
+    // Handler for adding new nodes
     const handleAddNode = useCallback((nodeType) => {
         if (!nodeTypes[nodeType]) {
             console.error(`Node type "${nodeType}" is not defined.`);
             return;
         }
 
-        // const newNode = {
-        //   id: `node-${Math.random().toString(36).substr(2, 9)}`,
-        //   type: nodeType,
-        //   data: { label: `${nodeType} Node ${nodes.length + 1}` },
-        //   position: { x: Math.random() * window.innerWidth * 0.8, y: Math.random() * window.innerHeight * 0.8 },
-        // };
         const newNode = {
             id: `node-${Math.random().toString(36).substr(2, 9)}`,
             type: nodeType,
             data: {label: `${nodeType} Node ${nodes.length + 1}`},
-            position: {
-                // Set x and y to be in the center of the screen
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2
-            },
+            position: {x: window.innerWidth / 2, y: window.innerHeight / 2},
         };
 
         setNodes((nds) => [...nds, newNode]);
     }, [nodeTypes, nodes, setNodes]);
 
+    // Handler for exporting graph to JSON
     const exportToJson = () => {
-        const data = {
-            nodes,
-            edges,
-        };
-        // Convert data object to JSON string
+        const data = {nodes, edges};
         const jsonString = JSON.stringify(data, null, 2);
-        // Create a blob with JSON content
         const blob = new Blob([jsonString], {type: 'application/json'});
-        // Create an URL for the blob
         const url = URL.createObjectURL(blob);
-        // Create a temporary anchor element and trigger the download
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'flow-data.json'; // Name of the file to be downloaded
-        document.body.appendChild(a); // Append the anchor to the document
-        a.click(); // Trigger the download
-        document.body.removeChild(a); // Clean up
-        URL.revokeObjectURL(url); // Free up memory allocated for the blob
+        a.download = 'flow-data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     };
 
-    // Function to handle file input change event
+    // Handler for importing graph from JSON
     const handleFileChange = useCallback((event) => {
         const fileReader = new FileReader();
         const files = event.target.files;
@@ -153,12 +146,9 @@ function Flow() {
         };
     }, []);
 
+    // Handler for uploading compiled script to blockchain
     const uploadScript = async () => {
-        const data = {
-            nodes,
-            edges,
-        };
-
+        const data = {nodes, edges};
         const scriptData = createContract(data)
 
         try {
@@ -173,20 +163,15 @@ function Flow() {
         }
     }
 
+    // Handler for downloading the script
     const downloadScript = () => {
-        const data = {
-            nodes,
-            edges,
-        };
-
+        const data = {nodes, edges};
         const script = createContract(data)
-        console.log(script)
         downloadContract(script, "my_smart_contract.ride")
     }
 
     return (
         <div style={{height: '1950px', width: '100%'}}>
-            {/* <button onClick={() => handleAddNode('start')}>Add Start Node</button> */}
             <button onClick={() => handleAddNode('key')}>Add Key Node</button>
             <button onClick={() => handleAddNode('value')}>Add Value Node</button>
             <button onClick={() => handleAddNode('logic')}>Add Logic Node</button>
@@ -197,7 +182,6 @@ function Flow() {
             <button onClick={() => handleAddNode('note')}>Add Note Node</button>
             <button onClick={exportToJson}>Export Graph to JSON</button>
             <button onClick={handleImportJson}>Import Graph from JSON</button>
-            {/* Hidden file input for importing JSON */}
             <input
                 type="file"
                 ref={fileInputRef}
@@ -207,6 +191,7 @@ function Flow() {
             />
             <button onClick={downloadScript}>Download SC</button>
             <button onClick={uploadScript}>deploy SC</button>
+
             <ReactFlow
                 nodes={nodes}
                 onNodesChange={onNodesChange}
@@ -225,4 +210,4 @@ function Flow() {
     );
 }
 
-export default Flow;
+export default CreateContract;

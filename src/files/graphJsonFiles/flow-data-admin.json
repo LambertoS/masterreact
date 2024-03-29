@@ -1,0 +1,1092 @@
+{
+  "nodes": [
+    {
+      "id": "startnode",
+      "type": "start",
+      "data": {
+        "label": "start Node 1"
+      },
+      "position": {
+        "x": 1017.5430364786016,
+        "y": -612.8716849637369
+      },
+      "width": 87,
+      "height": 62,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1017.5430364786016,
+        "y": -612.8716849637369
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-xizvcva4e",
+      "type": "function",
+      "data": {
+        "label": "function Node 10",
+        "function": "authUser",
+        "parameters": "i: Invocation"
+      },
+      "position": {
+        "x": 991.4202153996725,
+        "y": -472.50571137541067
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 991.4202153996725,
+        "y": -472.50571137541067
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-n8kvhc3eh",
+      "type": "note",
+      "data": {
+        "label": "note Node 12",
+        "note": "Caller is Script Account"
+      },
+      "position": {
+        "x": 748.5979015750255,
+        "y": -347.0693718615048
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 748.5979015750255,
+        "y": -347.0693718615048
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-8lye5gvtg",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 13"
+      },
+      "position": {
+        "x": 762.6393263772627,
+        "y": -164.9314427122861
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 762.6393263772627,
+        "y": -164.9314427122861
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-fcdzxndwv",
+      "type": "value",
+      "data": {
+        "label": "value Node 14",
+        "value": "this"
+      },
+      "position": {
+        "x": 531.3477317450647,
+        "y": -192.08760589811777
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 531.3477317450647,
+        "y": -192.08760589811777
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-wx36tzkil",
+      "type": "value",
+      "data": {
+        "label": "value Node 15",
+        "value": "i.caller"
+      },
+      "position": {
+        "x": 548.0829820572937,
+        "y": -291.8152858291896
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 548.0829820572937,
+        "y": -291.8152858291896
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ybiqejm4n",
+      "type": "value",
+      "data": {
+        "label": "value Node 16",
+        "value": "true"
+      },
+      "position": {
+        "x": 893.8246776926073,
+        "y": -184.9699679571463
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 893.8246776926073,
+        "y": -184.9699679571463
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-vq4ivg28h",
+      "type": "note",
+      "data": {
+        "label": "note Node 17",
+        "note": "Get the Address as a string from the Caller"
+      },
+      "position": {
+        "x": 586.3456202765024,
+        "y": -52.85293647317394
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 586.3456202765024,
+        "y": -52.85293647317394
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ntc1ztlkp",
+      "type": "key",
+      "data": {
+        "label": "key Node 18",
+        "key": "callerAddress"
+      },
+      "position": {
+        "x": 609.8873899048575,
+        "y": 109.44245908688396
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 609.8873899048575,
+        "y": 109.44245908688396
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-r5ft2w2cd",
+      "type": "value",
+      "data": {
+        "label": "value Node 19",
+        "value": "toString(i.caller)"
+      },
+      "position": {
+        "x": 403.76475466574533,
+        "y": 195.24470437780633
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 403.76475466574533,
+        "y": 195.24470437780633
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1zvn4voma",
+      "type": "note",
+      "data": {
+        "label": "note Node 20",
+        "note": "Build the expected key (connection.callerAddress) and gets the value of the key"
+      },
+      "position": {
+        "x": 597.0663647464438,
+        "y": 258.3635974653813
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 597.0663647464438,
+        "y": 258.3635974653813
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-irgbzq55g",
+      "type": "key",
+      "data": {
+        "label": "key Node 21",
+        "key": "dataValue"
+      },
+      "position": {
+        "x": 609.8873899048574,
+        "y": 424.0506918202657
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 609.8873899048574,
+        "y": 424.0506918202657
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-3dsopsqdr",
+      "type": "function",
+      "data": {
+        "label": "function Node 23",
+        "function": "getData",
+        "parameters": "this, \"connection.\" + callerAddress"
+      },
+      "position": {
+        "x": 364.31544648601084,
+        "y": 507.88047170220136
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 364.31544648601084,
+        "y": 507.88047170220136
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-uuid7quj5",
+      "type": "note",
+      "data": {
+        "label": "note Node 23",
+        "note": "Expected Value"
+      },
+      "position": {
+        "x": 587.2040377015101,
+        "y": 567.0544339718027
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 587.2040377015101,
+        "y": 567.0544339718027
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-aryxcskxw",
+      "type": "key",
+      "data": {
+        "label": "key Node 24",
+        "strict": false,
+        "key": "expectedValue"
+      },
+      "position": {
+        "x": 587.2040377015103,
+        "y": 732.7415283266871
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 587.2040377015103,
+        "y": 732.7415283266871
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-6yv3iay0y",
+      "type": "value",
+      "data": {
+        "label": "value Node 25",
+        "value": "\"authorized\""
+      },
+      "position": {
+        "x": 338.6733961691835,
+        "y": 756.4111132345278
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 338.6733961691835,
+        "y": 756.4111132345278
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-5j7uvezcm",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 26"
+      },
+      "position": {
+        "x": 599.0388301554304,
+        "y": 919.139509475932
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 599.0388301554304,
+        "y": 919.139509475932
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-5d9v5ptye",
+      "type": "value",
+      "data": {
+        "label": "value Node 27",
+        "value": "expectedValue"
+      },
+      "position": {
+        "x": 358.446028331846,
+        "y": 1016.6692346756984
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 358.446028331846,
+        "y": 1016.6692346756984
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-gsohowoed",
+      "type": "value",
+      "data": {
+        "label": "value Node 28",
+        "value": "dataValue"
+      },
+      "position": {
+        "x": 362.3429810770243,
+        "y": 912.2358805444785
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 362.3429810770243,
+        "y": 912.2358805444785
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-0wjtt6rs1",
+      "type": "value",
+      "data": {
+        "label": "value Node 29",
+        "value": "true"
+      },
+      "position": {
+        "x": 745.3176172978817,
+        "y": 1025.5075395872211
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 745.3176172978817,
+        "y": 1025.5075395872211
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-hn3shw733",
+      "type": "value",
+      "data": {
+        "label": "value Node 30",
+        "value": "false"
+      },
+      "position": {
+        "x": 555.1914270866408,
+        "y": 1066.324879073702
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 555.1914270866408,
+        "y": 1066.324879073702
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-bqgumxiwp",
+      "type": "function",
+      "data": {
+        "label": "function Node 22",
+        "function": "saveSingleKeyValueOnAccount",
+        "callable": true,
+        "parameters": "key: String, keyValue: String"
+      },
+      "position": {
+        "x": 1649.4974765960596,
+        "y": -123.71988014255929
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1649.4974765960596,
+        "y": -123.71988014255929
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-lxc2qysfi",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 23"
+      },
+      "position": {
+        "x": 1428.1014259971892,
+        "y": 203.2919014245312
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1428.1014259971892,
+        "y": 203.2919014245312
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-son9kxsn3",
+      "type": "value",
+      "data": {
+        "label": "value Node 24",
+        "value": "this"
+      },
+      "position": {
+        "x": 1211.1385549323754,
+        "y": 257.03831120213044
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1211.1385549323754,
+        "y": 257.03831120213044
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-yosbgwsf0",
+      "type": "value",
+      "data": {
+        "label": "value Node 25",
+        "value": "i.caller"
+      },
+      "position": {
+        "x": 1210.8880836316403,
+        "y": 155.86483882055205
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1210.8880836316403,
+        "y": 155.86483882055205
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-mirlu6dff",
+      "type": "string",
+      "data": {
+        "label": "string Node 26",
+        "key": "key",
+        "value": "keyValue"
+      },
+      "position": {
+        "x": 1609.832489148597,
+        "y": 337.4040590448655
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1609.832489148597,
+        "y": 337.4040590448655
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-zwpe34310",
+      "type": "error",
+      "data": {
+        "label": "error Node 27",
+        "message": "Account hat nicht die nötige Berechtigung für diese Aktion."
+      },
+      "position": {
+        "x": 1417.638460637939,
+        "y": 356.43805806219723
+      },
+      "width": 170,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1417.638460637939,
+        "y": 356.43805806219723
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-tuacvqzjw",
+      "type": "note",
+      "data": {
+        "label": "note Node 28",
+        "note": "Only the Script Account is allowed to alter the content"
+      },
+      "position": {
+        "x": 1383.7389157654343,
+        "y": 36.35299644020594
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1383.7389157654343,
+        "y": 36.35299644020594
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-cznj47yuo",
+      "type": "function",
+      "data": {
+        "label": "function Node 29",
+        "function": "refundWaves",
+        "callable": true,
+        "parameters": "cost: Int"
+      },
+      "position": {
+        "x": 2361.5956102819973,
+        "y": -141.25366809284117
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2361.5956102819973,
+        "y": -141.25366809284117
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-czzxtwbo3",
+      "type": "key",
+      "data": {
+        "label": "key Node 30",
+        "key": "authenticated"
+      },
+      "position": {
+        "x": 2166.938443200262,
+        "y": 264.7061374387954
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2166.938443200262,
+        "y": 264.7061374387954
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-wltib994a",
+      "type": "note",
+      "data": {
+        "label": "note Node 32",
+        "note": "check if caller is authorized"
+      },
+      "position": {
+        "x": 2144.081912692943,
+        "y": 106.34867995256604
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2144.081912692943,
+        "y": 106.34867995256604
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-8dli5k6pt",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 33"
+      },
+      "position": {
+        "x": 2368.327209821959,
+        "y": 468.45663010354974
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2368.327209821959,
+        "y": 468.45663010354974
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-adezok2ib",
+      "type": "value",
+      "data": {
+        "label": "value Node 34",
+        "value": "authenticated"
+      },
+      "position": {
+        "x": 2175.9527440222564,
+        "y": 530.0836332398362
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2175.9527440222564,
+        "y": 530.0836332398362
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-jz57hainh",
+      "type": "error",
+      "data": {
+        "label": "error Node 35",
+        "message": "Account hat nicht die nötige Berechtigung für diese Aktion."
+      },
+      "position": {
+        "x": 2298.5900285097214,
+        "y": 622.9594189737523
+      },
+      "width": 170,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2298.5900285097214,
+        "y": 622.9594189737523
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-5l9remqkk",
+      "type": "token",
+      "data": {
+        "label": "token Node 36",
+        "tokenAddress": "i.caller",
+        "amount": "cost",
+        "token": "unit"
+      },
+      "position": {
+        "x": 2513.2679216358106,
+        "y": 601.5158349571996
+      },
+      "width": 170,
+      "height": 142,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2513.2679216358106,
+        "y": 601.5158349571996
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-zfyohdtet",
+      "type": "function",
+      "data": {
+        "label": "function Node 36",
+        "function": "authUser",
+        "parameters": "i"
+      },
+      "position": {
+        "x": 1973.9844388281153,
+        "y": 358.13666233911556
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1973.9844388281153,
+        "y": 358.13666233911556
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "startnode",
+      "sourceHandle": "b",
+      "target": "node-1jwnulec1",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-startnodeb-node-1jwnulec1"
+    },
+    {
+      "source": "node-1jwnulec1",
+      "sourceHandle": "l",
+      "target": "node-soyvo6yze",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1jwnulec1l-node-soyvo6yze"
+    },
+    {
+      "source": "node-soyvo6yze",
+      "sourceHandle": "b",
+      "target": "node-kr9nvfwwj",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-soyvo6yzeb-node-kr9nvfwwj"
+    },
+    {
+      "source": "node-kr9nvfwwj",
+      "sourceHandle": "l",
+      "target": "node-tk4rk1gvc",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-kr9nvfwwjl-node-tk4rk1gvc"
+    },
+    {
+      "source": "node-tk4rk1gvc",
+      "sourceHandle": "l",
+      "target": "node-niz0525xh",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-tk4rk1gvcl-node-niz0525xh"
+    },
+    {
+      "source": "node-tk4rk1gvc",
+      "sourceHandle": "b",
+      "target": "node-1iozbm63t",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-tk4rk1gvcb-node-1iozbm63t"
+    },
+    {
+      "source": "node-kr9nvfwwj",
+      "sourceHandle": "b",
+      "target": "node-q0fcciuh3",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-kr9nvfwwjb-node-q0fcciuh3"
+    },
+    {
+      "source": "node-q0fcciuh3",
+      "sourceHandle": "l",
+      "target": "node-ieg75sqzz",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-q0fcciuh3l-node-ieg75sqzz"
+    },
+    {
+      "source": "node-q0fcciuh3",
+      "sourceHandle": "b",
+      "target": "node-5cffqkatp",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-q0fcciuh3b-node-5cffqkatp"
+    },
+    {
+      "source": "startnode",
+      "sourceHandle": "b",
+      "target": "node-xizvcva4e",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-startnodeb-node-xizvcva4e"
+    },
+    {
+      "source": "node-xizvcva4e",
+      "sourceHandle": "l",
+      "target": "node-n8kvhc3eh",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-xizvcva4el-node-n8kvhc3eh"
+    },
+    {
+      "source": "node-n8kvhc3eh",
+      "sourceHandle": "b",
+      "target": "node-8lye5gvtg",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-n8kvhc3ehb-node-8lye5gvtg"
+    },
+    {
+      "source": "node-8lye5gvtg",
+      "sourceHandle": "l",
+      "target": "node-wx36tzkil",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8lye5gvtgl-node-wx36tzkil"
+    },
+    {
+      "source": "node-8lye5gvtg",
+      "sourceHandle": "l",
+      "target": "node-fcdzxndwv",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8lye5gvtgl-node-fcdzxndwv"
+    },
+    {
+      "source": "node-8lye5gvtg",
+      "sourceHandle": "t",
+      "target": "node-ybiqejm4n",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8lye5gvtgt-node-ybiqejm4n"
+    },
+    {
+      "source": "node-8lye5gvtg",
+      "sourceHandle": "f",
+      "target": "node-vq4ivg28h",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8lye5gvtgf-node-vq4ivg28h"
+    },
+    {
+      "source": "node-vq4ivg28h",
+      "sourceHandle": "b",
+      "target": "node-ntc1ztlkp",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vq4ivg28hb-node-ntc1ztlkp"
+    },
+    {
+      "source": "node-ntc1ztlkp",
+      "sourceHandle": "l",
+      "target": "node-r5ft2w2cd",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-ntc1ztlkpl-node-r5ft2w2cd"
+    },
+    {
+      "source": "node-ntc1ztlkp",
+      "sourceHandle": "b",
+      "target": "node-1zvn4voma",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-ntc1ztlkpb-node-1zvn4voma"
+    },
+    {
+      "source": "node-1zvn4voma",
+      "sourceHandle": "b",
+      "target": "node-irgbzq55g",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1zvn4vomab-node-irgbzq55g"
+    },
+    {
+      "source": "node-irgbzq55g",
+      "sourceHandle": "l",
+      "target": "node-3dsopsqdr",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-irgbzq55gl-node-3dsopsqdr"
+    },
+    {
+      "source": "node-irgbzq55g",
+      "sourceHandle": "b",
+      "target": "node-uuid7quj5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-irgbzq55gb-node-uuid7quj5"
+    },
+    {
+      "source": "node-uuid7quj5",
+      "sourceHandle": "b",
+      "target": "node-aryxcskxw",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-uuid7quj5b-node-aryxcskxw"
+    },
+    {
+      "source": "node-aryxcskxw",
+      "sourceHandle": "l",
+      "target": "node-6yv3iay0y",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-aryxcskxwl-node-6yv3iay0y"
+    },
+    {
+      "source": "node-aryxcskxw",
+      "sourceHandle": "b",
+      "target": "node-5j7uvezcm",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-aryxcskxwb-node-5j7uvezcm"
+    },
+    {
+      "source": "node-5j7uvezcm",
+      "sourceHandle": "l",
+      "target": "node-gsohowoed",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-5j7uvezcml-node-gsohowoed"
+    },
+    {
+      "source": "node-5j7uvezcm",
+      "sourceHandle": "l",
+      "target": "node-5d9v5ptye",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-5j7uvezcml-node-5d9v5ptye"
+    },
+    {
+      "source": "node-5j7uvezcm",
+      "sourceHandle": "t",
+      "target": "node-0wjtt6rs1",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-5j7uvezcmt-node-0wjtt6rs1"
+    },
+    {
+      "source": "node-5j7uvezcm",
+      "sourceHandle": "f",
+      "target": "node-hn3shw733",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-5j7uvezcmf-node-hn3shw733"
+    },
+    {
+      "source": "node-xizvcva4e",
+      "sourceHandle": "b",
+      "target": "node-bqgumxiwp",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-xizvcva4eb-node-bqgumxiwp"
+    },
+    {
+      "source": "node-tuacvqzjw",
+      "sourceHandle": "b",
+      "target": "node-lxc2qysfi",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-tuacvqzjwb-node-lxc2qysfi"
+    },
+    {
+      "source": "node-lxc2qysfi",
+      "sourceHandle": "l",
+      "target": "node-yosbgwsf0",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-lxc2qysfil-node-yosbgwsf0"
+    },
+    {
+      "source": "node-lxc2qysfi",
+      "sourceHandle": "l",
+      "target": "node-son9kxsn3",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-lxc2qysfil-node-son9kxsn3"
+    },
+    {
+      "source": "node-lxc2qysfi",
+      "sourceHandle": "t",
+      "target": "node-mirlu6dff",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-lxc2qysfit-node-mirlu6dff"
+    },
+    {
+      "source": "node-lxc2qysfi",
+      "sourceHandle": "f",
+      "target": "node-zwpe34310",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-lxc2qysfif-node-zwpe34310"
+    },
+    {
+      "source": "node-bqgumxiwp",
+      "sourceHandle": "l",
+      "target": "node-tuacvqzjw",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-bqgumxiwpl-node-tuacvqzjw"
+    },
+    {
+      "source": "node-bqgumxiwp",
+      "sourceHandle": "b",
+      "target": "node-cznj47yuo",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-bqgumxiwpb-node-cznj47yuo"
+    },
+    {
+      "source": "node-cznj47yuo",
+      "sourceHandle": "l",
+      "target": "node-wltib994a",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-cznj47yuol-node-wltib994a"
+    },
+    {
+      "source": "node-wltib994a",
+      "sourceHandle": "b",
+      "target": "node-czzxtwbo3",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-wltib994ab-node-czzxtwbo3"
+    },
+    {
+      "source": "node-czzxtwbo3",
+      "sourceHandle": "l",
+      "target": "node-nwi27xfw9",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-czzxtwbo3l-node-nwi27xfw9"
+    },
+    {
+      "source": "node-czzxtwbo3",
+      "sourceHandle": "l",
+      "target": "node-zfyohdtet",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-czzxtwbo3l-node-zfyohdtet"
+    },
+    {
+      "source": "node-czzxtwbo3",
+      "sourceHandle": "b",
+      "target": "node-8dli5k6pt",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-czzxtwbo3b-node-8dli5k6pt"
+    },
+    {
+      "source": "node-8dli5k6pt",
+      "sourceHandle": "l",
+      "target": "node-adezok2ib",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8dli5k6ptl-node-adezok2ib"
+    },
+    {
+      "source": "node-8dli5k6pt",
+      "sourceHandle": "f",
+      "target": "node-jz57hainh",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8dli5k6ptf-node-jz57hainh"
+    },
+    {
+      "source": "node-8dli5k6pt",
+      "sourceHandle": "t",
+      "target": "node-5l9remqkk",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8dli5k6ptt-node-5l9remqkk"
+    }
+  ]
+}

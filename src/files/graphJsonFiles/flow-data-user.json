@@ -1,0 +1,2050 @@
+{
+  "nodes": [
+    {
+      "id": "startnode",
+      "type": "start",
+      "data": {
+        "label": "start Node 1"
+      },
+      "position": {
+        "x": 1004.6598854820847,
+        "y": -1049.717792954441
+      },
+      "width": 88,
+      "height": 63,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1004.6598854820847,
+        "y": -1049.717792954441
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-pah5hqews",
+      "type": "function",
+      "data": {
+        "label": "function Node 1",
+        "function": "authUser",
+        "parameters": "i: Invocation",
+        "callable": false
+      },
+      "position": {
+        "x": 961.6543883096721,
+        "y": -669.0423256630252
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 961.6543883096721,
+        "y": -669.0423256630252
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-vg42eski1",
+      "type": "function",
+      "data": {
+        "label": "function Node 2",
+        "function": "saveSingleKeyValueOnAccount",
+        "parameters": "key: String, keyValue: String",
+        "callable": true,
+        "invoke": false
+      },
+      "position": {
+        "x": 1784.6869277980086,
+        "y": -288.0798104819189
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1784.6869277980086,
+        "y": -288.0798104819189
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1bovwmlcl",
+      "type": "key",
+      "data": {
+        "label": "key Node 5",
+        "key": "authenticated"
+      },
+      "position": {
+        "x": 1644.4387724655073,
+        "y": 81.33489059693386
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1644.4387724655073,
+        "y": 81.33489059693386
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-sipr2tond",
+      "type": "function",
+      "data": {
+        "label": "function Node 11",
+        "function": "authUser",
+        "parameters": "i"
+      },
+      "position": {
+        "x": 1421.2962849555786,
+        "y": 79.69574654847253
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1421.2962849555786,
+        "y": 79.69574654847253
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-vrntpq6oz",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 11"
+      },
+      "position": {
+        "x": 1713.4587915937027,
+        "y": 482.57648039363824
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1713.4587915937027,
+        "y": 482.57648039363824
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-bs9q5zcft",
+      "type": "error",
+      "data": {
+        "label": "error Node 13",
+        "message": "Account hat nicht die nötige Berechtigung für diese Aktion."
+      },
+      "position": {
+        "x": 1562.7380741523139,
+        "y": 660.2833258508064
+      },
+      "width": 170,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1562.7380741523139,
+        "y": 660.2833258508064
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-y23nevofl",
+      "type": "key",
+      "data": {
+        "label": "key Node 14",
+        "key": "refund",
+        "strict": true
+      },
+      "position": {
+        "x": 2337.2674737831476,
+        "y": 899.1761879506719
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2337.2674737831476,
+        "y": 899.1761879506719
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-6midqz67v",
+      "type": "string",
+      "data": {
+        "label": "string Node 15",
+        "key": "key",
+        "value": "keyValue"
+      },
+      "position": {
+        "x": 2363.31206543238,
+        "y": 1043.8469537908443
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2363.31206543238,
+        "y": 1043.8469537908443
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ohabpuklp",
+      "type": "function",
+      "data": {
+        "label": "function Node 16",
+        "function": "refundWaves",
+        "address": "refundAcc",
+        "parameters": "i.fee",
+        "callable": false,
+        "invoke": true
+      },
+      "position": {
+        "x": 2154.7022569820265,
+        "y": 913.7360761614812
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2154.7022569820265,
+        "y": 913.7360761614812
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-tmwiddr6q",
+      "type": "value",
+      "data": {
+        "label": "value Node 16",
+        "value": "authenticated"
+      },
+      "position": {
+        "x": 1489.8320826829504,
+        "y": 544.4651572741258
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1489.8320826829504,
+        "y": 544.4651572741258
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-xtkx10fv5",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 16"
+      },
+      "position": {
+        "x": 716.7812447782063,
+        "y": -401.6754984518509
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 716.7812447782063,
+        "y": -401.6754984518509
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-4l33qmnhe",
+      "type": "value",
+      "data": {
+        "label": "value Node 17",
+        "value": "i.caller"
+      },
+      "position": {
+        "x": 477.8893118723612,
+        "y": -461.2126077198012
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 477.8893118723612,
+        "y": -461.2126077198012
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-feklnzbx5",
+      "type": "value",
+      "data": {
+        "label": "value Node 18",
+        "value": "this"
+      },
+      "position": {
+        "x": 473.84696844065286,
+        "y": -376.7588327966776
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 473.84696844065286,
+        "y": -376.7588327966776
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-6mzjc74gw",
+      "type": "value",
+      "data": {
+        "label": "value Node 19",
+        "value": "true"
+      },
+      "position": {
+        "x": 844.8363227442139,
+        "y": -402.075539818372
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 844.8363227442139,
+        "y": -402.075539818372
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-lx7wk3k55",
+      "type": "key",
+      "data": {
+        "label": "key Node 20",
+        "key": "callerAddress"
+      },
+      "position": {
+        "x": 567.2561293606816,
+        "y": -139.18770669687484
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 567.2561293606816,
+        "y": -139.18770669687484
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ftf8rw40l",
+      "type": "value",
+      "data": {
+        "label": "value Node 21",
+        "value": "toString(i.caller)"
+      },
+      "position": {
+        "x": 389.9001554441666,
+        "y": -123.09107692367732
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 389.9001554441666,
+        "y": -123.09107692367732
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-136s98a23",
+      "type": "key",
+      "data": {
+        "label": "key Node 22",
+        "key": "dataValue"
+      },
+      "position": {
+        "x": 16.16745350066055,
+        "y": 373.0327841261091
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 16.16745350066055,
+        "y": 373.0327841261091
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-fje5kutyn",
+      "type": "function",
+      "data": {
+        "label": "function Node 23",
+        "function": "getData",
+        "parameters": "this, \"connection.root\""
+      },
+      "position": {
+        "x": -169.90395355969838,
+        "y": 440.7614153356785
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -169.90395355969838,
+        "y": 440.7614153356785
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-9t4n8diz3",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 24"
+      },
+      "position": {
+        "x": 79.57561094474792,
+        "y": 755.288908195401
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 79.57561094474792,
+        "y": 755.288908195401
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-c9igsjlvs",
+      "type": "value",
+      "data": {
+        "label": "value Node 25",
+        "value": "\"\""
+      },
+      "position": {
+        "x": -204.8839249073397,
+        "y": 869.2433251102058
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -204.8839249073397,
+        "y": 869.2433251102058
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-uyqc7rhs7",
+      "type": "value",
+      "data": {
+        "label": "value Node 26",
+        "value": "dataValue"
+      },
+      "position": {
+        "x": -228.88242386274794,
+        "y": 747.4229609190746
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -228.88242386274794,
+        "y": 747.4229609190746
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-fmpfc0ygc",
+      "type": "value",
+      "data": {
+        "label": "value Node 27",
+        "value": "false"
+      },
+      "position": {
+        "x": 239.2509226680341,
+        "y": 749.35925898797
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 239.2509226680341,
+        "y": 749.35925898797
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-pt36imqv9",
+      "type": "note",
+      "data": {
+        "label": "note Node 29",
+        "note": "Caller is Script Account"
+      },
+      "position": {
+        "x": 666.7518378783436,
+        "y": -554.705328427435
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 666.7518378783436,
+        "y": -554.705328427435
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-sfv9jj5xe",
+      "type": "note",
+      "data": {
+        "label": "note Node 30",
+        "note": "Get the Address as a string from the Caller"
+      },
+      "position": {
+        "x": 616.7910188363107,
+        "y": -280.1194591879931
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 616.7910188363107,
+        "y": -280.1194591879931
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-cz73h01my",
+      "type": "note",
+      "data": {
+        "label": "note Node 31",
+        "note": "get connection address"
+      },
+      "position": {
+        "x": 496.85247785075603,
+        "y": -4.914036001899518
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 496.85247785075603,
+        "y": -4.914036001899518
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-747l0gte3",
+      "type": "note",
+      "data": {
+        "label": "note Node 32",
+        "note": "Check if the value exist"
+      },
+      "position": {
+        "x": 50.1890414741069,
+        "y": 588.5121927745503
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 50.1890414741069,
+        "y": 588.5121927745503
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-jyhe7h6u7",
+      "type": "note",
+      "data": {
+        "label": "note Node 32",
+        "note": "check if they match"
+      },
+      "position": {
+        "x": 2.3680439369478066,
+        "y": 875.3113256804525
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2.3680439369478066,
+        "y": 875.3113256804525
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-vt82dlshr",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 33"
+      },
+      "position": {
+        "x": 36.79642782539866,
+        "y": 1018.755538988414
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 36.79642782539866,
+        "y": 1018.755538988414
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-6k4bff4pg",
+      "type": "value",
+      "data": {
+        "label": "value Node 34",
+        "value": "addressFromStringValue(dataValue)"
+      },
+      "position": {
+        "x": -209.6918898173046,
+        "y": 1135.7713696630385
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -209.6918898173046,
+        "y": 1135.7713696630385
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-37a73e27s",
+      "type": "value",
+      "data": {
+        "label": "value Node 35",
+        "value": "i.caller"
+      },
+      "position": {
+        "x": -199.1405454503958,
+        "y": 1003.1258976219009
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -199.1405454503958,
+        "y": 1003.1258976219009
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-b5hskghy2",
+      "type": "value",
+      "data": {
+        "label": "value Node 36",
+        "value": "false"
+      },
+      "position": {
+        "x": -29.731730438685055,
+        "y": 1166.7988024207482
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -29.731730438685055,
+        "y": 1166.7988024207482
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-2daghw7ar",
+      "type": "value",
+      "data": {
+        "label": "value Node 37",
+        "value": "true"
+      },
+      "position": {
+        "x": 157.65053804874836,
+        "y": 1168.2007125456073
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 157.65053804874836,
+        "y": 1168.2007125456073
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-5kdmggdp8",
+      "type": "key",
+      "data": {
+        "label": "key Node 38",
+        "key": "refundAcc"
+      },
+      "position": {
+        "x": 963.0213709641575,
+        "y": -813.2477421170177
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 963.0213709641575,
+        "y": -813.2477421170177
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-z586sw06b",
+      "type": "value",
+      "data": {
+        "label": "value Node 39",
+        "value": "addressFromStringValue(\"3N5eKy7FzGGdmcJpPn5epo9HdUmytUZjUS6\")"
+      },
+      "position": {
+        "x": 735.3524578270922,
+        "y": -740.2422958805003
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 735.3524578270922,
+        "y": -740.2422958805003
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-0t7tq5kvq",
+      "type": "note",
+      "data": {
+        "label": "note Node 38",
+        "note": "check if caller is authorized"
+      },
+      "position": {
+        "x": 1617.6522384955197,
+        "y": -75.37623430907085
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1617.6522384955197,
+        "y": -75.37623430907085
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-umd6fnuiz",
+      "type": "note",
+      "data": {
+        "label": "note Node 39",
+        "note": "Refund Account"
+      },
+      "position": {
+        "x": 944.8272298397702,
+        "y": -958.676468236587
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 944.8272298397702,
+        "y": -958.676468236587
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-x6rdjd3gm",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 40",
+        "condition": "NOTEQUAL"
+      },
+      "position": {
+        "x": 2071.753855835723,
+        "y": 778.4145905228182
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2071.753855835723,
+        "y": 778.4145905228182
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-g34gzn1fo",
+      "type": "value",
+      "data": {
+        "label": "value Node 41",
+        "value": "i.caller"
+      },
+      "position": {
+        "x": 1822.490534340194,
+        "y": 770.0072084577421
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1822.490534340194,
+        "y": 770.0072084577421
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-62so9f6jo",
+      "type": "value",
+      "data": {
+        "label": "value Node 42",
+        "value": "refundAcc"
+      },
+      "position": {
+        "x": 1823.081632157673,
+        "y": 883.0400374023104
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1823.081632157673,
+        "y": 883.0400374023104
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-kdyiq6lrg",
+      "type": "note",
+      "data": {
+        "label": "note Node 43",
+        "note": "Prevent the user from calling themselves"
+      },
+      "position": {
+        "x": 1774.628213911515,
+        "y": 601.5725786290703
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1774.628213911515,
+        "y": 601.5725786290703
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-kuhwm1en0",
+      "type": "string",
+      "data": {
+        "label": "string Node 44",
+        "key": "key",
+        "value": "keyValue"
+      },
+      "position": {
+        "x": 1972.8609875146803,
+        "y": 1004.4683582531075
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1972.8609875146803,
+        "y": 1004.4683582531075
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-wkhg4jng3",
+      "type": "function",
+      "data": {
+        "label": "function Node 45",
+        "function": "saveListOnAccount",
+        "parameters": "keys: List[String], values: List[String]",
+        "callable": true
+      },
+      "position": {
+        "x": 2403.70293685746,
+        "y": -438.6485315712699
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2403.70293685746,
+        "y": -438.6485315712699
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-8osp7vhxd",
+      "type": "note",
+      "data": {
+        "label": "note Node 46",
+        "note": "check if caller is authorized"
+      },
+      "position": {
+        "x": 2385.6856485363937,
+        "y": -221.30941422732286
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2385.6856485363937,
+        "y": -221.30941422732286
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-yv22gknr5",
+      "type": "key",
+      "data": {
+        "label": "key Node 47",
+        "key": "authenticated"
+      },
+      "position": {
+        "x": 2410.273665255776,
+        "y": -75.24259414557486
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2410.273665255776,
+        "y": -75.24259414557486
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-pw16vf6ru",
+      "type": "function",
+      "data": {
+        "label": "function Node 49",
+        "function": "authUser",
+        "parameters": "i"
+      },
+      "position": {
+        "x": 2104.8848900922494,
+        "y": 23.949552081733998
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2104.8848900922494,
+        "y": 23.949552081733998
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ze8opgzis",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 50"
+      },
+      "position": {
+        "x": 2492.2296667819214,
+        "y": 75.65318079918484
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2492.2296667819214,
+        "y": 75.65318079918484
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-s3bxxl5bj",
+      "type": "value",
+      "data": {
+        "label": "value Node 51",
+        "value": "authenticated"
+      },
+      "position": {
+        "x": 2296.668334461402,
+        "y": 128.17743718228465
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2296.668334461402,
+        "y": 128.17743718228465
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-copdo81sp",
+      "type": "error",
+      "data": {
+        "label": "error Node 52",
+        "message": "Account hat nicht die nötige Berechtigung für diese Aktion."
+      },
+      "position": {
+        "x": 2358.7427668731266,
+        "y": 228.55397772166964
+      },
+      "width": 170,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2358.7427668731266,
+        "y": 228.55397772166964
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-a62rfcv4n",
+      "type": "note",
+      "data": {
+        "label": "note Node 53",
+        "note": "Prevent the user from calling themselves"
+      },
+      "position": {
+        "x": 2552.1277169209034,
+        "y": 202.39360378748398
+      },
+      "width": 212,
+      "height": 115,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2552.1277169209034,
+        "y": 202.39360378748398
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-e0hqmpcw0",
+      "type": "logic",
+      "data": {
+        "label": "logic Node 54",
+        "condition": "NOTEQUAL"
+      },
+      "position": {
+        "x": 2691.799773559833,
+        "y": 356.34354717744225
+      },
+      "width": 112,
+      "height": 82,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2691.799773559833,
+        "y": 356.34354717744225
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-pvrsy3ggu",
+      "type": "value",
+      "data": {
+        "label": "value Node 55",
+        "value": "refundAcc"
+      },
+      "position": {
+        "x": 2462.550760930071,
+        "y": 459.92304400916885
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2462.550760930071,
+        "y": 459.92304400916885
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-bxj9hv63f",
+      "type": "value",
+      "data": {
+        "label": "value Node 56",
+        "value": "i.caller"
+      },
+      "position": {
+        "x": 2464.9637797952705,
+        "y": 372.5187798674914
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2464.9637797952705,
+        "y": 372.5187798674914
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-1fvlchya0",
+      "type": "key",
+      "data": {
+        "label": "key Node 59",
+        "key": "refund"
+      },
+      "position": {
+        "x": 3140.1076874876962,
+        "y": 493.4480532821997
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 3140.1076874876962,
+        "y": 493.4480532821997
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ftq1mpwus",
+      "type": "function",
+      "data": {
+        "label": "function Node 60",
+        "function": "refundWaves",
+        "address": "refundAcc",
+        "parameters": "i.fee",
+        "invoke": true
+      },
+      "position": {
+        "x": 2962.573677711679,
+        "y": 579.2615573495877
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2962.573677711679,
+        "y": 579.2615573495877
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-oi2r2tcdh",
+      "type": "function",
+      "data": {
+        "label": "function Node 61",
+        "function": "addStringEntry",
+        "parameters": "accum: (List[StringEntry], Int), nextValue: String"
+      },
+      "position": {
+        "x": 3147.0111701779188,
+        "y": 763.3179873213603
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 3147.0111701779188,
+        "y": 763.3179873213603
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-hourcle3t",
+      "type": "function",
+      "data": {
+        "label": "function Node 62",
+        "function": "addStringEntry",
+        "parameters": "accum: (List[StringEntry], Int), nextValue: String"
+      },
+      "position": {
+        "x": 2740.0002164169323,
+        "y": 582.0937061330104
+      },
+      "width": 170,
+      "height": 187,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2740.0002164169323,
+        "y": 582.0937061330104
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-6d4zhaf6k",
+      "type": "key",
+      "data": {
+        "label": "key Node 63",
+        "key": "r"
+      },
+      "position": {
+        "x": 2690.241894875498,
+        "y": 1049.472319314866
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2690.241894875498,
+        "y": 1049.472319314866
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-u6nc5hdh2",
+      "type": "key",
+      "data": {
+        "label": "key Node 64",
+        "key": "r"
+      },
+      "position": {
+        "x": 3225.300234992467,
+        "y": 1036.9704648889465
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 3225.300234992467,
+        "y": 1036.9704648889465
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-094ljoaey",
+      "type": "value",
+      "data": {
+        "label": "value Node 65",
+        "value": "accum"
+      },
+      "position": {
+        "x": 2692.0483887270657,
+        "y": 888.9780487878645
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2692.0483887270657,
+        "y": 888.9780487878645
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-bv83v8x70",
+      "type": "value",
+      "data": {
+        "label": "value Node 66",
+        "value": "accum"
+      },
+      "position": {
+        "x": 2298.8670618513534,
+        "y": 586.7184713053272
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2298.8670618513534,
+        "y": 586.7184713053272
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-a7saith3k",
+      "type": "value",
+      "data": {
+        "label": "value Node 67",
+        "value": "FOLD<900>(values, ([], 0), addStringEntry)"
+      },
+      "position": {
+        "x": 3047.4113330771693,
+        "y": 1153.3554512461285
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 3047.4113330771693,
+        "y": 1153.3554512461285
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-3rr5v0nwl",
+      "type": "value",
+      "data": {
+        "label": "value Node 68",
+        "value": "(result :+ StringEntry(keys[j], nextValue), j + 1)"
+      },
+      "position": {
+        "x": 2473.2355584822476,
+        "y": 789.7132611312182
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2473.2355584822476,
+        "y": 789.7132611312182
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-zmb2dsdfx",
+      "type": "key",
+      "data": {
+        "label": "key Node 69",
+        "key": "(result, j)"
+      },
+      "position": {
+        "x": 2905.2406244550502,
+        "y": 861.4114468491061
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2905.2406244550502,
+        "y": 861.4114468491061
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-r912jbd8a",
+      "type": "key",
+      "data": {
+        "label": "key Node 70",
+        "key": "(result, j)"
+      },
+      "position": {
+        "x": 2526.4921245248893,
+        "y": 640.5368139319484
+      },
+      "width": 170,
+      "height": 112,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2526.4921245248893,
+        "y": 640.5368139319484
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-s6dl9whfe",
+      "type": "value",
+      "data": {
+        "label": "value Node 71",
+        "value": "FOLD<900>(values, ([], 0), addStringEntry)"
+      },
+      "position": {
+        "x": 2552.169316246428,
+        "y": 1177.0920738080126
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2552.169316246428,
+        "y": 1177.0920738080126
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-u632zezzo",
+      "type": "value",
+      "data": {
+        "label": "value Node 72",
+        "value": "(result :+ StringEntry(keys[j], nextValue), j + 1)"
+      },
+      "position": {
+        "x": 2880.7858503917896,
+        "y": 999.3340020454232
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2880.7858503917896,
+        "y": 999.3340020454232
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-ydky4fhkk",
+      "type": "value",
+      "data": {
+        "label": "value Node 73",
+        "value": "r._1"
+      },
+      "position": {
+        "x": 2812,
+        "y": 1287.5
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2812,
+        "y": 1287.5
+      },
+      "dragging": false
+    },
+    {
+      "id": "node-731bm797q",
+      "type": "value",
+      "data": {
+        "label": "value Node 74",
+        "value": "r._1"
+      },
+      "position": {
+        "x": 3366,
+        "y": 1325.5
+      },
+      "width": 170,
+      "height": 77,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 3366,
+        "y": 1325.5
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "node-pah5hqews",
+      "sourceHandle": "b",
+      "target": "node-vg42eski1",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-pah5hqewsb-node-vg42eski1"
+    },
+    {
+      "source": "node-vg42eski1",
+      "sourceHandle": "b",
+      "target": "node-lcts7oh72",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vg42eski1b-node-lcts7oh72"
+    },
+    {
+      "source": "node-1bovwmlcl",
+      "sourceHandle": "b",
+      "target": "node-y0sh8i60t",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1bovwmlclb-node-y0sh8i60t"
+    },
+    {
+      "source": "node-y0sh8i60t",
+      "sourceHandle": "b",
+      "target": "node-z1008ocg5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-y0sh8i60tb-node-z1008ocg5"
+    },
+    {
+      "source": "node-1bovwmlcl",
+      "sourceHandle": "l",
+      "target": "node-sipr2tond",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1bovwmlcll-node-sipr2tond"
+    },
+    {
+      "source": "node-y0sh8i60t",
+      "sourceHandle": "l",
+      "target": "node-f6d8pe89v",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-y0sh8i60tl-node-f6d8pe89v"
+    },
+    {
+      "source": "node-z1008ocg5",
+      "sourceHandle": "l",
+      "target": "node-va9ssojrl",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-z1008ocg5l-node-va9ssojrl"
+    },
+    {
+      "source": "node-z1008ocg5",
+      "sourceHandle": "b",
+      "target": "node-vrntpq6oz",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-z1008ocg5b-node-vrntpq6oz"
+    },
+    {
+      "source": "node-vrntpq6oz",
+      "sourceHandle": "f",
+      "target": "node-bs9q5zcft",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vrntpq6ozf-node-bs9q5zcft"
+    },
+    {
+      "source": "node-y23nevofl",
+      "sourceHandle": "b",
+      "target": "node-6midqz67v",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-y23nevoflb-node-6midqz67v"
+    },
+    {
+      "source": "node-y23nevofl",
+      "sourceHandle": "l",
+      "target": "node-ohabpuklp",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-y23nevofll-node-ohabpuklp"
+    },
+    {
+      "source": "node-su5tpxr5k",
+      "sourceHandle": "b",
+      "target": "node-vg42eski1",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-su5tpxr5kb-node-vg42eski1"
+    },
+    {
+      "source": "node-fy5fszqof",
+      "sourceHandle": "b",
+      "target": "node-1bovwmlcl",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-fy5fszqofb-node-1bovwmlcl"
+    },
+    {
+      "source": "node-w58obdlql",
+      "sourceHandle": "b",
+      "target": "node-vrntpq6oz",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-w58obdlqlb-node-vrntpq6oz"
+    },
+    {
+      "source": "node-0vqurkmz2",
+      "sourceHandle": "b",
+      "target": "node-y23nevofl",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-0vqurkmz2b-node-y23nevofl"
+    },
+    {
+      "source": "node-vrntpq6oz",
+      "sourceHandle": "l",
+      "target": "node-tmwiddr6q",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vrntpq6ozl-node-tmwiddr6q"
+    },
+    {
+      "source": "node-xtkx10fv5",
+      "sourceHandle": "l",
+      "target": "node-4l33qmnhe",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-xtkx10fv5l-node-4l33qmnhe"
+    },
+    {
+      "source": "node-xtkx10fv5",
+      "sourceHandle": "l",
+      "target": "node-feklnzbx5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-xtkx10fv5l-node-feklnzbx5"
+    },
+    {
+      "source": "node-xtkx10fv5",
+      "sourceHandle": "t",
+      "target": "node-6mzjc74gw",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-xtkx10fv5t-node-6mzjc74gw"
+    },
+    {
+      "source": "node-lx7wk3k55",
+      "sourceHandle": "l",
+      "target": "node-ftf8rw40l",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-lx7wk3k55l-node-ftf8rw40l"
+    },
+    {
+      "source": "node-136s98a23",
+      "sourceHandle": "l",
+      "target": "node-fje5kutyn",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-136s98a23l-node-fje5kutyn"
+    },
+    {
+      "source": "node-9t4n8diz3",
+      "sourceHandle": "t",
+      "target": "node-fmpfc0ygc",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-9t4n8diz3t-node-fmpfc0ygc"
+    },
+    {
+      "source": "node-9t4n8diz3",
+      "sourceHandle": "l",
+      "target": "node-uyqc7rhs7",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-9t4n8diz3l-node-uyqc7rhs7"
+    },
+    {
+      "source": "node-9t4n8diz3",
+      "sourceHandle": "l",
+      "target": "node-c9igsjlvs",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-9t4n8diz3l-node-c9igsjlvs"
+    },
+    {
+      "source": "node-pah5hqews",
+      "sourceHandle": "l",
+      "target": "node-fuxknmwg0",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-pah5hqewsl-node-fuxknmwg0"
+    },
+    {
+      "source": "node-fuxknmwg0",
+      "sourceHandle": "b",
+      "target": "node-xtkx10fv5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-fuxknmwg0b-node-xtkx10fv5"
+    },
+    {
+      "source": "node-pt36imqv9",
+      "sourceHandle": "b",
+      "target": "node-xtkx10fv5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-pt36imqv9b-node-xtkx10fv5"
+    },
+    {
+      "source": "node-xtkx10fv5",
+      "sourceHandle": "f",
+      "target": "node-sfv9jj5xe",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-xtkx10fv5f-node-sfv9jj5xe"
+    },
+    {
+      "source": "node-sfv9jj5xe",
+      "sourceHandle": "b",
+      "target": "node-lx7wk3k55",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-sfv9jj5xeb-node-lx7wk3k55"
+    },
+    {
+      "source": "node-lx7wk3k55",
+      "sourceHandle": "b",
+      "target": "node-cz73h01my",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-lx7wk3k55b-node-cz73h01my"
+    },
+    {
+      "source": "node-cz73h01my",
+      "sourceHandle": "b",
+      "target": "node-136s98a23",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-cz73h01myb-node-136s98a23"
+    },
+    {
+      "source": "node-136s98a23",
+      "sourceHandle": "b",
+      "target": "node-747l0gte3",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-136s98a23b-node-747l0gte3"
+    },
+    {
+      "source": "node-747l0gte3",
+      "sourceHandle": "b",
+      "target": "node-9t4n8diz3",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-747l0gte3b-node-9t4n8diz3"
+    },
+    {
+      "source": "node-9t4n8diz3",
+      "sourceHandle": "f",
+      "target": "node-jyhe7h6u7",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-9t4n8diz3f-node-jyhe7h6u7"
+    },
+    {
+      "source": "node-jyhe7h6u7",
+      "sourceHandle": "b",
+      "target": "node-vt82dlshr",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-jyhe7h6u7b-node-vt82dlshr"
+    },
+    {
+      "source": "node-vt82dlshr",
+      "sourceHandle": "l",
+      "target": "node-37a73e27s",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vt82dlshrl-node-37a73e27s"
+    },
+    {
+      "source": "node-vt82dlshr",
+      "sourceHandle": "l",
+      "target": "node-6k4bff4pg",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vt82dlshrl-node-6k4bff4pg"
+    },
+    {
+      "source": "node-vt82dlshr",
+      "sourceHandle": "f",
+      "target": "node-b5hskghy2",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vt82dlshrf-node-b5hskghy2"
+    },
+    {
+      "source": "node-vt82dlshr",
+      "sourceHandle": "t",
+      "target": "node-2daghw7ar",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vt82dlshrt-node-2daghw7ar"
+    },
+    {
+      "source": "node-5kdmggdp8",
+      "sourceHandle": "b",
+      "target": "node-pah5hqews",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-5kdmggdp8b-node-pah5hqews"
+    },
+    {
+      "source": "node-5kdmggdp8",
+      "sourceHandle": "l",
+      "target": "node-z586sw06b",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-5kdmggdp8l-node-z586sw06b"
+    },
+    {
+      "source": "node-1bovwmlcl",
+      "sourceHandle": "b",
+      "target": "node-z1008ocg5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1bovwmlclb-node-z1008ocg5"
+    },
+    {
+      "source": "node-vg42eski1",
+      "sourceHandle": "l",
+      "target": "node-0t7tq5kvq",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vg42eski1l-node-0t7tq5kvq"
+    },
+    {
+      "source": "node-0t7tq5kvq",
+      "sourceHandle": "b",
+      "target": "node-1bovwmlcl",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-0t7tq5kvqb-node-1bovwmlcl"
+    },
+    {
+      "source": "startnode",
+      "sourceHandle": "b",
+      "target": "node-umd6fnuiz",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-startnodeb-node-umd6fnuiz"
+    },
+    {
+      "source": "node-umd6fnuiz",
+      "sourceHandle": "b",
+      "target": "node-5kdmggdp8",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-umd6fnuizb-node-5kdmggdp8"
+    },
+    {
+      "source": "node-pah5hqews",
+      "sourceHandle": "l",
+      "target": "node-pt36imqv9",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-pah5hqewsl-node-pt36imqv9"
+    },
+    {
+      "source": "node-vrntpq6oz",
+      "sourceHandle": "t",
+      "target": "node-kdyiq6lrg",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vrntpq6ozt-node-kdyiq6lrg"
+    },
+    {
+      "source": "node-kdyiq6lrg",
+      "sourceHandle": "b",
+      "target": "node-x6rdjd3gm",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-kdyiq6lrgb-node-x6rdjd3gm"
+    },
+    {
+      "source": "node-x6rdjd3gm",
+      "sourceHandle": "l",
+      "target": "node-g34gzn1fo",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-x6rdjd3gml-node-g34gzn1fo"
+    },
+    {
+      "source": "node-x6rdjd3gm",
+      "sourceHandle": "l",
+      "target": "node-62so9f6jo",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-x6rdjd3gml-node-62so9f6jo"
+    },
+    {
+      "source": "node-x6rdjd3gm",
+      "sourceHandle": "f",
+      "target": "node-kuhwm1en0",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-x6rdjd3gmf-node-kuhwm1en0"
+    },
+    {
+      "source": "node-x6rdjd3gm",
+      "sourceHandle": "t",
+      "target": "node-y23nevofl",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-x6rdjd3gmt-node-y23nevofl"
+    },
+    {
+      "source": "node-vg42eski1",
+      "sourceHandle": "b",
+      "target": "node-wkhg4jng3",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-vg42eski1b-node-wkhg4jng3"
+    },
+    {
+      "source": "node-8osp7vhxd",
+      "sourceHandle": "b",
+      "target": "node-yv22gknr5",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-8osp7vhxdb-node-yv22gknr5"
+    },
+    {
+      "source": "node-yv22gknr5",
+      "sourceHandle": "l",
+      "target": "node-pw16vf6ru",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-yv22gknr5l-node-pw16vf6ru"
+    },
+    {
+      "source": "node-yv22gknr5",
+      "sourceHandle": "b",
+      "target": "node-ze8opgzis",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-yv22gknr5b-node-ze8opgzis"
+    },
+    {
+      "source": "node-ze8opgzis",
+      "sourceHandle": "l",
+      "target": "node-s3bxxl5bj",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-ze8opgzisl-node-s3bxxl5bj"
+    },
+    {
+      "source": "node-ze8opgzis",
+      "sourceHandle": "f",
+      "target": "node-copdo81sp",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-ze8opgzisf-node-copdo81sp"
+    },
+    {
+      "source": "node-ze8opgzis",
+      "sourceHandle": "t",
+      "target": "node-a62rfcv4n",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-ze8opgzist-node-a62rfcv4n"
+    },
+    {
+      "source": "node-a62rfcv4n",
+      "sourceHandle": "b",
+      "target": "node-e0hqmpcw0",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-a62rfcv4nb-node-e0hqmpcw0"
+    },
+    {
+      "source": "node-e0hqmpcw0",
+      "sourceHandle": "l",
+      "target": "node-bxj9hv63f",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-e0hqmpcw0l-node-bxj9hv63f"
+    },
+    {
+      "source": "node-e0hqmpcw0",
+      "sourceHandle": "l",
+      "target": "node-pvrsy3ggu",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-e0hqmpcw0l-node-pvrsy3ggu"
+    },
+    {
+      "source": "node-1fvlchya0",
+      "sourceHandle": "l",
+      "target": "node-ftq1mpwus",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1fvlchya0l-node-ftq1mpwus"
+    },
+    {
+      "source": "node-e0hqmpcw0",
+      "sourceHandle": "t",
+      "target": "node-1fvlchya0",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-e0hqmpcw0t-node-1fvlchya0"
+    },
+    {
+      "source": "node-e0hqmpcw0",
+      "sourceHandle": "f",
+      "target": "node-hourcle3t",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-e0hqmpcw0f-node-hourcle3t"
+    },
+    {
+      "source": "node-1fvlchya0",
+      "sourceHandle": "b",
+      "target": "node-oi2r2tcdh",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1fvlchya0b-node-oi2r2tcdh"
+    },
+    {
+      "source": "node-oi2r2tcdh",
+      "sourceHandle": "l",
+      "target": "node-zmb2dsdfx",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-oi2r2tcdhl-node-zmb2dsdfx"
+    },
+    {
+      "source": "node-hourcle3t",
+      "sourceHandle": "l",
+      "target": "node-r912jbd8a",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-hourcle3tl-node-r912jbd8a"
+    },
+    {
+      "source": "node-r912jbd8a",
+      "sourceHandle": "b",
+      "target": "node-3rr5v0nwl",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-r912jbd8ab-node-3rr5v0nwl"
+    },
+    {
+      "source": "node-r912jbd8a",
+      "sourceHandle": "l",
+      "target": "node-bv83v8x70",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-r912jbd8al-node-bv83v8x70"
+    },
+    {
+      "source": "node-zmb2dsdfx",
+      "sourceHandle": "l",
+      "target": "node-094ljoaey",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-zmb2dsdfxl-node-094ljoaey"
+    },
+    {
+      "source": "node-zmb2dsdfx",
+      "sourceHandle": "b",
+      "target": "node-u632zezzo",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-zmb2dsdfxb-node-u632zezzo"
+    },
+    {
+      "source": "node-hourcle3t",
+      "sourceHandle": "b",
+      "target": "node-6d4zhaf6k",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-hourcle3tb-node-6d4zhaf6k"
+    },
+    {
+      "source": "node-oi2r2tcdh",
+      "sourceHandle": "b",
+      "target": "node-u6nc5hdh2",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-oi2r2tcdhb-node-u6nc5hdh2"
+    },
+    {
+      "source": "node-6d4zhaf6k",
+      "sourceHandle": "l",
+      "target": "node-s6dl9whfe",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-6d4zhaf6kl-node-s6dl9whfe"
+    },
+    {
+      "source": "node-u6nc5hdh2",
+      "sourceHandle": "l",
+      "target": "node-a7saith3k",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-u6nc5hdh2l-node-a7saith3k"
+    },
+    {
+      "source": "node-6d4zhaf6k",
+      "sourceHandle": "b",
+      "target": "node-ydky4fhkk",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-6d4zhaf6kb-node-ydky4fhkk"
+    },
+    {
+      "source": "node-u6nc5hdh2",
+      "sourceHandle": "b",
+      "target": "node-731bm797q",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-u6nc5hdh2b-node-731bm797q"
+    },
+    {
+      "source": "node-wkhg4jng3",
+      "sourceHandle": "l",
+      "target": "node-8osp7vhxd",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-wkhg4jng3l-node-8osp7vhxd"
+    },
+    {
+      "source": "node-1bovwmlcl",
+      "sourceHandle": "b",
+      "target": "node-vrntpq6oz",
+      "targetHandle": null,
+      "type": "custom-edge",
+      "id": "reactflow__edge-node-1bovwmlclb-node-vrntpq6oz"
+    }
+  ]
+}

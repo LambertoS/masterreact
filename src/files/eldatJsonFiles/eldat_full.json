@@ -1,0 +1,167 @@
+{
+	"document": {
+		"eldat": {
+			"wood_allocation": {
+				"address": {
+					"supplier": {
+						"business": {
+							"business_data": {
+								"city": "Münster",
+								"name": "",
+								"postcode": "48155",
+								"state": "NL",
+								"street": "Schulstraße 31"
+							}
+						},
+						"contact": [
+							{
+								"contact_email": "test@email.de",
+								"contact_surname": "",
+								"contact_telephone": [
+									"+4925167781908"
+								],
+								"role_contact": ""
+							}
+						]
+					}
+				},
+				"doc_type": "abf",
+				"wood_data": [
+					{
+						"allocated_wood": [
+							{
+								"conversion_factor": 0.65,
+								"coordinate": {
+									"crs": "4326",
+									"latitude": 42,
+									"longitude": 12
+								},
+								"product_data": [
+									{
+										"aggregation_type": "pol",
+										"wood_definition": {
+											"amount": [
+												{
+													"amount_unit": "srm",
+													"amount_value": 3247.2
+												}
+											],
+											"grade": "is",
+											"quality": [
+												{
+													"qual_rat": 100,
+													"qual_type": "ik"
+												}
+											],
+											"species": "ei",
+											"use": "xy"
+										}
+									}
+								],
+								"wood_id": [
+									{
+										"wood_id_no": "1010000000274",
+										"wood_id_type": "pol"
+									}
+								]
+							},
+							{
+								"conversion_factor": 0.65,
+								"coordinate": {
+									"crs": "4326",
+									"latitude": 42.03388889,
+									"longitude": 23.03944444
+								},
+								"product_data": [
+									{
+										"aggregation_type": "pol",
+										"wood_definition": {
+											"amount": [
+												{
+													"amount_unit": "srm",
+													"amount_value": 0
+												}
+											],
+											"grade": "is",
+											"quality": [
+												{
+													"qual_rat": 100,
+													"qual_type": "ik"
+												}
+											],
+											"species": "ei",
+											"use": "xy"
+										}
+									}
+								],
+								"wood_id": [
+									{
+										"wood_id_no": "1010000000276",
+										"wood_id_type": "pol"
+									}
+								]
+							},
+							{
+								"conversion_factor": 0.65,
+								"coordinate": {
+									"crs": "4326",
+									"latitude": 42.05083333,
+									"longitude": 14.05083333
+								},
+								"product_data": [
+									{
+										"aggregation_type": "pol",
+										"wood_definition": {
+											"amount": [
+												{
+													"amount_unit": "srm",
+													"amount_value": 0
+												}
+											],
+											"grade": "is",
+											"quality": [
+												{
+													"qual_rat": 100,
+													"qual_type": "ik"
+												}
+											],
+											"species": "ei",
+											"use": "xy"
+										}
+									}
+								],
+								"wood_id": [
+									{
+										"wood_id_no": "1010000000277",
+										"wood_id_type": "pol"
+									}
+								]
+							}
+						],
+						"felling_date": "2021-04-16T00:00:00.000",
+						"measurement_method": "xy",
+						"wood_id": [
+							{
+								"wood_id_no": "00100001002100010001",
+								"wood_id_type": "los"
+							}
+						]
+					}
+				]
+			}
+		},
+		"meta": {
+			"created_by": {
+				"wood_allocation": {
+					"application": "Proforst",
+					"company": "GISCON",
+					"href": "https://www.eldatstandard.de/",
+					"uuid": "Giscon-Proforst"
+				}
+			},
+			"version": {
+				"code": "1.0.2"
+			}
+		}
+	}
+}

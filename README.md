@@ -1,6 +1,6 @@
 # Masterarbeit
 
-### Prompt:
+### ChatGPT Documentation Prompt:
 
 ````
 Given the JavaScript code snippet at the end

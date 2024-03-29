@@ -4,10 +4,14 @@ import {
     getStraightPath,
     useReactFlow,
 } from 'reactflow';
-// import edges from './edges';
 
-export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
-    const { setEdges } = useReactFlow();
+/**
+ * Custom edge component for React Flow that includes a "delete" button.
+ *
+ * @param {Object} props - Properties passed to the component, including coordinates and edge ID.
+ */
+export default function CustomEdge({id, sourceX, sourceY, targetX, targetY}) {
+    const {setEdges} = useReactFlow();
     const [edgePath, labelX, labelY] = getStraightPath({
         sourceX,
         sourceY,
@@ -17,7 +21,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
 
     return (
         <>
-            <BaseEdge id={id} path={edgePath} />
+            <BaseEdge id={id} path={edgePath}/>
             <EdgeLabelRenderer>
                 <button
                     style={{

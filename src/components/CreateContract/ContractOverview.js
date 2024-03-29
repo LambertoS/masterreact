@@ -1,71 +1,89 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import ReactFlow, {
-    Controls,
-    Background,
-    applyNodeChanges,
-    applyEdgeChanges,
     addEdge,
-    setEdges,
-    MiniMap,
+    applyEdgeChanges,
+    applyNodeChanges,
+    Background,
+    Controls,
+    MiniMap
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import CallableNode from './createNodes/CallableNode';
-import InvokeNode from './createNodes/InvokeNode';
-import DAppNode from './createNodes/DAppNode';
-import NoteNode from './createNodes/NoteNode';
+import CallableNode from './Nodes/CallableNode';
+import InvokeNode from './Nodes/InvokeNode';
+import DAppNode from './Nodes/DAppNode';
+import NoteNode from './Nodes/NoteNode';
 import {getWavesScriptFunctions, getWavesScriptMeta} from "../../util/wavesUtil";
+import {getLayoutedElements} from "../../util/reactFlowUtil";
 
 //https://reactflow.dev/learn/layouting/layoutinghttps://reactflow.dev/learn/layouting/layouting
 const initialEdges = [];
 const initialNodes = [];
 
+/**
+ * ContractOverview provides an interface for visually creating, editing, and viewing the structure
+ * of a smart contract with nodes representing contract functionalities like callable functions, invocations,
+ * DApp actions, and notes. It supports layouting, importing, and exporting the contract structure as JSON.
+ *
+ * Features:
+ * - Dynamic addition of various node types (Callable, Invoke, DApp, and Note) to the contract structure.
+ * - Importing a predefined contract structure from a JSON file.
+ * - Exporting the current contract structure to a JSON file for storage or further manipulation.
+ * - Automatic layout adjustments for better visualization of the contract structure.
+ * - Utilization of Waves blockchain utilities for fetching script functions and metadata for better contract insights.
+ *
+ * Usage:
+ * - Users can add nodes corresponding to different aspects of a smart contract.
+ * - Nodes can be connected to define the contract's logic flow.
+ * - The layout feature organizes the contract visually for clarity.
+ * - The import/export functionality facilitates easy sharing and modification of contract structures.
+ */
 function ContractOverview() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
+    const addressToNodeIdMap = useRef(new Map()).current;
 
-    const onNodesChange = useCallback(
-        (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        [setNodes],
+    const onLayout = useCallback(
+        (direction) => {
+            const layouted = getLayoutedElements(nodes, edges, {direction});
+
+            setNodes([...layouted.nodes]);
+            setEdges([...layouted.edges]);
+
+            window.requestAnimationFrame(() => {
+                //fitView();
+            });
+        },
+        [nodes, edges]
     );
 
-    const onEdgesChange = useCallback(
-        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        [setEdges],
-    );
+    const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes]);
+    const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges]);
+    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 
-    const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [],
-    );
-
+    // Hidden file input reference for importing contract structures
     const fileInputRef = useRef(null);
 
+    // Function to trigger the hidden file input dialog for importing JSON
     const handleImportJson = useCallback(() => {
         fileInputRef.current.click();
     }, []);
 
+    // Function to export the current contract structure to a JSON file
     const exportToJson = () => {
-        const data = {
-            nodes,
-            edges,
-        };
-        // Convert data object to JSON string
+        const data = {nodes, edges};
         const jsonString = JSON.stringify(data, null, 2);
-        // Create a blob with JSON content
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        // Create an URL for the blob
+        const blob = new Blob([jsonString], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
-        // Create a temporary anchor element and trigger the download
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'flow-data.json'; // Name of the file to be downloaded
-        document.body.appendChild(a); // Append the anchor to the document
-        a.click(); // Trigger the download
-        document.body.removeChild(a); // Clean up
-        URL.revokeObjectURL(url); // Free up memory allocated for the blob
+        a.download = 'flow-data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     };
 
-    // Function to handle file input change event
+    // Function to handle file selection and import contract structure from JSON
     const handleFileChange = useCallback((event) => {
         const fileReader = new FileReader();
         const files = event.target.files;
@@ -84,24 +102,29 @@ function ContractOverview() {
         };
     }, []);
 
+    // Define custom node types for use within the React Flow instance
     const nodeTypes = useMemo(() => ({
-        dApp: (nodeProps) => <DAppNode {...nodeProps} setNodes={setNodes} />,
-        callable: (nodeProps) => <CallableNode {...nodeProps} setNodes={setNodes} />,
-        invoke: (nodeProps) => <InvokeNode {...nodeProps} setNodes={setNodes} />,
-        note: (nodeProps) => <NoteNode {...nodeProps} setNodes={setNodes} />,
+        dApp: (nodeProps) => <DAppNode {...nodeProps} setNodes={setNodes}/>,
+        callable: (nodeProps) => <CallableNode {...nodeProps} setNodes={setNodes}/>,
+        invoke: (nodeProps) => <InvokeNode {...nodeProps} setNodes={setNodes}/>,
+        note: (nodeProps) => <NoteNode {...nodeProps} setNodes={setNodes}/>,
     }), [setNodes]);
 
-    // Erweiterte handleAddNode Function, um eine Adresse für dApp Knoten zu speichern und Functionen abzurufen
+    /**
+     * Asynchronously adds a new node to the graph based on the given node type and associated address.
+     * If the node type is 'dApp', it further fetches and adds callable and invoke nodes related to the dApp's address.
+     *
+     * @param {string} nodeType - The type of node to add (e.g., 'dApp', 'callable', 'invoke', 'note').
+     */
     const handleAddNodeWithAddress = async (nodeType) => {
-        // Hier Logik zum Speichern der Adresse hinzufügen
         let address = prompt("Please enter the dApp address:");
-        if (!address) return; // Abbrechen, falls keine Adresse eingegeben wurde
+        if (!address) return;
 
         const newNode = {
             id: `node-${Math.random().toString(36).substr(2, 9)}`,
             type: nodeType,
-            data: { label: `${nodeType} Node ${nodes.length + 1}`, address: address },
-            position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+            data: {label: `${nodeType} Node ${nodes.length + 1}`, address: address},
+            position: {x: window.innerWidth / 2, y: window.innerHeight / 2},
         };
 
         setNodes((nds) => [...nds, newNode]);
@@ -111,8 +134,15 @@ function ContractOverview() {
         }
     };
 
+    /**
+     * Fetches all unique metadata for the dApp addresses from script functions.
+     * Useful for ensuring that all necessary data for callable and invoke nodes is pre-fetched.
+     *
+     * @param {Array} scriptFunctions - The script functions obtained from a smart contract.
+     * @returns {Map} A map of dApp addresses to their respective metadata.
+     */
     async function fetchAllData(scriptFunctions) {
-        // Identify all unique dApp addresses you'll need metadata for
+        // Identify all unique dApp addresses
         const uniqueAddresses = new Set(scriptFunctions.flatMap(func =>
             func.invokes.map(invoke => invoke.address)
         ));
@@ -129,19 +159,21 @@ function ContractOverview() {
         const addressMetadata = await Promise.all(addressMetadataPromises);
 
         // Convert the array of metadata into a Map for easy lookup
-        const addressMetadataMap = new Map(addressMetadata.map(item => [item.address, item.metadata]));
-
-        return addressMetadataMap;
+        return new Map(addressMetadata.map(item => [item.address, item.metadata]));
     }
 
+    /**
+     * Adds callable and invoke nodes for a given dApp address, utilizing the fetched script functions.
+     * This function orchestrates the creation of a detailed view of the dApp's functionalities within the graph.
+     *
+     * @param {string} address - The address of the dApp for which nodes are being added.
+     * @param {string} dAppNodeId - The node ID of the dApp node to which callable and invoke nodes are connected.
+     */
     const addCallableAndInvokeNodes = async (address, dAppNodeId) => {
-        // Nutze getScriptFunctions, um die Script-Functionen für die gegebene Adresse zu bekommen
-        const scriptFunctions = await getWavesScriptFunctions(address); // Stellen Sie sicher, dass getScriptFunctions die Daten jetzt zurückgibt
+        const scriptFunctions = await getWavesScriptFunctions(address);
         const addressMetadataMap = await fetchAllData(scriptFunctions);
-        console.log(addressMetadataMap)
 
         // Use a Map to track dApp nodes by their addresses to avoid duplicates
-        let addressToNodeIdMap = new Map();
         addressToNodeIdMap.set(address, dAppNodeId); // Add the initial dApp node
 
         // Helper function to ensure a dApp node for a given address exists or creates one
@@ -151,8 +183,8 @@ function ContractOverview() {
                 const newNode = {
                     id: newNodeId,
                     type: 'dApp',
-                    data: { label: `dApp Node`, address },
-                    position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight }, // Randomize for demo
+                    data: {label: `dApp Node`, address},
+                    position: {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight}, // Randomize for demo
                 };
                 setNodes((nds) => [...nds, newNode]);
                 addressToNodeIdMap.set(address, newNodeId);
@@ -161,7 +193,7 @@ function ContractOverview() {
             return addressToNodeIdMap.get(address);
         };
 
-        // New function to ensure the callable node for refundWaves exists
+        // Helper function to ensure a callable node exists
         const ensureCallableNodeExistsForFunction = (targetDAppNodeId, functionName, functionParams) => {
             // Check if a callable node for this function already exists for the target dApp node
             let existingCallableNode = nodes.find(node =>
@@ -215,7 +247,7 @@ function ContractOverview() {
                     functionName: func.name,
                     parameters: func.params
                 },
-                position: { x: 100 + Math.random() * (window.innerWidth - 200), y: 100 + index * 120 }, // Randomize for demo
+                position: {x: 100 + Math.random() * (window.innerWidth - 200), y: 100 + index * 120}, // Randomize for demo
             };
             setNodes((nds) => [...nds, callableNode]);
 
@@ -248,7 +280,10 @@ function ContractOverview() {
                         functionName: invoke.function,
                         invokeParameters: invoke.params !== undefined ? invoke.params.join(",") : "",
                     },
-                    position: { x: 200 + Math.random() * (window.innerWidth - 300), y: 100 + index * 120 + invokeIndex * 50 },
+                    position: {
+                        x: 200 + Math.random() * (window.innerWidth - 300),
+                        y: 100 + index * 120 + invokeIndex * 50
+                    },
                 };
                 setNodes((nds) => [...nds, invokeNode]);
 
@@ -270,13 +305,13 @@ function ContractOverview() {
                         target: targetDAppNodeId,
                         type: 'smoothstep',
                         animated: true,
-                        label: `Invoke: ${invoke.function} to dApp`,
+                        //label: `Invoke: ${invoke.function} to dApp`,
                     };
                     setEdges((eds) => [...eds, edgeFromInvokeToDApp]);
                 }
 
                 // After creating and connecting the invoke node, ensure the callable node exists
-                // First, access the map using just the dApp address to get the object containing callable functions
+                // First, accessing the map using just the dApp address to get the object containing callable functions
                 const callableFunctionsForObject = addressMetadataMap.get(invoke.address);
                 // Then, use the function name to access the specific array of parameters for that callable function
                 const callableParams = callableFunctionsForObject ? callableFunctionsForObject[invoke.function] || [] : [];
@@ -287,6 +322,7 @@ function ContractOverview() {
         })
     }
 
+    // Handles adding a new node of a specified type to the graph. Ensures that the node type is defined before adding.
     const handleAddNode = useCallback((nodeType) => {
         if (!nodeTypes[nodeType]) {
             console.error(`Node type "${nodeType}" is not defined.`);
@@ -296,19 +332,15 @@ function ContractOverview() {
         const newNode = {
             id: `node-${Math.random().toString(36).substr(2, 9)}`,
             type: nodeType,
-            data: { label: `${nodeType} Node ${nodes.length + 1}` },
-            position: {
-                // Set x and y to be in the center of the screen
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2
-            },
+            data: {label: `${nodeType} Node ${nodes.length + 1}`},
+            position: {x: window.innerWidth / 2, y: window.innerHeight / 2},
         };
 
         setNodes((nds) => [...nds, newNode]);
     }, [nodeTypes, nodes, setNodes]);
 
     return (
-        <div style={{ height: '950px', width: '100%' }}>
+        <div style={{height: '950px', width: '100%'}}>
             <button onClick={() => handleAddNodeWithAddress('dApp')}>Add dApp Node</button>
             <button onClick={() => handleAddNode('callable')}>Add Callable Node</button>
             <button onClick={() => handleAddNode('invoke')}>Add invoke Node</button>
@@ -316,11 +348,16 @@ function ContractOverview() {
 
             <button onClick={exportToJson}>Export Graph to JSON</button>
             <button onClick={handleImportJson}>Import Graph from JSON</button>
+
+            <br/>
+
+            <button onClick={() => onLayout('TB')}>vertical layout</button>
+            <button onClick={() => onLayout('LR')}>horizontal layout</button>
             {/* Hidden file input for importing JSON */}
             <input
                 type="file"
                 ref={fileInputRef}
-                style={{ display: 'none' }}
+                style={{display: 'none'}}
                 onChange={handleFileChange}
                 accept=".json"
             />
@@ -331,12 +368,11 @@ function ContractOverview() {
                 edges={edges}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-                // edgeTypes={edgeTypes}
                 fitView
             >
-                <Background />
-                <Controls />
-                <MiniMap nodeStrokeWidth={3} zoomable pannable />
+                <Background/>
+                <Controls/>
+                <MiniMap nodeStrokeWidth={3} zoomable pannable/>
             </ReactFlow>
         </div>
     );

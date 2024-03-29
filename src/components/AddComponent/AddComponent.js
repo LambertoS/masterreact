@@ -1,127 +1,56 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {convertJsonToKeyValue} from "../../util/eldatImport";
 import {useWavesTransactions} from "../../context/WavesTransactionContext";
 import {Accordion} from "../Accordion/Accordion";
 import "./AddComponent.css"
+import {DataDisplay} from "./DataDisplay";
 
-const EntryForm = ({ onSubmit }) => {
-    const [key, setKey] = useState('');
-    const [value, setValue] = useState('');
-    const [type, setType] = useState('text'); // 'text', 'object', 'array'
+/**
+ * Represents the main component for adding, displaying, importing, exporting,
+ * and sending data transactions over the blockchain.
+ *
+ * Utilizes Accordion for UI toggling, DataDisplay for rendering data structures,
+ * and interacts with the blockchain for data transactions.
+ */
+const AddComponent = () => {
+    const [data, setData] = useState({});
+    const {dataTransaction} = useWavesTransactions();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        let adjustedValue;
-        if (type === 'text') {
-            adjustedValue = value; // Use the text value directly
-        } else if (type === 'object' || type === 'array') {
-            adjustedValue = JSON.stringify(type === 'object' ? {} : []);
-        }
-
-        onSubmit(key, adjustedValue);
-
-        // Reset form fields after submission
-        setKey('');
-        setValue('');
-        setType('text');
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Key"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-            />
-            {type === 'text' && (
-                <input
-                    type="text"
-                    placeholder="Value"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                />
-            )}
-            <select value={type} onChange={(e) => setType(e.target.value)}>
-                <option value="text">Text</option>
-                <option value="object">Object</option>
-                <option value="array">Array</option>
-            </select>
-            <button type="submit">Add</button>
-        </form>
-    );
-};
-
-const DataDisplay = ({ data, onAdd, path = [] }) => {
-    return (
-        <div>
-            {Object.entries(data).map(([key, value], index) => (
-                <div key={typeof key === 'number' ? index : key}>
-                    {Array.isArray(value) ? (
-                        <>
-                            <strong>{key}:</strong> Array
-                            {value.map((item, itemIndex) => (
-                                <div key={itemIndex}>
-                                    - {typeof item === 'object' ? <DataDisplay data={item} onAdd={onAdd} path={[...path, key, itemIndex]} /> : item.toString()}
-                                </div>
-                            ))}
-                            <button onClick={() => onAdd(key, {}, [...path, key])}>+ Objekt zu Array hinzufügen</button>
-                        </>
-                    ) : typeof value === 'object' ? (
-                        <>
-                            <strong>{key}:</strong>
-                            <DataDisplay data={value} onAdd={onAdd} path={[...path, key]} />
-                        </>
-                    ) : (
-                        <div>{key}: {value.toString()}</div>
-                    )}
-                </div>
-            ))}
-            <EntryForm onSubmit={(key, value) => onAdd(key, value, path)} />
-        </div>
-    );
-};
-
-const JsonObjectBuilder = () => {
-    const [data, setData] = useState({}); // Richtig, da es an der obersten Ebene aufgerufen wird
-
-    // const context = useContext(useWavesTransactions);
-    const { dataTransaction } = useWavesTransactions();
-    //console.log('Context:', context);
-    // if (!context) {
-    //     console.error('WavesTransactionsContext is undefined.');
-    //     return <div>WavesTransactionsContext nicht verfügbar. Bitte stellen Sie sicher, dass diese Komponente innerhalb eines WavesTransactionsProvider gerendert wird.</div>;// Frühe Rückkehr ist in Ordnung, solange alle Hooks vorher aufgerufen wurden
-    // }
-    //const { dataTransaction } = context; // Korrekte Verwendung des Kontexts
-
-    // const { dataTransaction } = useContext(useWavesTransactions);
-
+    /**
+     * Adds or updates an entry within the data state based on a specified path.
+     * Supports deep nesting and initialization of arrays and objects.
+     *
+     * @param {string|null} key The key for the new entry. If null or empty in arrays, a value is pushed without a key.
+     * @param {any} value The value to be added or updated at the specified path.
+     * @param {Array} path An array representing the path to where the entry should be added or updated.
+     */
     const addEntry = (key, value, path) => {
         setData((prevData) => {
             const newData = JSON.parse(JSON.stringify(prevData)); // Deep clone von prevData
 
-            // Bereite die Navigation zum Zielort im newData Objekt vor
+            // Prepare navigation to the target location in newData object
             let current = newData;
             for (let i = 0; i < path.length; i++) {
                 const pathKey = path[i];
                 if (current[pathKey] === undefined) {
-                    // Wenn der nächste Teil des Pfades eine Zahl ist, initialisiere als Array
+                    // Initialize as array or object based on the next path segment
                     current[pathKey] = Number.isInteger(path[i + 1]) ? [] : {};
                 }
                 current = current[pathKey];
             }
 
-            // Überprüfe, ob der Zielort ein Array ist und füge das Objekt hinzu
+            // Add the object to an array or as a normal key-value pair
             if (Array.isArray(current)) {
-                if (key === null || key === '') { // Für den Fall, dass kein Schlüssel benötigt wird
+                if (key === null || key === '') {
+                    // Case for adding value without a key to an array
                     current.push(value);
-                } else { // Wenn ein Schlüssel vorhanden ist, erstelle ein neues Objekt im Array
-                    const newObj = { [key]: value };
+                } else {
+                    // Case for adding an object with a key to an array
+                    const newObj = {[key]: value};
                     current.push(newObj);
                 }
             } else if (key !== null && key !== '') {
-                // Falls es sich nicht um ein Array handelt, füge ein normales Schlüssel-Wert-Paar hinzu
+                // Add a normal key-value pair
                 current[key] = value;
             }
 
@@ -129,26 +58,32 @@ const JsonObjectBuilder = () => {
         });
     };
 
+    /**
+     * Handles the export of the current data state to a JSON file.
+     * Creates a blob from the data, and triggers a download link.
+     */
     const handleExport = () => {
-        // Convert the data object to JSON and create a blob
-        const jsonData = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonData], { type: 'application/json' });
+        const jsonData = JSON.stringify(data, null, 2); // Pretty print the data
+        const blob = new Blob([jsonData], {type: 'application/json'});
 
-        // Create a link element to download the JSON file
+        // Create a download link for the blob
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
         link.download = 'data.json';
         document.body.appendChild(link);
 
-        // Trigger the download
-        link.click();
+        link.click(); // Trigger the download
 
-        // Clean up
         document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(url); // Clean up
     };
 
+    /**
+     * Handles the import of a JSON file and updates the data state with its contents.
+     *
+     * @param {Event} e The event triggered by file input change.
+     */
     const handleImport = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -156,43 +91,46 @@ const JsonObjectBuilder = () => {
         const reader = new FileReader();
         reader.onload = (event) => {
             const importedData = JSON.parse(event.target.result);
-            setData(importedData);
+            setData(importedData); // Update data with imported data
         };
         reader.readAsText(file);
     };
 
+    /**
+     * Handles the conversion of the current data state to a key-value pair format
+     * and sends it as a data transaction over the blockchain.
+     */
     const handleDataTransaction = async () => {
         // Converts the data to a key-value pair
-        convertJsonToKeyValue(data, async (filtered) => {
-            console.log(filtered)
-            // Convert it to the blockchain type
-            const blockchainArray = Object.entries(filtered).map(([key, value]) => ({
-                key: key,
-                value: value,
-                type: "string",
-            }));
+        const filtered = await convertJsonToKeyValue(data)
 
-            try {
-                await dataTransaction({
-                    data: blockchainArray
-                });
-                console.log('Data successfully sent over the blockchain');
-            } catch (error) {
-                console.error('Error sending data transaction:', error);
-            }
-        });
+        // Prepare for blockchain transaction
+        const blockchainArray = Object.entries(filtered).map(([key, value]) => ({
+            key: key,
+            value: value.toString(),
+            type: "string",
+        }));
+
+        try {
+            await dataTransaction({
+                data: blockchainArray
+            });
+            console.log('Data successfully sent over the blockchain');
+        } catch (error) {
+            console.error('Error sending data transaction:', error);
+        }
     };
 
     return (
         <div className="add-component">
             <Accordion title="Show/Hide Entries">
-                <DataDisplay data={data} onAdd={addEntry} />
+                <DataDisplay data={data} onAdd={addEntry}/>
             </Accordion>
 
             <hr/>
 
             <button onClick={handleExport}>Export JSON</button>
-            <input type="file" accept=".json" onChange={handleImport} />
+            <input type="file" accept=".json" onChange={handleImport}/>
             <button onClick={handleDataTransaction}>Send Data via Blockchain</button>
             <Accordion title="Show/Hide JSON">
                 <pre>{JSON.stringify(data, null, 2)}</pre>
@@ -202,4 +140,4 @@ const JsonObjectBuilder = () => {
 };
 
 
-export default JsonObjectBuilder;
+export default AddComponent;

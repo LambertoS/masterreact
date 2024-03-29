@@ -1,0 +1,16 @@
+{
+  "eldat": {
+    "wood_allocation": {
+      "wood": {
+        "aggregation_type": "pol",
+        "amount_unit": "srm",
+        "amount_value": 3247.2,
+        "wood_id_no": "1010000000274",
+        "wood_id_type": "pol",
+        "felling_date": "2021-04-16T00:00:00.000"
+      }
+    }
+  }
+}
+
+

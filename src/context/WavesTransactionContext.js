@@ -1,7 +1,6 @@
 // WavesTransactionsContext.js
 import React, { createContext, useContext } from 'react';
 
-// Definiert einen Initialwert mit Stubs für jede Funktion
 const initialValue = {
     sendToken: () => Promise.reject(new Error("sendToken ist noch nicht verfügbar.")),
     invokeScript: () => Promise.reject(new Error("invokeScript ist noch nicht verfügbar.")),
@@ -9,10 +8,22 @@ const initialValue = {
     setScript: () => Promise.reject(new Error("setScript ist noch nicht verfügbar.")),
 };
 
+/**
+ * Creates a React context for Waves blockchain transactions with initial stub functions.
+ * These functions are placeholders and will be replaced by actual implementations in the provider.
+ */
 const WavesTransactionsContext = createContext(initialValue);
 
+/**
+ * A custom hook to access the WavesTransactionsContext.
+ * @returns The context value with actual blockchain transaction functions.
+ */
 export const useWavesTransactions = () => useContext(WavesTransactionsContext);
 
+/**
+ * Provides the actual implementation of blockchain transaction functions and makes them available
+ * to any component within its tree.
+ */
 export class WavesTransactionsProvider extends React.Component {
     signAndPublishTransaction = (transactionData) => {
         if (window.WavesKeeper) {

@@ -1,14 +1,24 @@
-import React, { useCallback } from 'react';
-import { Handle, Position, NodeToolbar } from 'reactflow';
+import React, {useCallback} from 'react';
+import {Handle, Position, NodeToolbar} from 'reactflow';
 import './nodes.css';
 
-function SendTokenNode({ id, data, isConnectable, setNodes }) {
+/**
+ * SendTokenNode facilitates the configuration of token transfer operations within a React Flow diagram.
+ * Users can specify the receiver's address, the amount, and the token to be transferred.
+ *
+ * @param {string} id - The unique identifier of the node.
+ * @param {Object} data - Contains data for token transfer, including recipient address, amount, and token type.
+ * @param {boolean} isConnectable - Indicates if the node's handles can be connected.
+ * @param {Function} setNodes - Function to update the nodes in the flow diagram.
+ * @returns {JSX.Element} The SendTokenNode component for configuring token transfers.
+ */
+function SendTokenNode({id, data, isConnectable, setNodes}) {
     const onChange = useCallback((evt) => {
         const fieldName = evt.target.name;
         const value = evt.target.value;
         setNodes((nds) =>
             nds.map((node) =>
-                node.id === id ? { ...node, data: { ...node.data, [fieldName]: value } } : node
+                node.id === id ? {...node, data: {...node.data, [fieldName]: value}} : node
             )
         );
     }, [id, setNodes]);
@@ -22,9 +32,9 @@ function SendTokenNode({ id, data, isConnectable, setNodes }) {
             <NodeToolbar isVisible={data.toolbarVisible} position={data.toolbarPosition}>
                 <button onClick={handleDelete}>delete</button>
             </NodeToolbar>
-            <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
+            <Handle type="target" position={Position.Top} isConnectable={isConnectable}/>
             <div>
-                <label >TokenNode</label>
+                <label>TokenNode</label>
                 <label htmlFor={`tokenAddress-${id}`}>Reciever:</label>
                 <input
                     id={`tokenAddress-${id}`}

@@ -4,6 +4,8 @@ import React, {useEffect, useState} from "react";
 import {useWavesTransactions} from "../../context/WavesTransactionContext";
 import {loginWavesKeeper} from "../../util/wavesKeeper";
 import {getWavesScriptFunctions} from "../../util/wavesUtil";
+import {convertJsonToKeyValue} from "../../util/eldatImport";
+import {DataDisplay} from "../AddComponent/DataDisplay";
 
 /**
  * The `ExecuteTransactionInvokeSmartContract` component facilitates invoking a smart contract on the Waves blockchain.
@@ -67,11 +69,6 @@ export const ExecuteTransactionInvokeSmartContract = () => {
     const loadScriptAddressCallableFunctions = async (address) => {
         const functions = await getWavesScriptFunctions(address)
         setCallableAccountFunctions(functions)
-
-        /*const responseData = await fetch(`https://nodes-testnet.wavesnodes.com/addresses/scriptInfo/${address}/meta`);
-        const data = await responseData.json()
-        const functionNames = Object.keys(data.meta.callableFuncTypes);
-        setCallableAccountFunctions(functionNames)*/
     }
 
     /**
@@ -82,7 +79,8 @@ export const ExecuteTransactionInvokeSmartContract = () => {
     const handleSCSubmit = async (event) => {
         event.preventDefault();
         try {
-            const result = processJsonData(jsonData)
+            const result = await processJsonData(jsonData)
+            console.log(result)
 
             await invokeScript({
                 dApp: scAddress,
@@ -103,25 +101,28 @@ export const ExecuteTransactionInvokeSmartContract = () => {
      * @param {Object} jsonData The JSON data to be processed.
      * @returns {Array} An array of arguments for smart contract invocation.
      */
-    const processJsonData = (jsonData) => {
+    const processJsonData = async (jsonData) => {
+        const filtered = await convertJsonToKeyValue(jsonData);
+
         // Check the number of key-value pairs in jsonData
-        const entries = Object.entries(jsonData);
+        const entries = Object.entries(filtered);
+
         if (entries.length === 1) {
             // If there's only one key-value pair, create two vars: key and keyValue
-            const [[key, value]] = entries; // Destructure the first (and only) entry
+            const [[key, value]] = Object.entries(filtered); // Destructure the first (and only) entry
+
             return [{type: "string", value: key}, {type: "string", value: value.toString()}]
-            //return { key, keyValue: value.toString(), type: "string" }; // Return them as part of an object
         } else {
             // If there are multiple key-value pairs, proceed with creating arrays
-            const scriptDataKeys = [];
-            const scriptDataValues = [];
+            const scriptDataKeys = []
+            const scriptDataValues = []
 
-            // Iterate over the jsonData entries
-            for (const [key, value] of entries) {
+            for (const [key, value] of Object.entries(filtered)) {
                 scriptDataKeys.push({ type: "string", value: key });
                 scriptDataValues.push({ type: "string", value: value.toString() });
             }
 
+            console.log(scriptDataValues)
             // Return the arrays as part of an object
             return [{type: "list", value: scriptDataKeys}, {type: "list", value: scriptDataValues}]
         }
@@ -147,35 +148,45 @@ export const ExecuteTransactionInvokeSmartContract = () => {
     };
 
     /**
-     * Dynamically generates form fields based on JSON data structure.
-     * It recursively handles nested objects to allow for complex data structures.
+     * Adds or updates an entry within the data state based on a specified path.
+     * Supports deep nesting and initialization of arrays and objects.
      *
-     * @param {Object|Array} data The JSON data from which to generate form fields.
-     * @param {string} path The current path to the data, used for nested objects.
-     * @returns {JSX.Element|null} A series of form fields generated from the JSON data.
+     * @param {string|null} key The key for the new entry. If null or empty in arrays, a value is pushed without a key.
+     * @param {any} value The value to be added or updated at the specified path.
+     * @param {Array} path An array representing the path to where the entry should be added or updated.
      */
-    const generateFormFields = (data, path = '') => {
-        if (typeof data === 'object' && !Array.isArray(data) && data !== null) {
-            return Object.entries(data).map(([key, value], index) => {
-                const newPath = path ? `${path}.${key}` : key;
-                return (
-                    <div key={newPath}>
-                        {typeof value === 'object' ?
-                            <div><strong>{newPath}</strong>{generateFormFields(value, newPath)}</div> :
-                            <label>
-                                {newPath}:
-                                <input
-                                    type="text"
-                                    value={value}
-                                    onChange={(e) => console.log(`Updated ${newPath}: ${e.target.value}`)}
-                                />
-                            </label>
-                        }
-                    </div>
-                );
-            });
-        }
-        return null;
+    const addEntry = (key, value, path) => {
+        setJsonData((prevData) => {
+            const newData = JSON.parse(JSON.stringify(prevData)); // Deep clone von prevData
+
+            // Prepare navigation to the target location in newData object
+            let current = newData;
+            for (let i = 0; i < path.length; i++) {
+                const pathKey = path[i];
+                if (current[pathKey] === undefined) {
+                    // Initialize as array or object based on the next path segment
+                    current[pathKey] = Number.isInteger(path[i + 1]) ? [] : {};
+                }
+                current = current[pathKey];
+            }
+
+            // Add the object to an array or as a normal key-value pair
+            if (Array.isArray(current)) {
+                if (key === null || key === '') {
+                    // Case for adding value without a key to an array
+                    current.push(value);
+                } else {
+                    // Case for adding an object with a key to an array
+                    const newObj = {[key]: value};
+                    current.push(newObj);
+                }
+            } else if (key !== null && key !== '') {
+                // Add a normal key-value pair
+                current[key] = value;
+            }
+
+            return newData;
+        });
     };
 
     return (
@@ -206,13 +217,12 @@ export const ExecuteTransactionInvokeSmartContract = () => {
                 <button type="submit" disabled={Object.keys(jsonData).length === 0}>InvokeSC</button>
             </form>
 
-            {/* Bereich für das Hochladen und Anzeigen der JSON-Daten */}
             <div className="sub-container">
                 <h3>JSON-file for SC</h3>
                 <input type="file" onChange={handleJsonUpload}/>
                 <div>{Object.keys(jsonData).length > 0 && (
                     <Accordion title="Show/Hide Json Data">
-                        {generateFormFields(jsonData)}
+                        <DataDisplay data={jsonData} onAdd={addEntry} />
                     </Accordion>
                 )}
                 </div>

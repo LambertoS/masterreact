@@ -130,7 +130,7 @@ function createContract(data) {
         }
 
         // Find the next node connected to the current node's 'bottom' handle
-        const bottomEdge = edges.find(edge => edge.source === node.id && edge.sourceHandle === 'b');
+        const bottomEdge = cleanedEdges.find(edge => edge.source === node.id && edge.sourceHandle === 'b');
         if (bottomEdge) {
             const nextNode = nodes.find(n => n.id === bottomEdge.target);
             if (nextNode) {
@@ -139,13 +139,13 @@ function createContract(data) {
         }
     }
 
-    function generalTraverseNodeFromLeft(node, indent = 4) {
+    function generalTraverseNodeFromLeft(node, indent = 0) {
         if (visited.has(node.id)) return; // Prevent infinite loops
         visited.add(node.id); // Mark as visited
 
         // Special handling for key nodes to include connected node information
         if (node.type === 'key') {
-            const lConnection = edges.find(edge => edge.source === node.id && edge.sourceHandle === 'l');
+            const lConnection = cleanedEdges.find(edge => edge.source === node.id && edge.sourceHandle === 'l');
             if (lConnection) {
                 const connectedNode = nodes.find(n => n.id === lConnection.target);
                 if (connectedNode) {
@@ -161,10 +161,73 @@ function createContract(data) {
         } else if (node.type === 'logic') {
             const condition = node.data.condition ? node.data.condition : "EQUALS"
             // Get left value(s) node
-            const lConnections = edges.filter(edge => edge.source === node.id && edge.sourceHandle === 'l');
+            const lConnections = cleanedEdges.filter(edge => edge.source === node.id && edge.sourceHandle === 'l');
+
+            // Building the condition based on the number of connections
+            let conditionString = '';
+
+            if (lConnections.length === 1 && (condition === "EQUALS" || condition === "NOTEQUAL")) {
+                const connectedNode = nodes.find(n => n.id === lConnections[0].target);
+                if (connectedNode) {
+                    const extraInfo = getConnectedNodeString(connectedNode, 0);
+                    visited.add(lConnections[0].target);
+                    conditionString = (condition === "NOTEQUAL") ? `!(${extraInfo})` : extraInfo;
+                }
+            } else if (lConnections.length === 2) {
+                const conditions = lConnections.map(edge => {
+                    const connectedNode = nodes.find(n => n.id === edge.target);
+                    if (connectedNode) {
+                        const extraInfo = getConnectedNodeString(connectedNode, 0);
+                        visited.add(edge.target);
+                        return extraInfo;
+                    }
+                    return null;
+                }).filter(Boolean);
+
+                const operator = condition === "EQUALS" ? " == " : " != ";
+                conditionString = conditions.join(operator);
+            } else if (lConnections.length > 2 && (condition === "AND" || condition === "OR")) {
+                const conditions = lConnections.map(edge => {
+                    const connectedNode = nodes.find(n => n.id === edge.target);
+                    if (connectedNode) {
+                        const extraInfo = getConnectedNodeString(connectedNode, 0);
+                        visited.add(edge.target);
+                        return extraInfo;
+                    }
+                    return null;
+                }).filter(Boolean); // Filter out any null values (in case of missing nodes)
+
+                const operator = condition === "AND" ? " && " : " || ";
+                conditionString = conditions.join(operator);
+            } else {
+                console.log("Unsupported number of connections or condition type.");
+            }
+
+            if (conditionString) {
+                contractString += `${' '.repeat(indent)}if (${conditionString}) then\n`;
+
+                // True
+                const tConnection = cleanedEdges.find(edge => edge.source === node.id && edge.sourceHandle === 't');
+                if (tConnection) {
+                    const tConnectedNode = nodes.find(n => n.id === tConnection.target);
+                    if (tConnectedNode) {
+                        generalTraverseNodeFromLeft(tConnectedNode, indent+4)
+                    }
+                }
+
+                // False
+                contractString += `${' '.repeat(indent)}else\n`
+                const fConnection = cleanedEdges.find(edge => edge.source === node.id && edge.sourceHandle === 'f');
+                if (fConnection) {
+                    const fConnectedNode = nodes.find(n => n.id === fConnection.target);
+                    if (fConnectedNode) {
+                        generalTraverseNodeFromLeft(fConnectedNode, indent+4)
+                    }
+                }
+            }
 
             // Two connections
-            if (lConnections.length > 1 && lConnections.length < 3) {
+            /*if (lConnections.length > 1 && lConnections.length < 3) {
                 const connectedNode1 = nodes.find(n => n.id === lConnections[0].target);
                 const connectedNode2 = nodes.find(n => n.id === lConnections[1].target);
 
@@ -211,26 +274,25 @@ function createContract(data) {
                 }
             } else {
                 // TODO implement?
-            }
+            }*/
+        } else if (node.type === "function") {
+            // Function Head
+            const functionPrefix = node.data.callable ? `@Callable(i)\n` : ``;
+            const functionDeclaration = `func ${node.data.function}(${node.data.parameters})`
+            contractString += `\n${' '.repeat(indent)}${functionPrefix}${functionDeclaration} = {\n`
 
-            // True
-            const tConnection = edges.find(edge => edge.source === node.id && edge.sourceHandle === 't');
-            if (tConnection) {
-                const tConnectedNode = nodes.find(n => n.id === tConnection.target);
-                if (tConnectedNode) {
-                    generalTraverseNodeFromLeft(tConnectedNode, indent+4)
+            // Inner Function
+            const lConnection = cleanedEdges.find(edge => edge.source === node.id && edge.sourceHandle === 'l');
+            if (lConnection) {
+                const lConnectedNode = nodes.find(n => n.id === lConnection.target);
+                if (lConnectedNode) {
+                    console.log(lConnectedNode)
+                    generalTraverseNodeFromLeft(lConnectedNode, indent+4)
                 }
             }
 
-            // False
-            contractString += `${' '.repeat(indent)}else\n`
-            const fConnection = edges.find(edge => edge.source === node.id && edge.sourceHandle === 'f');
-            if (fConnection) {
-                const fConnectedNode = nodes.find(n => n.id === fConnection.target);
-                if (fConnectedNode) {
-                    generalTraverseNodeFromLeft(fConnectedNode, indent+4)
-                }
-            }
+            // Function end
+            contractString += `${' '.repeat(indent)}}\n\n`
         } else {
             contractString += getNodeString(node, indent);
         }
@@ -250,8 +312,10 @@ function createContract(data) {
         const visited = new Set(); // To keep track of visited nodes across all traversals
 
         bottomTraversalNodes.forEach(node => {
+            generalTraverseNodeFromLeft(node)
+
             // Special cases
-            if (node.type === "function") {
+            /*if (node.type === "function") {
                 const functionPrefix = node.data.callable ? `@Callable(i)\n` : ``;
                 const functionDeclaration = `func ${node.data.function}(${node.data.parameters})`
                 contractString += `${functionPrefix}${functionDeclaration} = {\n`
@@ -281,12 +345,12 @@ function createContract(data) {
                 // If no 'l' connection, start general traversal from the current node
                 /*if (!visited.has(node.id)) {
                     generalTraverseNodeFromLeft(node, visited);
-                }*/
+                }
             }
 
             if (node.type === "function") {
                 contractString += "}\n\n"
-            }
+            }*/
         });
     }
 
@@ -295,7 +359,11 @@ function createContract(data) {
 
     traverseStartNodeBottom(startNode);
 
-    startTraversalFromBottomNodes()
+    bottomTraversalNodes.forEach(node => {
+        generalTraverseNodeFromLeft(node)
+    })
+
+    //startTraversalFromBottomNodes()
 
     contractString += ending
     console.log(contractString)

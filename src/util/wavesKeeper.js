@@ -1,3 +1,7 @@
+/**
+ * Attempts to authenticate the user using Waves Keeper
+ * @returns {Promise<Object>} The WavesKeeper API instance if authentication succeeds.
+ */
 export const loginWavesKeeper = async () => {
     const wavesKeeper = window.WavesKeeper; // Zugriff auf WavesKeeper-API
     if (!wavesKeeper) {

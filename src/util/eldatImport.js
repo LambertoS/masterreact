@@ -1,30 +1,31 @@
 /**
- * Converts a json object to a Key Value Pair Array
- * @param {any} jsonObject -
- * @param {Function} callback - function to call when the object was converted
- * @todo type of jsonObject
+ * Converts a JSON object into a flat key-value pair representation, suitable for blockchain transactions.
+ * @param {Object} jsonObject - The JSON object to convert.
+ * @returns {Promise<Object>} A promise that resolves to a key-value representation of the JSON object.
  */
-export const convertJsonToKeyValue = (jsonObject, callback) => {
-    const filtered = []; // todo type & name
-    // Check if jsonObject.document exists, otherwise start with jsonObject
-    const startingPoint = jsonObject.document ? jsonObject.document : jsonObject;
+export const convertJsonToKeyValue = async (jsonObject) => {
+    return new Promise((resolve) => {
+        const filtered = []; // todo type & name
+        const startingPoint = jsonObject.document ? jsonObject.document : jsonObject;
 
-    recursive(startingPoint, "", filtered);
-    callback(filtered);
+        flattenJsonToPathValuePairs(startingPoint, "", filtered);
+        resolve(filtered);
+    });
 }
 
 /**
- * todo description
- * @param jsonObject
- * @param prefixReadable
- * @param arr
- * @todo type of jsonObject
+ * Flattens a nested JSON object into a map of path-value pairs.
+ * Each key in the resulting map is a string representing the path to the value in the original JSON object.
+ *
+ * @param {Object} jsonObject - The JSON object to flatten.
+ * @param {string} prefixReadable - Accumulator for the current path, used in recursive calls.
+ * @param {Object} arr - An accumulator object where the path-value pairs are stored.
  */
-const recursive = (jsonObject, prefixReadable, arr) => {
+const flattenJsonToPathValuePairs = (jsonObject, prefixReadable, arr) => {
     for (const key in jsonObject) {
         const preReadable = prefixReadable.length > 0 ? prefixReadable + "." + key : key;
         if (typeof jsonObject[key] === 'object' && jsonObject[key] !== null) {
-            recursive(jsonObject[key], preReadable, arr);
+            flattenJsonToPathValuePairs(jsonObject[key], preReadable, arr);
         } else {
             if (jsonObject[key] !== null && jsonObject[key].toString().length > 0) {
                 arr[preReadable] = jsonObject[key];

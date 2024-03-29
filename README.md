@@ -1,5 +1,19 @@
 # Masterarbeit
 
+### Installation
+
+To install this project, use npm:
+
+```bash
+npm install
+```
+
+To start this project:
+
+```bash
+npm start
+```
+
 ### ChatGPT Documentation Prompt:
 
 ````

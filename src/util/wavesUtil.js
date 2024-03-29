@@ -114,5 +114,5 @@ export const getWavesScriptMeta = async (address) => {
     if (scriptMetaDataJson.meta !== undefined)
         return scriptMetaDataJson.meta.callableFuncTypes
     else
-        return []
+        return null
 }

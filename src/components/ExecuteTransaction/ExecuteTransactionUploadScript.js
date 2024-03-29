@@ -1,6 +1,7 @@
 import {Accordion} from "../Accordion/Accordion";
 import React, {useState} from "react";
 import {useWavesTransactions} from "../../context/WavesTransactionContext";
+import {convertScriptToBase64} from "../../util/wavesApi";
 
 /**
  * The `ExecuteTransactionUploadScript` component allows users to upload a script file (.ride, .txt),
@@ -45,15 +46,7 @@ export const ExecuteTransactionUploadScript = () => {
         event.preventDefault();
 
         try {
-            // Prepare the request options for the POST request.
-            const requestOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: scriptData
-            };
-            // Make a POST request to compile the script to Base64.
-            const responseUtilsScriptCompile = await fetch(`https://nodes-testnet.wavesnodes.com/utils/script/compileCode`, requestOptions);
-            const scriptBase64 = (await responseUtilsScriptCompile.json()).script
+            const scriptBase64 = await convertScriptToBase64(scriptData)
 
             // Upload the compiled script to the blockchain.
             await setScript({

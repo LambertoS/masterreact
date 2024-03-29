@@ -64,15 +64,28 @@ function FunctionNode({ id, data, isConnectable, setNodes }) {
                     onChange={onChange}
                     className="nodrag"
                 />
-                <label htmlFor={`callable-${id}`}>callable:</label>
-                <input
-                    id={`callable-${id}`}
-                    type="checkbox"
-                    name="callable"
-                    checked={data.callable || false}
-                    onChange={onChange}
-                    className="nodrag"
-                />
+
+                <div style={{display: "flex"}}>
+                    <label htmlFor={`callable-${id}`}>callable:</label>
+                    <input
+                        id={`callable-${id}`}
+                        type="checkbox"
+                        name="callable"
+                        checked={data.callable || false}
+                        onChange={onChange}
+                        className="nodrag"
+                    />
+
+                    <label htmlFor={`invoke-${id}`}>invoke:</label>
+                    <input
+                        id={`invoke-${id}`}
+                        type="checkbox"
+                        name="invoke"
+                        checked={data.invoke || false}
+                        onChange={onChange}
+                        className="nodrag"
+                    />
+                </div>
             </div>
             <Handle
                 type="source"

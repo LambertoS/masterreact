@@ -24,10 +24,10 @@ function NoteNodes({ id, data, isConnectable, setNodes }) {
             </NodeToolbar>
             <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
             <div>
-                <div><strong>Note: {data.note}</strong></div>
+                <div><strong>Note:</strong></div>
                 <textarea
                     id={`Note-${id}`}
-                    name="Note"
+                    name="note"
                     defaultValue={data.note || ''}
                     onChange={onChange}
                     className="nodrag"
